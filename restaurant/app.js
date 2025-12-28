@@ -366,8 +366,12 @@ function renderReviewSummary(r) {
 
 function renderReviews() {
     const r = currentRestaurant;
+    const reviewTotalEl = document.getElementById('reviewTotal');
+    const reviewPageInfoEl = document.getElementById('reviewPageInfo');
+    
     if (!r || !r.reviewsList || r.reviewsList.length === 0) {
-        document.getElementById('reviewTotal').textContent = '';
+        if (reviewTotalEl) reviewTotalEl.textContent = '';
+        if (reviewPageInfoEl) reviewPageInfoEl.textContent = '';
         document.getElementById('modalReviewsList').innerHTML = '<span class="no-data">💬 리뷰 데이터 수집 예정</span>';
         return;
     }
@@ -379,7 +383,16 @@ function renderReviews() {
     const pageReviews = r.reviewsList.slice(startIdx, endIdx);
     
     // 총 리뷰 수 표시
-    document.getElementById('reviewTotal').textContent = `(${totalReviews}개)`;
+    if (reviewTotalEl) reviewTotalEl.textContent = `- ${totalReviews} reviews`;
+    
+    // 페이지 정보 표시
+    if (reviewPageInfoEl) {
+        if (totalPages > 1) {
+            reviewPageInfoEl.textContent = `${currentReviewPage} / ${totalPages} pages`;
+        } else {
+            reviewPageInfoEl.textContent = '';
+        }
+    }
     
     let html = `<div class="reviews-list">`;
     
@@ -424,8 +437,11 @@ function changeReviewPage(page) {
     currentReviewPage = page;
     renderReviews();
     
-    // 리뷰 컨테이너 최상단으로 스크롤
-    document.querySelector('.modal-right').scrollTop = 0;
+    // 리뷰 섹션 상단으로 스크롤
+    const reviewSection = document.getElementById('reviewSection');
+    if (reviewSection) {
+        reviewSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
 }
 
 function closeModal() {

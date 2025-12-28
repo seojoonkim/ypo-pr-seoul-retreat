@@ -1283,24 +1283,26 @@ body {
 /* Modal Close Button */
 .modal-close {
     position: absolute;
-    top: 16px;
-    right: 16px;
-    width: 32px;
-    height: 32px;
+    top: 18px;
+    right: 20px;
+    width: auto;
+    height: auto;
     border: none;
-    background: var(--bg-tertiary);
-    border-radius: 50%;
-    font-size: 20px;
-    color: var(--text-secondary);
+    background: transparent;
+    border-radius: 0;
+    font-size: 28px;
+    color: var(--text-tertiary);
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     transition: var(--transition);
+    line-height: 1;
+    padding: 0;
 }
 
 .modal-close:hover {
-    background: var(--border);
+    background: transparent;
     color: var(--text-primary);
 }
 
@@ -1415,4 +1417,17 @@ body {
 .popup-btn:hover {
     transform: translateY(-1px);
     box-shadow: 0 4px 12px rgba(67, 56, 202, 0.3);
+}
+
+/* Review Page Info in Title */
+.review-header-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.review-page-info {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-tertiary);
 }
