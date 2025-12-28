@@ -39,8 +39,7 @@
                 <h2>서울 K-POP & 콘서트 일정</h2>
             </div>
             <p class="about-desc">
-                KOPIS(공연예술통합전산망) 공식 데이터를 기반으로 서울에서 열리는 
-                K-POP 콘서트, 팬미팅, 대중음악 공연 정보를 실시간으로 제공합니다.
+                서울에서 열리는 K-POP 콘서트, 팬미팅, 대중음악 공연 정보를 실시간으로 제공합니다.
             </p>
             <div class="about-stats">
                 <div class="about-stat">
@@ -74,10 +73,8 @@
             
             <!-- Month Filter -->
             <div class="filter-group" id="monthFilters">
-                <button class="filter-btn" data-month="2024-12">12월</button>
-                <button class="filter-btn" data-month="2025-01">1월</button>
-                <button class="filter-btn" data-month="2025-02">2월</button>
-                <button class="filter-btn" data-month="2025-03">3월</button>
+                <button class="filter-btn active" data-month="all">전체</button>
+                <!-- 동적으로 월 버튼 추가됨 -->
             </div>
         </div>
 
@@ -92,7 +89,22 @@
                 <div class="loading-spinner"></div>
                 <span>공연 정보를 불러오는 중...</span>
             </div>
-            <div class="performance-grid" id="performanceGrid"></div>
+            <div class="performance-table-wrap" id="performanceTableWrap" style="display:none;">
+                <table class="performance-table">
+                    <thead>
+                        <tr>
+                            <th class="col-num">#</th>
+                            <th class="col-poster">포스터</th>
+                            <th class="col-title">공연명</th>
+                            <th class="col-artist">아티스트</th>
+                            <th class="col-venue">장소</th>
+                            <th class="col-date">기간</th>
+                            <th class="col-status">상태</th>
+                        </tr>
+                    </thead>
+                    <tbody id="performanceBody"></tbody>
+                </table>
+            </div>
         </div>
         
         <!-- Calendar View -->
@@ -122,34 +134,49 @@
                     
                     <div class="info-list">
                         <div class="info-row">
-                            <span class="info-label">📅 기간</span>
+                            <span class="info-label"><span class="info-icon">📅</span> 기간</span>
                             <span class="info-value" id="modalDate">-</span>
                         </div>
+                        <div class="info-row" id="modalTimeRow" style="display:none;">
+                            <span class="info-label"><span class="info-icon">🕐</span> 공연시간</span>
+                            <span class="info-value" id="modalTime">-</span>
+                        </div>
                         <div class="info-row">
-                            <span class="info-label">📍 장소</span>
+                            <span class="info-label"><span class="info-icon">📍</span> 장소</span>
                             <span class="info-value" id="modalVenue">-</span>
                         </div>
                         <div class="info-row" id="modalCastRow" style="display:none;">
-                            <span class="info-label">🎤 출연</span>
+                            <span class="info-label"><span class="info-icon">🎤</span> 출연</span>
                             <span class="info-value" id="modalCast">-</span>
                         </div>
                         <div class="info-row" id="modalPriceRow" style="display:none;">
-                            <span class="info-label">💰 가격</span>
+                            <span class="info-label"><span class="info-icon">💰</span> 가격</span>
                             <span class="info-value" id="modalPrice">-</span>
                         </div>
                         <div class="info-row" id="modalRuntimeRow" style="display:none;">
-                            <span class="info-label">⏱️ 런타임</span>
+                            <span class="info-label"><span class="info-icon">⏱️</span> 런타임</span>
                             <span class="info-value" id="modalRuntime">-</span>
                         </div>
                         <div class="info-row" id="modalAgeRow" style="display:none;">
-                            <span class="info-label">🔞 관람연령</span>
+                            <span class="info-label"><span class="info-icon">🔞</span> 관람연령</span>
                             <span class="info-value" id="modalAge">-</span>
+                        </div>
+                        <div class="info-row" id="modalProducerRow" style="display:none;">
+                            <span class="info-label"><span class="info-icon">🏢</span> 주최</span>
+                            <span class="info-value" id="modalProducer">-</span>
                         </div>
                     </div>
                     
                     <div class="modal-actions">
-                        <a class="action-btn primary" id="modalTicket" href="#" target="_blank" style="display:none;">🎫 예매하기</a>
-                        <a class="action-btn secondary" id="modalKopis" href="#" target="_blank">📋 KOPIS에서 보기</a>
+                        <a class="action-btn primary" id="modalTicket" href="" target="_blank" rel="noopener noreferrer" style="display:none;">🎫 예매하기</a>
+                        <div class="action-row">
+                            <a class="action-btn secondary" id="modalNaver" href="" target="_blank" rel="noopener noreferrer">
+                                <img src="https://www.google.com/s2/favicons?domain=naver.com&sz=16" alt=""> 네이버에서 검색
+                            </a>
+                            <a class="action-btn secondary" id="modalGoogle" href="" target="_blank" rel="noopener noreferrer">
+                                <img src="https://www.google.com/s2/favicons?domain=google.com&sz=16" alt=""> 구글에서 검색
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>

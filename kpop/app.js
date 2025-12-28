@@ -98,8 +98,19 @@ function updateMonthFilters() {
     }
     
     const container = document.getElementById('monthFilters');
+    
+    // 전체 버튼 유지하고 월 버튼만 추가
+    const existingAllBtn = container.querySelector('[data-month="all"]');
     container.innerHTML = '';
     
+    // 전체 버튼 다시 추가
+    const allBtn = document.createElement('button');
+    allBtn.className = 'filter-btn active';
+    allBtn.dataset.month = 'all';
+    allBtn.textContent = '전체';
+    container.appendChild(allBtn);
+    
+    // 월 버튼 추가
     Array.from(months).sort().forEach(month => {
         const [year, mon] = month.split('-');
         const btn = document.createElement('button');
@@ -109,19 +120,18 @@ function updateMonthFilters() {
         container.appendChild(btn);
     });
     
-    // Re-attach event listeners
+    // 이벤트 리스너
     container.querySelectorAll('.filter-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             const month = btn.dataset.month;
             
-            if (activeFilters.month === month) {
-                activeFilters.month = null;
-                btn.classList.remove('active');
-            } else {
-                container.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                activeFilters.month = month;
-            }
+            // 모든 버튼 비활성화
+            container.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            // 클릭한 버튼 활성화
+            btn.classList.add('active');
+            
+            // 필터 설정
+            activeFilters.month = month === 'all' ? null : month;
             
             filterAndRender();
         });
@@ -171,45 +181,108 @@ function filterAndRender() {
 
 // ===== Render List =====
 function renderList() {
-    const container = document.getElementById('performanceGrid');
+    const tableWrap = document.getElementById('performanceTableWrap');
+    const tbody = document.getElementById('performanceBody');
     
     if (filteredPerformances.length === 0) {
-        container.innerHTML = `
-            <div class="empty-state" style="grid-column: 1/-1;">
+        tableWrap.style.display = 'none';
+        const listView = document.getElementById('listView');
+        if (!document.getElementById('emptyState')) {
+            const emptyDiv = document.createElement('div');
+            emptyDiv.id = 'emptyState';
+            emptyDiv.className = 'empty-state';
+            emptyDiv.innerHTML = `
                 <div class="empty-state-icon">🎤</div>
                 <div class="empty-state-text">해당 조건의 공연이 없습니다</div>
-            </div>
-        `;
+            `;
+            listView.appendChild(emptyDiv);
+        }
         return;
     }
     
-    container.innerHTML = filteredPerformances.map(p => {
+    // Remove empty state if exists
+    const emptyState = document.getElementById('emptyState');
+    if (emptyState) emptyState.remove();
+    
+    tableWrap.style.display = 'block';
+    
+    tbody.innerHTML = filteredPerformances.map((p, index) => {
         const statusClass = p.prfstate === '공연중' ? 'ongoing' : 
                            p.prfstate === '공연예정' ? 'upcoming' : 'ended';
+        
+        // 상태 텍스트 간소화
+        const statusText = p.prfstate === '공연중' ? '진행' : 
+                          p.prfstate === '공연예정' ? '예정' : '완료';
         
         const dateText = p.prfpdfrom === p.prfpdto 
             ? p.prfpdfrom 
             : `${p.prfpdfrom} ~ ${p.prfpdto}`;
         
+        // 아티스트 추출
+        const artist = extractArtist(p);
+        
         return `
-            <div class="performance-card" onclick="openModal('${p.mt20id}')">
-                <div class="card-poster">
-                    ${p.poster 
-                        ? `<img src="${p.poster}" alt="${p.prfnm}" onerror="this.parentElement.innerHTML='<div class=\\'no-image\\'>🎵</div>'">`
-                        : '<div class="no-image">🎵</div>'
-                    }
-                    <span class="card-status ${statusClass}">${p.prfstate}</span>
-                </div>
-                <div class="card-content">
-                    <h3 class="card-title">${escapeHtml(p.prfnm)}</h3>
-                    <div class="card-info">
-                        <div class="card-venue">${escapeHtml(p.fcltynm || '-')}</div>
-                        <div class="card-date">${dateText}</div>
+            <tr onclick="openModal('${p.mt20id}')">
+                <td class="cell-num">${index + 1}</td>
+                <td>
+                    <div class="cell-poster">
+                        ${p.poster 
+                            ? `<img src="${p.poster}" alt="" onerror="this.parentElement.innerHTML='<div class=\\'no-img\\'>🎵</div>'">`
+                            : '<div class="no-img">🎵</div>'
+                        }
                     </div>
-                </div>
-            </div>
+                </td>
+                <td class="cell-title">${escapeHtml(decodeHtml(p.prfnm))}</td>
+                <td class="cell-artist">${escapeHtml(decodeHtml(artist))}</td>
+                <td class="cell-venue">${escapeHtml(decodeHtml(p.fcltynm || '-'))}</td>
+                <td class="cell-date">${dateText}</td>
+                <td class="cell-status">
+                    <span class="status-badge ${statusClass}">${statusText}</span>
+                </td>
+            </tr>
         `;
     }).join('');
+}
+
+// ===== 아티스트 추출 함수 =====
+function extractArtist(p) {
+    // 1. prfcast(출연진)가 있으면 전체 사용
+    if (p.prfcast && p.prfcast.trim()) {
+        // "등" 제거하고 반환
+        return p.prfcast.replace(/\s*등\s*$/, '').trim();
+    }
+    
+    // 2. 공연명에서 아티스트 추출 시도
+    const title = p.prfnm || '';
+    
+    // 패턴들: "아티스트 콘서트", "아티스트: 콘서트명", "아티스트 단독", etc.
+    const patterns = [
+        /^([가-힣A-Za-z0-9\s\-]+?)\s*콘서트/,
+        /^([가-힣A-Za-z0-9\s\-]+?)\s*단독/,
+        /^([가-힣A-Za-z0-9\s\-]+?)\s*팬미팅/,
+        /^([가-힣A-Za-z0-9\s\-]+?)\s*팬콘/,
+        /^([가-힣A-Za-z0-9\s\-]+?)\s*CONCERT/i,
+        /^([가-힣A-Za-z0-9\s\-]+?)\s*TOUR/i,
+        /^([가-힣A-Za-z0-9\s\-]+?)\s*LIVE/i,
+        /^([가-힣A-Za-z0-9\s\-]+?)\s*공연/,
+        /^([가-힣A-Za-z0-9\s\-]+?)\s*내한/,
+        /^([가-힣A-Za-z0-9\s\-]+?)\s*:\s*/,
+        /^([가-힣A-Za-z0-9\s\-]+?)\s+\d{1,2}(st|nd|rd|th)/i,
+    ];
+    
+    for (const pattern of patterns) {
+        const match = title.match(pattern);
+        if (match && match[1]) {
+            const artist = match[1].trim();
+            // 너무 짧거나 일반적인 단어 제외
+            if (artist.length >= 2 && !['the', '더', '콘서트', '라이브'].includes(artist.toLowerCase())) {
+                return artist;
+            }
+        }
+    }
+    
+    // 3. 추출 실패시
+    return '-';
 }
 
 // ===== View Tabs =====
@@ -308,7 +381,7 @@ function openModal(mt20id) {
     
     // 기본 정보
     document.getElementById('modalPoster').src = p.poster || '';
-    document.getElementById('modalName').textContent = p.prfnm;
+    document.getElementById('modalName').textContent = decodeHtml(p.prfnm);
     
     const statusEl = document.getElementById('modalStatus');
     statusEl.textContent = p.prfstate;
@@ -319,9 +392,6 @@ function openModal(mt20id) {
         : `${p.prfpdfrom} ~ ${p.prfpdto}`;
     document.getElementById('modalDate').textContent = dateText;
     document.getElementById('modalVenue').textContent = p.fcltynm || '-';
-    
-    // KOPIS 링크
-    document.getElementById('modalKopis').href = `https://www.kopis.or.kr/por/db/pblprfr/pblprfrView.do?menuId=MNU_00020&mt20Id=${mt20id}`;
     
     // 출연
     if (p.prfcast) {
@@ -355,6 +425,22 @@ function openModal(mt20id) {
         document.getElementById('modalAgeRow').style.display = 'none';
     }
     
+    // 공연시간
+    if (p.dtguidance) {
+        document.getElementById('modalTimeRow').style.display = 'flex';
+        document.getElementById('modalTime').textContent = p.dtguidance;
+    } else {
+        document.getElementById('modalTimeRow').style.display = 'none';
+    }
+    
+    // 주최/기획
+    if (p.entrpsnm) {
+        document.getElementById('modalProducerRow').style.display = 'flex';
+        document.getElementById('modalProducer').textContent = p.entrpsnm;
+    } else {
+        document.getElementById('modalProducerRow').style.display = 'none';
+    }
+    
     // 예매 버튼 (relates는 JSONB로 저장됨)
     const ticketBtn = document.getElementById('modalTicket');
     if (p.relates && p.relates.length > 0) {
@@ -364,6 +450,11 @@ function openModal(mt20id) {
     } else {
         ticketBtn.style.display = 'none';
     }
+    
+    // 검색 링크
+    const searchQuery = encodeURIComponent(p.prfnm);
+    document.getElementById('modalNaver').href = `https://search.naver.com/search.naver?query=${searchQuery}`;
+    document.getElementById('modalGoogle').href = `https://www.google.com/search?q=${searchQuery}`;
     
     document.getElementById('modal').classList.add('active');
     document.body.style.overflow = 'hidden';
@@ -380,4 +471,11 @@ function escapeHtml(text) {
     const div = document.createElement('div');
     div.textContent = text;
     return div.innerHTML;
+}
+
+function decodeHtml(text) {
+    if (!text) return '';
+    const div = document.createElement('div');
+    div.innerHTML = text;
+    return div.textContent;
 }

@@ -210,6 +210,136 @@ body {
     padding-right: 4px;
 }
 
+/* ===== Performance Table ===== */
+.performance-table-wrap {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+}
+
+.performance-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.performance-table thead {
+    background: #f8fafc;
+    border-bottom: 1px solid var(--border);
+}
+
+.performance-table th {
+    padding: 12px 16px;
+    text-align: left;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.performance-table tbody tr {
+    border-bottom: 1px solid #f1f5f9;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.performance-table tbody tr:last-child { border-bottom: none; }
+.performance-table tbody tr:hover { background: #f8faff; }
+
+.performance-table td {
+    padding: 6px 14px;
+    vertical-align: middle;
+}
+
+/* Column widths */
+.col-num { width: 50px; text-align: center; }
+.col-poster { width: 70px; }
+.col-title { min-width: 180px; }
+.col-artist { min-width: 150px; }
+.col-venue { width: 160px; }
+.col-date { width: 110px; }
+.col-status { width: 60px; }
+
+/* Cell styles */
+.cell-num {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-tertiary);
+    text-align: center;
+}
+
+.cell-poster {
+    width: 60px;
+    height: 90px;
+    border-radius: 8px;
+    background: #f1f5f9;
+    overflow: hidden;
+}
+
+.cell-poster img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.cell-poster .no-img {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #cbd5e1;
+    font-size: 20px;
+}
+
+.cell-title {
+    font-size: 16px !important;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.cell-venue {
+    font-size: 13px;
+    color: var(--text-secondary);
+}
+
+.cell-artist {
+    font-size: 13px;
+    color: var(--text-secondary);
+}
+
+.cell-date {
+    font-size: 13px;
+    color: var(--text-secondary);
+}
+
+.cell-status {
+    text-align: center;
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 3px 5px;
+    border-radius: 4px;
+    font-size: 11px;
+}
+
+.status-badge.ongoing {
+    background: rgba(16, 185, 129, 0.1);
+    color: var(--status-ongoing);
+}
+
+.status-badge.upcoming {
+    background: rgba(99, 102, 241, 0.1);
+    color: var(--status-upcoming);
+}
+
+.status-badge.ended {
+    background: rgba(148, 163, 184, 0.1);
+    color: var(--status-ended);
+}
+
 /* ===== Loading ===== */
 .loading {
     display: flex;
@@ -451,7 +581,7 @@ body {
 .modal {
     background: var(--bg-secondary);
     border-radius: var(--radius-lg);
-    max-width: 700px;
+    max-width: 950px;
     width: 100%;
     max-height: 90vh;
     overflow-y: auto;
@@ -471,17 +601,18 @@ body {
     width: 32px;
     height: 32px;
     border: none;
-    background: rgba(0, 0, 0, 0.1);
+    background: transparent;
     border-radius: 50%;
-    font-size: 20px;
+    font-size: 24px;
     cursor: pointer;
     z-index: 10;
-    color: #fff;
+    color: #333;
     transition: var(--transition);
+    text-shadow: 0 0 10px rgba(255,255,255,0.8);
 }
 
 .modal-close:hover {
-    background: rgba(0, 0, 0, 0.2);
+    color: #000;
 }
 
 .modal-body {
@@ -490,7 +621,7 @@ body {
 }
 
 .modal-poster {
-    width: 280px;
+    width: 50%;
     flex-shrink: 0;
     background: var(--bg-tertiary);
 }
@@ -503,36 +634,39 @@ body {
 
 .modal-info {
     flex: 1;
-    padding: 24px;
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
 }
 
 .modal-status {
     display: inline-block;
-    padding: 4px 10px;
-    border-radius: 4px;
-    font-size: 11px;
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 13px;
     font-weight: 600;
-    margin-bottom: 12px;
+    margin-bottom: 16px;
     background: var(--status-upcoming);
     color: #fff;
+    align-self: flex-start;
 }
 
 .modal-status.ongoing { background: var(--status-ongoing); }
 .modal-status.ended { background: var(--status-ended); }
 
 .modal-name {
-    font-size: 20px;
+    font-size: 24px;
     font-weight: 700;
     color: var(--text-primary);
-    margin-bottom: 20px;
+    margin-bottom: 24px;
     line-height: 1.4;
 }
 
 .info-list {
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    margin-bottom: 24px;
+    gap: 16px;
+    margin-bottom: auto;
 }
 
 .info-row {
@@ -541,32 +675,65 @@ body {
 }
 
 .info-label {
-    width: 80px;
-    font-size: 13px;
+    width: 90px;
+    font-size: 14px;
     color: var(--text-tertiary);
     flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 500;
+}
+
+.info-icon {
+    filter: grayscale(100%);
+    opacity: 0.7;
 }
 
 .info-value {
-    font-size: 13px;
+    font-size: 14px;
     color: var(--text-primary);
     flex: 1;
 }
 
 .modal-actions {
     display: flex;
+    flex-direction: column;
     gap: 10px;
+    margin-top: 24px;
+}
+
+.action-row {
+    display: flex;
+    flex-direction: row !important;
+    gap: 10px;
+    width: 100%;
+}
+
+.action-row .action-btn {
+    flex: 1;
+    min-width: 0;
 }
 
 .action-btn {
-    flex: 1;
-    padding: 12px 16px;
-    border-radius: 8px;
-    font-size: 13px;
+    padding: 14px 20px;
+    border-radius: 10px;
+    font-size: 14px;
     font-weight: 600;
     text-decoration: none;
     text-align: center;
     transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 50px;
+    box-sizing: border-box;
+}
+
+.action-btn img {
+    width: 16px;
+    height: 16px;
 }
 
 .action-btn.primary {
@@ -612,25 +779,110 @@ body {
     .filter-bar { gap: 6px; }
     .filter-btn { padding: 5px 10px; font-size: 11px; }
     
-    .performance-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 12px;
+    /* 테이블 모바일 */
+    .performance-table th.col-artist,
+    .performance-table td:nth-child(4),
+    .performance-table th.col-venue,
+    .performance-table td:nth-child(5),
+    .performance-table th.col-status,
+    .performance-table td:nth-child(7) { display: none; }
+    
+    .performance-table th, 
+    .performance-table td { padding: 10px 8px; }
+    
+    .col-num { width: 36px; }
+    .col-poster { width: 50px; }
+    .col-title { min-width: 120px; }
+    .col-date { width: 100px; }
+    
+    .cell-poster { width: 42px; height: 56px; }
+    .cell-title { font-size: 13px; }
+    .cell-date { font-size: 11px; }
+    
+    /* 모바일 모달 - 전체화면 */
+    .modal-overlay {
+        padding: 0;
+        align-items: stretch;
     }
     
-    .card-title { font-size: 13px; }
-    .card-venue, .card-date { font-size: 11px; }
+    .modal {
+        max-width: 100%;
+        max-height: 100vh;
+        height: 100vh;
+        border-radius: 0;
+        display: flex;
+        flex-direction: column;
+    }
     
     .modal-body {
         flex-direction: column;
+        flex: 1;
+        overflow-y: auto;
     }
     
     .modal-poster {
         width: 100%;
-        max-height: 300px;
+        height: 45vh;
+        min-height: 300px;
+        flex-shrink: 0;
+        background: #000;
     }
     
-    .modal-info { padding: 20px; }
-    .modal-name { font-size: 18px; }
+    .modal-poster img {
+        object-fit: contain;
+        width: 100%;
+        height: 100%;
+    }
+    
+    .modal-close {
+        top: 12px;
+        right: 12px;
+        background: rgba(0, 0, 0, 0.5);
+    }
+    
+    .modal-info {
+        padding: 20px;
+        flex: 1;
+    }
+    
+    .modal-status {
+        padding: 5px 12px;
+        font-size: 12px;
+        margin-bottom: 12px;
+    }
+    
+    .modal-name {
+        font-size: 18px;
+        margin-bottom: 16px;
+    }
+    
+    .info-list {
+        gap: 12px;
+        margin-bottom: 20px;
+    }
+    
+    .info-label {
+        width: 70px;
+        font-size: 13px;
+    }
+    
+    .info-value {
+        font-size: 13px;
+    }
+    
+    .modal-actions {
+        gap: 8px;
+    }
+    
+    .action-btn {
+        padding: 12px 16px;
+        font-size: 13px;
+        height: 46px;
+    }
+    
+    .action-row {
+        flex-direction: row !important;
+    }
     
     .calendar-day { min-height: 60px; padding: 4px; }
     .calendar-event { font-size: 9px; }
@@ -643,15 +895,28 @@ body {
     
     .main-container { padding: 12px; }
     
-    .performance-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 10px;
-    }
+    /* 날짜 컬럼도 숨기기 */
+    .performance-table th.col-date,
+    .performance-table td:nth-child(5) { display: none; }
     
-    .card-content { padding: 10px; }
-    .card-title { font-size: 12px; }
+    .col-num { width: 32px; }
+    .cell-num { font-size: 12px; }
+    .cell-title { font-size: 12px; }
     
     .update-time { display: none; }
+    
+    /* 모바일 모달 추가 조정 */
+    .modal-poster {
+        height: 240px;
+    }
+    
+    .modal-info {
+        padding: 16px;
+    }
+    
+    .modal-name {
+        font-size: 16px;
+    }
 }
 
 /* ===== Empty State ===== */
