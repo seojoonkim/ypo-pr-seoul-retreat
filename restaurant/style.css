@@ -377,6 +377,10 @@ body {
     flex-wrap: nowrap;
 }
 
+.cell-awards .tag {
+    flex-shrink: 0;
+}
+
 .cell-rating {
     font-size: 14px;
     font-weight: 500;
@@ -1008,20 +1012,123 @@ body {
 
 /* ===== Responsive ===== */
 @media (max-width: 768px) {
-    .header { flex-direction: column; gap: 10px; padding: 12px 16px; }
+    .header { flex-direction: column; gap: 8px; padding: 10px 16px; }
+    .header-left { gap: 8px; }
+    .db-count { font-size: 11px; padding: 4px 10px; }
     .filter-divider { display: none; }
     
-    .about-stats { flex-wrap: wrap; gap: 8px; }
-    .about-stat { flex: 1; min-width: 90px; justify-content: center; }
+    /* About 섹션 간격 축소 */
+    .about-section { padding: 16px; margin-bottom: 12px; border-radius: 12px; }
+    .about-header { margin-bottom: 8px; }
+    .about-header h2 { font-size: 15px; }
+    .about-badge { font-size: 11px; padding: 3px 8px; }
+    .about-desc { font-size: 12px; margin-bottom: 12px; line-height: 1.5; }
+    .about-stats { flex-wrap: wrap; gap: 6px; }
+    .about-stat { flex: 1; min-width: 85px; padding: 8px 10px; }
+    .about-stat-value { font-size: 16px; }
+    .about-stat-label { font-size: 10px; }
     
-    /* 테이블 반응형 */
-    .restaurant-table-wrap { overflow-x: auto; }
-    .restaurant-table { min-width: 700px; }
-    .col-photo, .col-location { display: none; }
-    .restaurant-table th.col-photo,
+    /* 필터 버튼 축소 */
+    .filters-section { margin-bottom: 12px; gap: 8px; }
+    .cuisine-filters, .category-filters { gap: 6px; }
+    .filter-btn { padding: 6px 12px; font-size: 12px; }
+    .filter-checkbox { padding: 5px 10px; font-size: 11px; gap: 4px; }
+    .filter-checkbox svg { width: 12px; height: 12px; }
+    
+    /* 검색결과 */
+    .result-count { font-size: 12px; margin-bottom: 8px; }
+    
+    /* 모바일 테이블 - 컴팩트 레이아웃 */
+    .restaurant-table-wrap { 
+        overflow-x: hidden; 
+        border-radius: 10px;
+    }
+    .restaurant-table { min-width: auto; width: 100%; }
+    
+    /* 테이블 헤더 */
+    .restaurant-table thead th {
+        padding: 8px 4px;
+        font-size: 11px;
+    }
+    
+    /* 숨길 컬럼: 위치, 평점, 리뷰수 */
     .restaurant-table th.col-location,
-    .restaurant-table td:nth-child(2),
-    .restaurant-table td:nth-child(5) { display: none; }
+    .restaurant-table td:nth-child(5),
+    .restaurant-table th.col-rating,
+    .restaurant-table td:nth-child(7),
+    .restaurant-table th.col-reviews,
+    .restaurant-table td:nth-child(8) { display: none; }
+    
+    /* 컬럼 너비 모바일 조정 */
+    .col-rank { width: 24px; }
+    .col-photo { width: 48px; }
+    .col-name { width: auto; flex: 1; max-width: 110px; }
+    .col-cuisine { width: 65px; }
+    .col-awards { width: 70px; }
+    
+    /* 테이블 셀 패딩 */
+    .restaurant-table td {
+        padding: 10px 4px;
+    }
+    
+    /* 순위 */
+    .cell-rank {
+        font-size: 12px;
+    }
+    
+    /* 사진 크기 축소 */
+    .cell-photo {
+        width: 44px;
+        height: 40px;
+        border-radius: 6px;
+        font-size: 12px;
+    }
+    
+    /* 이름 폰트 축소 */
+    .cell-name {
+        font-size: 13px;
+        max-width: 110px;
+    }
+    
+    /* 카테고리 축소 */
+    .cell-cuisine {
+        font-size: 11px;
+    }
+    
+    /* 수상 태그: 첫 번째만 보이기 */
+    .cell-awards .tag:not(:first-child) {
+        display: none;
+    }
+    
+    .cell-awards .tag {
+        font-size: 9px;
+        padding: 2px 6px;
+    }
+}
+
+/* 더 작은 화면 (480px 이하) */
+@media (max-width: 480px) {
+    .main-container { padding: 12px; }
+    
+    /* 카테고리 컬럼 숨기기 */
+    .restaurant-table th.col-cuisine,
+    .restaurant-table td:nth-child(4) { display: none; }
+    
+    .col-name { max-width: 130px; }
+    .col-awards { width: 65px; }
+    
+    /* 테이블 행 간격 */
+    .restaurant-table td {
+        padding: 8px 3px;
+    }
+    
+    .cell-name {
+        font-size: 13px;
+        max-width: 130px;
+    }
+    
+    /* 필터 더 작게 */
+    .filter-btn { padding: 5px 10px; font-size: 11px; }
 }
 
 /* Review Summary & Histogram */

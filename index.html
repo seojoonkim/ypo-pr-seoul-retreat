@@ -13,21 +13,21 @@
         }
 
         :root {
-            --bg-dark: #0f0f0f;
-            --bg-card: #1a1a1a;
-            --bg-card-hover: #222222;
-            --accent-violet: #4338ca;
-            --accent-pink: #8b5cf6;
-            --accent-cyan: #06b6d4;
+            --bg-dark: #1a1a2e;
+            --bg-card: #252542;
+            --bg-card-hover: #2d2d4a;
+            --accent-violet: #6366f1;
+            --accent-pink: #a78bfa;
+            --accent-cyan: #22d3ee;
             --accent-lime: #84cc16;
             --text-white: #ffffff;
-            --text-gray: #a1a1aa;
-            --text-muted: #71717a;
+            --text-gray: #c4c4d4;
+            --text-muted: #9090a8;
         }
 
         body {
             font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-            background: var(--bg-dark);
+            background: linear-gradient(145deg, #1a1a2e 0%, #16213e 50%, #1a1a2e 100%);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -48,9 +48,9 @@
             width: 200%;
             height: 200%;
             background: 
-                radial-gradient(circle at 20% 20%, rgba(99, 102, 241, 0.15) 0%, transparent 40%),
-                radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.12) 0%, transparent 40%),
-                radial-gradient(circle at 40% 70%, rgba(6, 182, 212, 0.08) 0%, transparent 35%);
+                radial-gradient(circle at 20% 20%, rgba(99, 102, 241, 0.2) 0%, transparent 45%),
+                radial-gradient(circle at 80% 80%, rgba(167, 139, 250, 0.18) 0%, transparent 45%),
+                radial-gradient(circle at 40% 70%, rgba(34, 211, 238, 0.12) 0%, transparent 40%);
             animation: gradientMove 20s ease-in-out infinite;
             pointer-events: none;
             z-index: 0;
@@ -60,6 +60,17 @@
             0%, 100% { transform: translate(0, 0) rotate(0deg); }
             33% { transform: translate(2%, 2%) rotate(1deg); }
             66% { transform: translate(-1%, 1%) rotate(-1deg); }
+        }
+
+        /* Particle Canvas */
+        #particleCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
         }
 
         /* Header */
@@ -102,7 +113,7 @@
         /* Card */
         .card {
             background: var(--bg-card);
-            border: 1px solid rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 20px;
             padding: 32px 20px;
             text-align: center;
@@ -124,8 +135,9 @@
         }
 
         .card.active {
-            border-color: rgba(99, 102, 241, 0.3);
+            border-color: rgba(99, 102, 241, 0.4);
             cursor: pointer;
+            background: linear-gradient(145deg, #2a2a4a 0%, #252542 100%);
         }
 
         .card.active::before {
@@ -134,14 +146,14 @@
 
         .card.active:hover {
             transform: translateY(-4px);
-            border-color: rgba(99, 102, 241, 0.5);
+            border-color: rgba(99, 102, 241, 0.6);
             box-shadow: 
-                0 20px 40px rgba(99, 102, 241, 0.15),
-                0 0 60px rgba(99, 102, 241, 0.1);
+                0 20px 40px rgba(99, 102, 241, 0.2),
+                0 0 60px rgba(99, 102, 241, 0.15);
         }
 
         .card.disabled {
-            opacity: 0.5;
+            opacity: 0.45;
             cursor: not-allowed;
         }
 
@@ -155,11 +167,11 @@
             justify-content: center;
             font-size: 40px;
             border-radius: 16px;
-            background: rgba(255, 255, 255, 0.03);
+            background: rgba(255, 255, 255, 0.05);
         }
 
         .card.active .card-icon {
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.15) 0%, rgba(139, 92, 246, 0.15) 100%);
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(167, 139, 250, 0.2) 100%);
         }
 
         /* Card Content */
@@ -196,11 +208,11 @@
 
         @keyframes pulse {
             0%, 100% { opacity: 1; }
-            50% { opacity: 0.8; }
+            50% { opacity: 0.85; }
         }
 
         .badge-soon {
-            background: rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.1);
             color: var(--text-muted);
         }
 
@@ -284,16 +296,6 @@
             </div>
         </a>
 
-        <!-- K-뷰티 -->
-        <div class="card disabled">
-            <div class="card-icon">💄</div>
-            <div class="card-content">
-                <h3 class="card-title">K-뷰티</h3>
-                <p class="card-desc">화장품 · 스킨케어</p>
-                <span class="badge badge-soon">SOON</span>
-            </div>
-        </div>
-
         <!-- 맛집 - Active -->
         <a href="restaurant/index.html" class="card active">
             <div class="card-icon">🍜</div>
@@ -304,12 +306,32 @@
             </div>
         </a>
 
+        <!-- K-POP 공연 - Soon -->
+        <div class="card disabled">
+            <div class="card-icon">🎤</div>
+            <div class="card-content">
+                <h3 class="card-title">K-POP 공연</h3>
+                <p class="card-desc">콘서트 · 팬미팅</p>
+                <span class="badge badge-soon">SOON</span>
+            </div>
+        </div>
+
         <!-- 관광지 -->
         <div class="card disabled">
             <div class="card-icon">🏛️</div>
             <div class="card-content">
                 <h3 class="card-title">관광지</h3>
                 <p class="card-desc">명소 · 액티비티</p>
+                <span class="badge badge-soon">SOON</span>
+            </div>
+        </div>
+
+        <!-- K-뷰티 -->
+        <div class="card disabled">
+            <div class="card-icon">💄</div>
+            <div class="card-content">
+                <h3 class="card-title">K-뷰티</h3>
+                <p class="card-desc">화장품 · 스킨케어</p>
                 <span class="badge badge-soon">SOON</span>
             </div>
         </div>
@@ -340,6 +362,9 @@
         <p>© 2025 Only In Seoul. All rights reserved.</p>
     </footer>
 
+    <!-- Particle Canvas -->
+    <canvas id="particleCanvas"></canvas>
+
     <!-- Restaurant DB for count -->
     <script src="restaurant/db.js"></script>
     <script>
@@ -348,6 +373,105 @@
                 const count = RESTAURANTS.length;
                 document.getElementById('restaurantCount').textContent = count + '개 특별 레스토랑';
             }
+            
+            // Particle Animation
+            const canvas = document.getElementById('particleCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            function resize() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+            resize();
+            window.addEventListener('resize', resize);
+            
+            const particles = [];
+            const particleCount = 60;
+            const colors = [
+                'rgba(99, 102, 241, 0.6)',   // violet
+                'rgba(167, 139, 250, 0.5)',  // purple
+                'rgba(34, 211, 238, 0.4)',   // cyan
+                'rgba(255, 255, 255, 0.3)'   // white
+            ];
+            
+            class Particle {
+                constructor() {
+                    this.reset();
+                }
+                
+                reset() {
+                    this.x = Math.random() * canvas.width;
+                    this.y = Math.random() * canvas.height;
+                    this.size = Math.random() * 3 + 1;
+                    this.speedX = (Math.random() - 0.5) * 0.5;
+                    this.speedY = (Math.random() - 0.5) * 0.5;
+                    this.color = colors[Math.floor(Math.random() * colors.length)];
+                    this.opacity = Math.random() * 0.5 + 0.2;
+                    this.pulse = Math.random() * Math.PI * 2;
+                    this.pulseSpeed = Math.random() * 0.02 + 0.01;
+                }
+                
+                update() {
+                    this.x += this.speedX;
+                    this.y += this.speedY;
+                    this.pulse += this.pulseSpeed;
+                    
+                    // Wrap around edges
+                    if (this.x < 0) this.x = canvas.width;
+                    if (this.x > canvas.width) this.x = 0;
+                    if (this.y < 0) this.y = canvas.height;
+                    if (this.y > canvas.height) this.y = 0;
+                }
+                
+                draw() {
+                    const currentOpacity = this.opacity * (0.5 + Math.sin(this.pulse) * 0.5);
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fillStyle = this.color.replace(/[\d.]+\)$/, currentOpacity + ')');
+                    ctx.fill();
+                }
+            }
+            
+            // Create particles
+            for (let i = 0; i < particleCount; i++) {
+                particles.push(new Particle());
+            }
+            
+            // Draw connections between nearby particles
+            function drawConnections() {
+                for (let i = 0; i < particles.length; i++) {
+                    for (let j = i + 1; j < particles.length; j++) {
+                        const dx = particles[i].x - particles[j].x;
+                        const dy = particles[i].y - particles[j].y;
+                        const distance = Math.sqrt(dx * dx + dy * dy);
+                        
+                        if (distance < 120) {
+                            const opacity = (1 - distance / 120) * 0.15;
+                            ctx.beginPath();
+                            ctx.moveTo(particles[i].x, particles[i].y);
+                            ctx.lineTo(particles[j].x, particles[j].y);
+                            ctx.strokeStyle = `rgba(99, 102, 241, ${opacity})`;
+                            ctx.lineWidth = 0.5;
+                            ctx.stroke();
+                        }
+                    }
+                }
+            }
+            
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                drawConnections();
+                
+                particles.forEach(particle => {
+                    particle.update();
+                    particle.draw();
+                });
+                
+                requestAnimationFrame(animate);
+            }
+            
+            animate();
         });
     </script>
 </body>
