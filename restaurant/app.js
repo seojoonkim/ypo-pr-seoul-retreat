@@ -10,12 +10,20 @@ let currentGalleryCaption = '';
 
 // ===== Initialize =====
 document.addEventListener('DOMContentLoaded', () => {
+    updateDbCount();
     updateStats();
     renderList();
     setupFilters();
     setupViewTabs();
     setupModal();
 });
+
+// ===== Update DB Count =====
+function updateDbCount() {
+    const total = RESTAURANTS.length;
+    document.getElementById('dbCount').textContent = `${total}개 맛집`;
+    document.getElementById('aboutBadge').textContent = `${total}개 엄선`;
+}
 
 // ===== Update Stats =====
 function updateStats() {
@@ -108,7 +116,7 @@ function renderList() {
                     ${r.tags.map(t => `<span class="tag ${t.class}">${t.label}</span>`).join('')}
                 </div>
             </td>
-            <td class="cell-rating">⭐ ${r.rating ? r.rating.toFixed(1) : '-'}</td>
+            <td class="cell-rating"><span class="rating-star">⭐</span><span class="rating-num">${r.rating ? r.rating.toFixed(1) : '-'}</span></td>
             <td class="cell-reviews">${r.reviews ? r.reviews.toLocaleString() : '-'}</td>
         </tr>
     `}).join('');
@@ -210,14 +218,27 @@ function updateMapMarkers() {
         }).addTo(map);
         
         marker.bindPopup(`
-            <div style="min-width:160px;font-family:Pretendard,sans-serif;padding:4px;">
-                <strong style="font-size:14px;">${r.name}</strong><br>
-                <span style="font-size:12px;color:#666;">${r.cuisine || ''}</span><br>
-                ${r.rating ? `<span style="color:#f59e0b;font-size:13px;">⭐ ${r.rating.toFixed(1)}</span>` : ''}
-                <br>
-                <button onclick="openModal('${r.id}')" style="margin-top:8px;padding:6px 12px;background:#4338ca;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:12px;font-weight:500;">상세 보기</button>
+            <div class="map-popup">
+                ${r.photos && r.photos.length > 0 
+                    ? `<div class="popup-photo"><img src="${r.photos[0]}" alt="${r.name}"></div>` 
+                    : ''}
+                <div class="popup-content">
+                    <strong class="popup-name">${r.name}</strong>
+                    <div class="popup-meta">
+                        <span class="popup-cuisine">${r.cuisine || ''}</span>
+                        ${r.district ? `<span class="popup-location">${r.district}</span>` : ''}
+                    </div>
+                    <div class="popup-tags">
+                        ${r.tags ? r.tags.slice(0, 2).map(t => `<span class="popup-tag ${t.class}">${t.label}</span>`).join('') : ''}
+                    </div>
+                    <div class="popup-rating">
+                        ${r.rating ? `<span class="popup-stars">⭐ ${r.rating.toFixed(1)}</span>` : ''}
+                        ${r.reviews ? `<span class="popup-reviews">(${r.reviews.toLocaleString()})</span>` : ''}
+                    </div>
+                    <button onclick="openModal('${r.id}')" class="popup-btn">상세 보기</button>
+                </div>
             </div>
-        `);
+        `, { maxWidth: 280, className: 'custom-popup' });
         
         markers.push(marker);
     });

@@ -175,13 +175,14 @@ body {
     font-size: 13px;
     color: var(--text-secondary);
     margin-bottom: 12px;
-    padding-left: 4px;
+    text-align: right;
+    padding-right: 4px;
 }
 
 .filter-result #filteredCount {
-    font-weight: 700;
-    color: var(--accent-violet);
-    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    font-size: 13px;
 }
 
 /* ===== Stats (이전 버전 호환) ===== */
@@ -842,16 +843,25 @@ body {
     color: var(--text-tertiary);
 }
 
-/* Mobile: Single Column */
+/* Mobile: Single Column - Full Screen */
 @media (max-width: 768px) {
+    .modal-overlay {
+        padding: 0;
+    }
+    
     .modal {
         max-width: 100%;
-        margin: 10px;
-        max-height: calc(100vh - 20px);
+        width: 100%;
+        margin: 0;
+        border-radius: 0;
+        max-height: 100vh;
+        height: 100vh;
     }
     
     .modal-body {
         flex-direction: column;
+        max-height: none;
+        overflow-y: auto;
     }
     
     .modal-left {
@@ -863,7 +873,9 @@ body {
     }
     
     .modal-right {
-        max-height: 400px;
+        max-height: none;
+        overflow: visible;
+        padding-bottom: 40px;
     }
     
     .photos-grid {
@@ -871,13 +883,29 @@ body {
     }
     
     .modal-header {
-        flex-direction: column;
-        align-items: flex-start;
+        flex-direction: row;
+        align-items: center;
         gap: 8px;
+        padding: 14px 16px;
     }
     
     .modal-header-right {
         padding-right: 0;
+    }
+    
+    .modal-close {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+    }
+    
+    .modal-section {
+        margin-bottom: 24px;
+    }
+    
+    /* 리뷰 아이템 */
+    .review-item {
+        padding: 14px 0;
     }
 }
 
@@ -1043,56 +1071,72 @@ body {
         overflow-x: hidden; 
         border-radius: 10px;
     }
-    .restaurant-table { min-width: auto; width: 100%; }
+    .restaurant-table { 
+        min-width: auto; 
+        width: 100%; 
+    }
     
     /* 테이블 헤더 */
     .restaurant-table thead th {
-        padding: 8px 4px;
+        padding: 10px 8px;
         font-size: 11px;
     }
     
-    /* 숨길 컬럼: 위치, 평점, 리뷰수 */
+    /* 숨길 컬럼: 위치, 리뷰수만 숨김 (평점은 보임) */
     .restaurant-table th.col-location,
     .restaurant-table td:nth-child(5),
-    .restaurant-table th.col-rating,
-    .restaurant-table td:nth-child(7),
     .restaurant-table th.col-reviews,
     .restaurant-table td:nth-child(8) { display: none; }
     
     /* 컬럼 너비 모바일 조정 */
-    .col-rank { width: 24px; }
-    .col-photo { width: 48px; }
-    .col-name { width: auto; flex: 1; max-width: 110px; }
-    .col-cuisine { width: 65px; }
-    .col-awards { width: 70px; }
+    .col-rank { width: 36px; }
+    .col-photo { width: 60px; }
+    .col-name { width: 100px; }
+    .col-cuisine { width: 75px; }
+    .col-awards { width: 75px; }
+    .col-rating { width: 60px; }
     
-    /* 테이블 셀 패딩 */
+    /* 테이블 셀 패딩 - 균형있게 */
     .restaurant-table td {
-        padding: 10px 4px;
+        padding: 14px 8px;
+    }
+    
+    /* 첫 번째 셀(순위) 왼쪽 여백 */
+    .restaurant-table td:first-child {
+        padding-left: 14px;
+    }
+    
+    /* 마지막 셀 오른쪽 여백 */
+    .restaurant-table td:last-child {
+        padding-right: 14px;
     }
     
     /* 순위 */
     .cell-rank {
-        font-size: 12px;
-    }
-    
-    /* 사진 크기 축소 */
-    .cell-photo {
-        width: 44px;
-        height: 40px;
-        border-radius: 6px;
-        font-size: 12px;
-    }
-    
-    /* 이름 폰트 축소 */
-    .cell-name {
         font-size: 13px;
-        max-width: 110px;
     }
     
-    /* 카테고리 축소 */
+    /* 사진 크기 */
+    .cell-photo {
+        width: 52px;
+        height: 48px;
+        border-radius: 8px;
+        font-size: 12px;
+    }
+    
+    /* 이름 폰트 */
+    .cell-name {
+        font-size: 14px;
+        font-weight: 600;
+        max-width: 100px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    
+    /* 카테고리 */
     .cell-cuisine {
-        font-size: 11px;
+        font-size: 12px;
     }
     
     /* 수상 태그: 첫 번째만 보이기 */
@@ -1102,7 +1146,22 @@ body {
     
     .cell-awards .tag {
         font-size: 9px;
-        padding: 2px 6px;
+        padding: 3px 6px;
+    }
+    
+    /* 평점 - 한 줄로 */
+    .cell-rating {
+        font-size: 13px;
+        font-weight: 600;
+        white-space: nowrap;
+    }
+    
+    .cell-rating .rating-star {
+        font-size: 11px;
+    }
+    
+    .cell-rating .rating-num {
+        color: var(--michelin-gold);
     }
 }
 
@@ -1114,17 +1173,34 @@ body {
     .restaurant-table th.col-cuisine,
     .restaurant-table td:nth-child(4) { display: none; }
     
-    .col-name { max-width: 130px; }
-    .col-awards { width: 65px; }
+    /* 컬럼 너비 재조정 */
+    .col-rank { width: 32px; }
+    .col-photo { width: 54px; }
+    .col-name { width: 95px; }
+    .col-awards { width: 70px; }
+    .col-rating { width: 55px; }
     
     /* 테이블 행 간격 */
     .restaurant-table td {
-        padding: 8px 3px;
+        padding: 12px 6px;
+    }
+    
+    .restaurant-table td:first-child {
+        padding-left: 12px;
+    }
+    
+    .restaurant-table td:last-child {
+        padding-right: 12px;
     }
     
     .cell-name {
         font-size: 13px;
-        max-width: 130px;
+        max-width: 95px;
+    }
+    
+    .cell-photo {
+        width: 46px;
+        height: 42px;
     }
     
     /* 필터 더 작게 */
@@ -1226,4 +1302,117 @@ body {
 .modal-close:hover {
     background: var(--border);
     color: var(--text-primary);
+}
+
+/* ===== Map Popup Styles ===== */
+.custom-popup .leaflet-popup-content-wrapper {
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    padding: 0;
+    overflow: hidden;
+}
+
+.custom-popup .leaflet-popup-content {
+    margin: 0;
+    width: 240px !important;
+}
+
+.custom-popup .leaflet-popup-tip {
+    background: #fff;
+}
+
+.map-popup {
+    font-family: 'Pretendard', sans-serif;
+}
+
+.popup-photo {
+    width: 100%;
+    height: 120px;
+    overflow: hidden;
+}
+
+.popup-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.popup-content {
+    padding: 12px 14px 14px;
+}
+
+.popup-name {
+    font-size: 15px;
+    font-weight: 700;
+    color: #1e1b4b;
+    display: block;
+    margin-bottom: 4px;
+}
+
+.popup-meta {
+    display: flex;
+    gap: 8px;
+    font-size: 12px;
+    color: #64748b;
+    margin-bottom: 8px;
+}
+
+.popup-location::before {
+    content: '·';
+    margin-right: 8px;
+}
+
+.popup-tags {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 8px;
+}
+
+.popup-tag {
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 600;
+}
+
+.popup-tag.tag-michelin { background: #fef3c7; color: #92400e; }
+.popup-tag.tag-blueribbon { background: #dbeafe; color: #1e40af; }
+.popup-tag.tag-ccw-baek { background: #f3f4f6; color: #374151; }
+.popup-tag.tag-ccw-heuk { background: #1f2937; color: #fff; }
+
+.popup-rating {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 10px;
+}
+
+.popup-stars {
+    font-size: 14px;
+    font-weight: 600;
+    color: #f59e0b;
+}
+
+.popup-reviews {
+    font-size: 12px;
+    color: #94a3b8;
+}
+
+.popup-btn {
+    width: 100%;
+    padding: 8px 12px;
+    background: linear-gradient(135deg, #4338ca 0%, #4f46e5 100%);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: 'Pretendard', sans-serif;
+    transition: all 0.2s ease;
+}
+
+.popup-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(67, 56, 202, 0.3);
 }
