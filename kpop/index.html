@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>K-POP 공연 | Only In Seoul</title>
+    <link href="https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-left">
+            <a href="../" class="logo-link logo-main">Only In Seoul</a>
+            <a href="./" class="logo-link">
+                <span class="logo-divider">|</span>
+                <span class="logo-sub">K-POP 공연</span>
+            </a>
+            <span class="db-count" id="dbCount">0개 공연</span>
+        </div>
+        
+        <div class="header-center">
+            <nav class="view-tabs">
+                <button class="view-tab active" data-view="list">리스트</button>
+                <button class="view-tab" data-view="calendar">캘린더</button>
+            </nav>
+        </div>
+        
+        <div class="header-right">
+            <span class="update-time" id="updateTime"></span>
+        </div>
+    </header>
+
+    <!-- Main -->
+    <main class="main-container">
+        <!-- About Section -->
+        <div class="about-section">
+            <div class="about-header">
+                <h2>서울 K-POP & 콘서트 일정</h2>
+            </div>
+            <p class="about-desc">
+                KOPIS(공연예술통합전산망) 공식 데이터를 기반으로 서울에서 열리는 
+                K-POP 콘서트, 팬미팅, 대중음악 공연 정보를 실시간으로 제공합니다.
+            </p>
+            <div class="about-stats">
+                <div class="about-stat">
+                    <span class="about-stat-icon">🎤</span>
+                    <span class="about-stat-num" id="totalCount">0</span>
+                    <span class="about-stat-label">전체 공연</span>
+                </div>
+                <div class="about-stat">
+                    <span class="about-stat-icon">🎵</span>
+                    <span class="about-stat-num" id="ongoingCount">0</span>
+                    <span class="about-stat-label">공연중</span>
+                </div>
+                <div class="about-stat">
+                    <span class="about-stat-icon">📅</span>
+                    <span class="about-stat-num" id="upcomingCount">0</span>
+                    <span class="about-stat-label">공연예정</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="filter-bar">
+            <!-- Status Filter -->
+            <div class="filter-group" id="statusFilters">
+                <button class="filter-btn active" data-status="all">전체</button>
+                <button class="filter-btn" data-status="공연중">공연중</button>
+                <button class="filter-btn" data-status="공연예정">공연예정</button>
+            </div>
+            
+            <div class="filter-divider"></div>
+            
+            <!-- Month Filter -->
+            <div class="filter-group" id="monthFilters">
+                <button class="filter-btn" data-month="2024-12">12월</button>
+                <button class="filter-btn" data-month="2025-01">1월</button>
+                <button class="filter-btn" data-month="2025-02">2월</button>
+                <button class="filter-btn" data-month="2025-03">3월</button>
+            </div>
+        </div>
+
+        <!-- Filter Result Count -->
+        <div class="filter-result">
+            <span id="filteredCount">0</span>개 검색결과
+        </div>
+
+        <!-- List View -->
+        <div class="performance-list" id="listView">
+            <div class="loading" id="loading">
+                <div class="loading-spinner"></div>
+                <span>공연 정보를 불러오는 중...</span>
+            </div>
+            <div class="performance-grid" id="performanceGrid"></div>
+        </div>
+        
+        <!-- Calendar View -->
+        <div class="calendar-container" id="calendarView" style="display: none;">
+            <div class="calendar-header">
+                <button class="calendar-nav" id="prevMonth">‹</button>
+                <h3 class="calendar-title" id="calendarTitle">2025년 1월</h3>
+                <button class="calendar-nav" id="nextMonth">›</button>
+            </div>
+            <div class="calendar-grid" id="calendarGrid"></div>
+        </div>
+    </main>
+
+    <!-- Detail Modal -->
+    <div class="modal-overlay" id="modal">
+        <div class="modal">
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+            
+            <!-- Modal Content -->
+            <div class="modal-body">
+                <div class="modal-poster">
+                    <img id="modalPoster" src="" alt="">
+                </div>
+                <div class="modal-info">
+                    <div class="modal-status" id="modalStatus">공연예정</div>
+                    <h2 class="modal-name" id="modalName"></h2>
+                    
+                    <div class="info-list">
+                        <div class="info-row">
+                            <span class="info-label">📅 기간</span>
+                            <span class="info-value" id="modalDate">-</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">📍 장소</span>
+                            <span class="info-value" id="modalVenue">-</span>
+                        </div>
+                        <div class="info-row" id="modalCastRow" style="display:none;">
+                            <span class="info-label">🎤 출연</span>
+                            <span class="info-value" id="modalCast">-</span>
+                        </div>
+                        <div class="info-row" id="modalPriceRow" style="display:none;">
+                            <span class="info-label">💰 가격</span>
+                            <span class="info-value" id="modalPrice">-</span>
+                        </div>
+                        <div class="info-row" id="modalRuntimeRow" style="display:none;">
+                            <span class="info-label">⏱️ 런타임</span>
+                            <span class="info-value" id="modalRuntime">-</span>
+                        </div>
+                        <div class="info-row" id="modalAgeRow" style="display:none;">
+                            <span class="info-label">🔞 관람연령</span>
+                            <span class="info-value" id="modalAge">-</span>
+                        </div>
+                    </div>
+                    
+                    <div class="modal-actions">
+                        <a class="action-btn primary" id="modalKopis" href="#" target="_blank">🎫 KOPIS에서 보기</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
