@@ -316,6 +316,7 @@ body {
 .col-duration { width: 80px; }
 .col-admission { width: 100px; }
 .col-score { width: 50px; text-align: center !important; }
+.col-popularity { width: 50px; text-align: center !important; white-space: nowrap; }
 
 .cell-rank {
     font-size: 13px;
