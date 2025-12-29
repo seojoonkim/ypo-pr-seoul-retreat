@@ -361,9 +361,30 @@ function openModal(id) {
         `;
     }
     
+    // 점수 요약 섹션 (5개씩 2줄) - 상세 평가 위에 배치
+    const scoreSummaryEl = document.getElementById('modalScoreSummary');
+    const displayScores = ['photo', 'culture', 'activity', 'relaxation', 'crowdedness', 'couple', 'family', 'solo', 'foreigner', 'accessibility'];
+    
+    if (scoreSummaryEl) {
+        scoreSummaryEl.innerHTML = displayScores.map(key => {
+            const info = scoreInfo[key];
+            const value = item.scores?.[key] || 0;
+            const stars = '★'.repeat(value) + '☆'.repeat(5 - value);
+            
+            return `
+                <div class="score-summary-item" onclick="scrollToScoreDetail('${key}')">
+                    <div class="score-summary-top">
+                        <span class="score-summary-icon">${info.icon}</span>
+                        <span class="score-summary-name">${info.name}</span>
+                    </div>
+                    <span class="score-summary-stars" data-score="${value}">${stars}</span>
+                </div>
+            `;
+        }).join('');
+    }
+    
     // 점수별 평가 근거 (리스트 형태 + 별점) - 10개 항목
     const scoresListEl = document.getElementById('modalScoresList');
-    const displayScores = ['photo', 'culture', 'activity', 'relaxation', 'crowdedness', 'couple', 'family', 'solo', 'foreigner', 'accessibility'];
     
     if (scoresListEl) {
         scoresListEl.innerHTML = displayScores.map(key => {
@@ -375,7 +396,7 @@ function openModal(id) {
             const stars = '★'.repeat(value) + '☆'.repeat(5 - value);
             
             return `
-                <div class="score-row">
+                <div class="score-row" id="score-detail-${key}">
                     <div class="score-row-header">
                         <span class="score-row-icon">${info.icon}</span>
                         <span class="score-row-name">${info.name}</span>
@@ -401,6 +422,9 @@ function openModal(id) {
     // 모달 표시
     document.getElementById('modal').classList.add('active');
     document.body.style.overflow = 'hidden';
+    
+    // sticky 감지 설정
+    setTimeout(() => setupStickyObserver(), 100);
 }
 
 // 모달 닫기
@@ -449,3 +473,34 @@ document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') closeImageViewer();
     }
 });
+
+// 점수 상세 항목으로 스크롤 이동
+function scrollToScoreDetail(key) {
+    const targetEl = document.getElementById(`score-detail-${key}`);
+    if (targetEl) {
+        targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        // 하이라이트 효과
+        targetEl.classList.add('highlight');
+        setTimeout(() => targetEl.classList.remove('highlight'), 1500);
+    }
+}
+
+// sticky 상태 감지하여 그림자 효과 추가
+function setupStickyObserver() {
+    const scoreSummary = document.getElementById('scoreSummarySection');
+    const modalColRight = document.querySelector('.modal-col-right');
+    
+    if (scoreSummary && modalColRight) {
+        modalColRight.addEventListener('scroll', () => {
+            const rect = scoreSummary.getBoundingClientRect();
+            const parentRect = modalColRight.getBoundingClientRect();
+            
+            // sticky 상태인지 확인 (상단에 붙었을 때)
+            if (rect.top <= parentRect.top + 5) {
+                scoreSummary.classList.add('stuck');
+            } else {
+                scoreSummary.classList.remove('stuck');
+            }
+        });
+    }
+}
