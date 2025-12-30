@@ -42,6 +42,27 @@ const scoreInfo = {
     accessibility: { name: '접근성', icon: '🚇' }
 };
 
+// Google Maps 초기화 콜백 (API 로드 완료 후 호출됨)
+function initGoogleMap() {
+    const mapContainer = document.getElementById('map');
+    if (!mapContainer) return;
+    
+    map = new google.maps.Map(mapContainer, {
+        center: { lat: 37.5665, lng: 126.9780 }, // 서울 중심
+        zoom: 12,
+        styles: [
+            {
+                featureType: 'poi',
+                elementType: 'labels',
+                stylers: [{ visibility: 'off' }]
+            }
+        ],
+        mapTypeControl: false,
+        fullscreenControl: true,
+        streetViewControl: false
+    });
+}
+
 // 초기화
 document.addEventListener('DOMContentLoaded', () => {
     if (typeof landmarkData !== 'undefined') {
