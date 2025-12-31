@@ -11,12 +11,13 @@ let activeScoreFilters = [];
 let map = null;
 let markers = [];
 
-// R2 이미지 베이스 URL
-const R2_BASE_URL = 'https://pub-7e6695e8988144648e5bcecfee551e0d.r2.dev';
+// 이미지 베이스 경로 (GitHub Pages용)
+const IMAGE_BASE_URL = './images';
 
-// 이미지 뷰어 변수
-let currentGalleryImages = [];
-let currentImageIndex = 0;
+// Gallery State (맛집과 동일)
+let currentGallery = [];
+let currentGalleryIndex = 0;
+let currentGalleryCaption = '';
 
 // 카테고리 정보
 const categoryInfo = {
@@ -163,6 +164,12 @@ function updateStats() {
         museum: allData.filter(d => d.category === 'museum').length
     };
     
+    // 총 개수 업데이트
+    const totalCountEl = document.getElementById('aboutTotalCount');
+    if (totalCountEl) {
+        totalCountEl.textContent = allData.length;
+    }
+    
     // 카테고리 문장 업데이트
     const categoriesEl = document.getElementById('aboutCategories');
     if (categoriesEl) {
@@ -188,7 +195,7 @@ function renderTable() {
     
     tbody.innerHTML = filteredData.map((item, idx) => {
         const cat = categoryInfo[item.category] || {};
-        const thumbUrl = `${R2_BASE_URL}/${item.id}/${item.id}_01.jpg`;
+        const thumbUrl = `${IMAGE_BASE_URL}/${item.id}/${item.id}_01.jpg`;
         const popularity = item.popularity || 50;
         
         return `
@@ -445,28 +452,21 @@ function openModal(id) {
     document.getElementById('modalSummary').textContent = item.summary || '';
     document.getElementById('modalDescription').textContent = item.description || '';
     
-    // 갤러리 (15장)
+    // 갤러리 (15장) - 맛집과 동일한 방식
     const galleryEl = document.getElementById('modalGallery');
     if (galleryEl) {
-        currentGalleryImages = [];
-        let galleryHTML = '';
-        
+        const photos = [];
         for (let i = 1; i <= 15; i++) {
             const imgNum = String(i).padStart(2, '0');
-            const imgUrl = `${R2_BASE_URL}/${item.id}/${item.id}_${imgNum}.jpg`;
-            currentGalleryImages.push({
-                url: imgUrl,
-                caption: `${item.name_ko} - ${i}/15`
-            });
-            
-            galleryHTML += `
-                <div class="gallery-thumb" onclick="openImageViewer(${i - 1})">
-                    <img src="${imgUrl}" alt="${item.name_ko} ${i}" 
-                         onerror="this.parentElement.classList.add('placeholder'); this.parentElement.innerHTML='📷';">
-                </div>
-            `;
+            photos.push(`${IMAGE_BASE_URL}/${item.id}/${item.id}_${imgNum}.jpg`);
         }
-        galleryEl.innerHTML = galleryHTML;
+        
+        galleryEl.innerHTML = photos.map((p, i) => `
+            <div class="gallery-thumb" onclick="openGallery(${JSON.stringify(photos).replace(/"/g, '&quot;')}, ${i}, '${item.name_ko}')">
+                <img src="${p}" alt="${item.name_ko} ${i + 1}" 
+                     onerror="this.parentElement.classList.add('placeholder'); this.parentElement.innerHTML='📷';">
+            </div>
+        `).join('');
     }
     
     // 팁
@@ -597,44 +597,74 @@ function closeModal() {
 }
 
 // 이미지 뷰어 열기
-function openImageViewer(index) {
-    currentImageIndex = index;
-    const viewer = document.getElementById('imageViewer');
-    updateViewerImage();
-    viewer.classList.add('active');
-}
-
-// 이미지 뷰어 닫기
-function closeImageViewer() {
-    document.getElementById('imageViewer').classList.remove('active');
-}
-
-// 이미지 변경
-function changeImage(direction) {
-    currentImageIndex += direction;
-    if (currentImageIndex < 0) currentImageIndex = currentGalleryImages.length - 1;
-    if (currentImageIndex >= currentGalleryImages.length) currentImageIndex = 0;
-    updateViewerImage();
-}
-
-// 뷰어 이미지 업데이트
-function updateViewerImage() {
-    const img = currentGalleryImages[currentImageIndex];
-    if (!img) return;
+// ===== Image Gallery (맛집과 동일) =====
+function openGallery(photos, startIndex, caption) {
+    currentGallery = photos;
+    currentGalleryIndex = startIndex;
+    currentGalleryCaption = caption || '';
     
-    document.getElementById('viewerImage').src = img.url;
-    document.getElementById('viewerCaption').textContent = img.caption;
-    document.getElementById('viewerCounter').textContent = `${currentImageIndex + 1} / ${currentGalleryImages.length}`;
+    updateGalleryImage();
+    document.getElementById('galleryModal').classList.add('active');
+    document.body.style.overflow = 'hidden';
 }
 
-// 키보드 이벤트 (이미지 뷰어)
-document.addEventListener('keydown', (e) => {
-    const viewer = document.getElementById('imageViewer');
-    if (viewer && viewer.classList.contains('active')) {
-        if (e.key === 'ArrowLeft') changeImage(-1);
-        if (e.key === 'ArrowRight') changeImage(1);
-        if (e.key === 'Escape') closeImageViewer();
+function closeGallery() {
+    document.getElementById('galleryModal').classList.remove('active');
+    document.body.style.overflow = '';
+    currentGallery = [];
+    currentGalleryIndex = 0;
+}
+
+function navigateGallery(direction) {
+    currentGalleryIndex += direction;
+    
+    if (currentGalleryIndex < 0) {
+        currentGalleryIndex = currentGallery.length - 1;
+    } else if (currentGalleryIndex >= currentGallery.length) {
+        currentGalleryIndex = 0;
     }
+    
+    updateGalleryImage();
+}
+
+function updateGalleryImage() {
+    const img = document.getElementById('galleryImage');
+    const counter = document.getElementById('galleryCounter');
+    const caption = document.getElementById('galleryCaption');
+    const thumbnails = document.getElementById('galleryThumbnails');
+    
+    img.src = currentGallery[currentGalleryIndex];
+    counter.textContent = `${currentGalleryIndex + 1} / ${currentGallery.length}`;
+    caption.textContent = currentGalleryCaption;
+    
+    // 썸네일 렌더링
+    thumbnails.innerHTML = currentGallery.map((photo, i) => `
+        <img src="${photo}" 
+             class="gallery-thumb ${i === currentGalleryIndex ? 'active' : ''}" 
+             onclick="jumpToGalleryImage(${i})"
+             onerror="this.style.display='none'"
+             alt="">
+    `).join('');
+}
+
+function jumpToGalleryImage(index) {
+    currentGalleryIndex = index;
+    updateGalleryImage();
+}
+
+// 키보드 네비게이션
+document.addEventListener('keydown', e => {
+    const galleryModal = document.getElementById('galleryModal');
+    if (!galleryModal || !galleryModal.classList.contains('active')) return;
+    
+    if (e.key === 'Escape') closeGallery();
+    if (e.key === 'ArrowLeft') navigateGallery(-1);
+    if (e.key === 'ArrowRight') navigateGallery(1);
+});
+
+// 갤러리 배경 클릭 시 닫기
+document.getElementById('galleryModal')?.addEventListener('click', e => {
+    if (e.target.id === 'galleryModal') closeGallery();
 });
 
 // 점수 상세 항목으로 스크롤 이동

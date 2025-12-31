@@ -37,7 +37,7 @@
                 <h2>Only In Seoul 명소 컬렉션</h2>
             </div>
             <p class="about-desc">
-                네이버 블로그 30만개 이상의 분석을 통해 선별한 서울 대표 명소 137곳. 
+                네이버 블로그 30만개 이상의 분석을 통해 선별한 서울 대표 명소 <span id="aboutTotalCount">133</span>곳. 
                 실제 방문자들의 경험을 바탕으로 한 신뢰도 높은 점수를 제공합니다.
             </p>
             <p class="about-categories" id="aboutCategories">
@@ -192,17 +192,18 @@
         </div>
     </div>
 
-    <!-- 이미지 뷰어 (맛집과 동일) -->
-    <div class="image-viewer-overlay" id="imageViewer">
-        <div class="image-viewer">
-            <button class="viewer-close" onclick="closeImageViewer()">&times;</button>
-            <button class="viewer-nav viewer-prev" onclick="changeImage(-1)">&#10094;</button>
-            <div class="viewer-content">
-                <img id="viewerImage" src="" alt="">
-                <div class="viewer-caption" id="viewerCaption"></div>
+    <!-- Image Gallery Modal (맛집과 동일) -->
+    <div class="gallery-overlay" id="galleryModal">
+        <button class="gallery-close" onclick="closeGallery()">✕</button>
+        <button class="gallery-nav gallery-prev" onclick="navigateGallery(-1)">‹</button>
+        <button class="gallery-nav gallery-next" onclick="navigateGallery(1)">›</button>
+        <div class="gallery-content">
+            <img id="galleryImage" src="" alt="">
+            <div class="gallery-info">
+                <span id="galleryCounter">1 / 15</span>
+                <span id="galleryCaption"></span>
             </div>
-            <button class="viewer-nav viewer-next" onclick="changeImage(1)">&#10095;</button>
-            <div class="viewer-counter" id="viewerCounter"></div>
+            <div class="gallery-thumbnails" id="galleryThumbnails"></div>
         </div>
     </div>
 

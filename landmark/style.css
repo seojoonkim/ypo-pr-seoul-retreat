@@ -1326,115 +1326,153 @@ body {
     color: var(--text-tertiary);
 }
 
-/* ===== 이미지 뷰어 (맛집과 동일) ===== */
-.image-viewer-overlay {
+/* ===== Image Gallery Modal (맛집과 동일) ===== */
+.gallery-overlay {
     display: none;
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    inset: 0;
     background: rgba(0, 0, 0, 0.95);
     z-index: 2000;
-    align-items: center;
     justify-content: center;
+    align-items: center;
 }
 
-.image-viewer-overlay.active {
+.gallery-overlay.active {
     display: flex;
 }
 
-.image-viewer {
-    position: relative;
-    max-width: 90vw;
-    max-height: 90vh;
+.gallery-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    cursor: pointer;
+    font-size: 24px;
+    transition: var(--transition);
+    z-index: 10;
+}
+
+.gallery-close:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.gallery-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    cursor: pointer;
+    font-size: 32px;
+    transition: var(--transition);
     display: flex;
     align-items: center;
     justify-content: center;
+    z-index: 10;
 }
 
-.viewer-content {
+.gallery-nav:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.gallery-prev { left: 20px; }
+.gallery-next { right: 20px; }
+
+.gallery-content {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
+    width: 90vw;
+    height: 90vh;
+    padding: 20px;
+    box-sizing: border-box;
 }
 
-.viewer-content img {
-    max-width: 85vw;
-    max-height: 80vh;
+.gallery-content img#galleryImage {
+    width: 85vw;
+    height: calc(90vh - 150px);
     object-fit: contain;
     border-radius: 8px;
 }
 
-.viewer-caption {
-    margin-top: 12px;
-    color: #fff;
+.gallery-info {
+    margin-top: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+#galleryCounter {
+    color: rgba(255, 255, 255, 0.9);
     font-size: 14px;
-    text-align: center;
+    font-weight: 500;
 }
 
-.viewer-close {
-    position: absolute;
-    top: -40px;
-    right: 0;
-    background: none;
-    border: none;
-    color: #fff;
-    font-size: 36px;
-    cursor: pointer;
-    opacity: 0.8;
-    transition: opacity 0.2s;
+#galleryCaption {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 13px;
 }
 
-.viewer-close:hover {
-    opacity: 1;
+.gallery-thumbnails {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 16px;
+    max-width: 600px;
+    padding: 0;
 }
 
-.viewer-nav {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: rgba(255,255,255,0.1);
-    border: none;
-    color: #fff;
-    font-size: 24px;
+.gallery-thumbnails .gallery-thumb {
     width: 50px;
     height: 50px;
-    border-radius: 50%;
+    object-fit: cover;
+    border-radius: 4px;
     cursor: pointer;
-    transition: background 0.2s;
+    opacity: 0.5;
+    transition: var(--transition);
+    border: 2px solid transparent;
+    flex-shrink: 0;
 }
 
-.viewer-nav:hover {
-    background: rgba(255,255,255,0.2);
-}
-
-.viewer-prev { left: -70px; }
-.viewer-next { right: -70px; }
-
-.viewer-counter {
-    position: absolute;
-    bottom: -40px;
-    left: 50%;
-    transform: translateX(-50%);
-    color: #fff;
-    font-size: 14px;
+.gallery-thumbnails .gallery-thumb:hover {
     opacity: 0.8;
+}
+
+.gallery-thumbnails .gallery-thumb.active {
+    opacity: 1;
+    border-color: var(--accent-violet);
 }
 
 @media (max-width: 768px) {
-    .gallery-grid {
-        grid-template-columns: repeat(5, 1fr);
-        gap: 6px;
-    }
-    
-    .viewer-prev { left: 10px; }
-    .viewer-next { right: 10px; }
-    
-    .viewer-nav {
+    .gallery-nav {
         width: 40px;
         height: 40px;
-        font-size: 18px;
+        font-size: 24px;
+    }
+    
+    .gallery-prev { left: 10px; }
+    .gallery-next { right: 10px; }
+    
+    .gallery-content img#galleryImage {
+        width: 95vw;
+        height: calc(85vh - 120px);
+    }
+    
+    .gallery-thumbnails .gallery-thumb {
+        width: 40px;
+        height: 40px;
     }
 }
 
