@@ -612,6 +612,12 @@ body {
     flex-shrink: 0;
     padding: 24px;
     overflow-y: auto;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE/Edge */
+}
+
+.modal-col-left::-webkit-scrollbar {
+    display: none; /* Chrome/Safari */
 }
 
 .modal-col-right {
@@ -674,7 +680,7 @@ body {
     padding: 6px 0;
     font-size: 13px;
     color: var(--text-secondary);
-    line-height: 1.5;
+    line-height: 1.4;
     display: flex;
     align-items: flex-start;
     gap: 8px;
@@ -691,7 +697,7 @@ body {
 .info-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 8px;
+    gap: 3px;
     margin-bottom: 16px;
 }
 
@@ -1256,7 +1262,7 @@ body {
 .gallery-grid {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    gap: 8px;
+    gap: 4px;
 }
 
 .gallery-thumb {
