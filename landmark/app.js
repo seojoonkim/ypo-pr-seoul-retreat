@@ -452,7 +452,7 @@ function openModal(id) {
     document.getElementById('modalSummary').textContent = item.summary || '';
     document.getElementById('modalDescription').textContent = item.description || '';
     
-    // 갤러리 (15장) - 맛집과 동일한 방식
+    // 갤러리 (15장) - 로드 실패 시 숨김 처리
     const galleryEl = document.getElementById('modalGallery');
     if (galleryEl) {
         const photos = [];
@@ -461,12 +461,28 @@ function openModal(id) {
             photos.push(`${IMAGE_BASE_URL}/${item.id}/${item.id}_${imgNum}.jpg`);
         }
         
-        galleryEl.innerHTML = photos.map((p, i) => `
-            <div class="gallery-thumb" onclick="openGallery(${JSON.stringify(photos).replace(/"/g, '&quot;')}, ${i}, '${item.name_ko}')">
-                <img src="${p}" alt="${item.name_ko} ${i + 1}" 
-                     onerror="this.parentElement.classList.add('placeholder'); this.parentElement.innerHTML='📷';">
-            </div>
-        `).join('');
+        // 이미지 로드 체크 후 성공한 것만 표시
+        galleryEl.innerHTML = '';
+        const loadedPhotos = [];
+        let loadCount = 0;
+        
+        photos.forEach((p, i) => {
+            const img = new Image();
+            img.onload = () => {
+                loadedPhotos.push({ url: p, index: i });
+                loadCount++;
+                if (loadCount === photos.length) {
+                    renderGalleryThumbs(galleryEl, loadedPhotos, item.name_ko);
+                }
+            };
+            img.onerror = () => {
+                loadCount++;
+                if (loadCount === photos.length) {
+                    renderGalleryThumbs(galleryEl, loadedPhotos, item.name_ko);
+                }
+            };
+            img.src = p;
+        });
     }
     
     // 팁
@@ -597,6 +613,24 @@ function closeModal() {
 }
 
 // 이미지 뷰어 열기
+// 갤러리 썸네일 렌더링 (로드 성공한 이미지만)
+function renderGalleryThumbs(container, loadedPhotos, name) {
+    // 원래 순서대로 정렬
+    loadedPhotos.sort((a, b) => a.index - b.index);
+    const validPhotos = loadedPhotos.map(p => p.url);
+    
+    if (validPhotos.length === 0) {
+        container.innerHTML = '<div class="no-photos">등록된 사진이 없습니다.</div>';
+        return;
+    }
+    
+    container.innerHTML = validPhotos.map((p, i) => `
+        <div class="gallery-thumb" onclick="openGallery(${JSON.stringify(validPhotos).replace(/"/g, '&quot;')}, ${i}, '${name}')">
+            <img src="${p}" alt="${name} ${i + 1}">
+        </div>
+    `).join('');
+}
+
 // ===== Image Gallery (맛집과 동일) =====
 function openGallery(photos, startIndex, caption) {
     currentGallery = photos;
