@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>서울 명소 가이드 | Only In Seoul</title>
     <link href="https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -26,7 +27,14 @@
             </nav>
         </div>
         
-        <div class="header-right"></div>
+        <div class="header-right">
+            <div class="lang-selector">
+                <button class="lang-btn active" data-lang="ko">한</button>
+                <button class="lang-btn" data-lang="en">EN</button>
+                <button class="lang-btn" data-lang="zh">中</button>
+                <button class="lang-btn" data-lang="ja">日</button>
+            </div>
+        </div>
     </header>
 
     <!-- Main -->
@@ -37,7 +45,7 @@
                 <h2>Only In Seoul 명소 컬렉션</h2>
             </div>
             <p class="about-desc">
-                네이버 블로그 30만개 이상의 분석을 통해 선별한 서울 대표 명소 <span id="aboutTotalCount">133</span>곳. 
+                네이버 블로그 30만개 이상의 분석을 통해 선별한 서울 대표 명소 <span id="aboutTotalCount">137</span>곳. 
                 실제 방문자들의 경험을 바탕으로 한 신뢰도 높은 점수를 제공합니다.
             </p>
             <p class="about-categories" id="aboutCategories">
@@ -101,7 +109,7 @@
         </div>
     </main>
 
-    <!-- Detail Modal - 2컬럼 레이아웃 -->
+    <!-- Detail Modal -->
     <div class="modal-overlay" id="modal">
         <div class="modal modal-wide">
             
@@ -117,22 +125,20 @@
             <!-- Modal Body: 2 Column -->
             <div class="modal-body-two-col">
                 
-                <!-- Left Column: 소개 + 갤러리 + 방문 팁 + 운영 정보 -->
+                <!-- Left Column -->
                 <div class="modal-col-left">
                     <div class="modal-section">
-                        <h3>📝 소개</h3>
+                        <h3>📍 소개</h3>
                         <div class="intro-box">
                             <p class="intro-summary" id="modalSummary"></p>
                         </div>
                     </div>
                     
-                    <!-- 이미지 갤러리 -->
                     <div class="modal-section">
                         <h3>📷 사진</h3>
                         <div class="gallery-grid" id="modalGallery"></div>
                     </div>
                     
-                    <!-- 방문 팁 -->
                     <div class="modal-section tips-section-left" id="tipsLeftSection">
                         <h3>💡 방문 팁</h3>
                         <ul class="tips-list" id="modalTips"></ul>
@@ -162,27 +168,23 @@
                     </div>
                 </div>
                 
-                <!-- Right Column: 상세 설명 + 인기도 + 블로그 분석 평가 -->
+                <!-- Right Column -->
                 <div class="modal-col-right">
-                    <!-- 인기도 -->
                     <div class="modal-section">
                         <h3>🔥 인기도</h3>
                         <div class="popularity-section" id="modalPopularity"></div>
                     </div>
                     
-                    <!-- 상세 설명 -->
                     <div class="modal-section">
                         <h3>📖 상세 설명</h3>
                         <p class="detail-description" id="modalDescription"></p>
                     </div>
                     
-                    <!-- 방문 팁 (세로 해상도 부족 시 여기로 이동) -->
                     <div class="modal-section tips-section-right" id="tipsRightSection" style="display: none;">
                         <h3>💡 방문 팁</h3>
                         <ul class="tips-list" id="modalTipsRight"></ul>
                     </div>
                     
-                    <!-- 블로그 분석 점수 (sticky) -->
                     <div class="score-summary-section" id="scoreSummarySection">
                         <h3>📊 데이터 기반 점수</h3>
                         <div class="score-summary-grid" id="modalScoreSummary"></div>
@@ -198,7 +200,7 @@
         </div>
     </div>
 
-    <!-- Image Gallery Modal (맛집과 동일) -->
+    <!-- Image Gallery Modal -->
     <div class="gallery-overlay" id="galleryModal">
         <button class="gallery-close" onclick="closeGallery()">✕</button>
         <button class="gallery-nav gallery-prev" onclick="navigateGallery(-1)">‹</button>
@@ -215,6 +217,8 @@
 
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBfHgqFqiNHlO2MzLKn3H1PBl55kIY8Mzg&callback=initGoogleMap" async defer></script>
     <script src="db.js"></script>
+    <script src="translations.js"></script>
+    <script src="i18n.js"></script>
     <script src="app.js"></script>
 </body>
 </html>

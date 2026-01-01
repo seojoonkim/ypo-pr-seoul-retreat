@@ -123,7 +123,9 @@ const landmarkData = [
         "광화문 광장, 청와대 등 주변 주요 명소와도 도보로 평지 이동이 가능하여 연계 관광이 매우 편리합니다."
       ]
     },
-    "popularity": 98
+    "popularity": 98,
+    "road_address": "서울특별시 종로구 사직로 161",
+    "jibun_address": "서울특별시 종로구 세종로 1-1"
   },
   {
     "id": "changdeokgung",
@@ -244,7 +246,9 @@ const landmarkData = [
         "창경궁과 연계 관람 시에는 함양문 매표소를 통해 계단 없이 이동할 수 있는 경로를 미리 확인하는 것이 좋습니다."
       ]
     },
-    "popularity": 89
+    "popularity": 89,
+    "road_address": "서울특별시 종로구 율곡로 99",
+    "jibun_address": "서울특별시 종로구 와룡동 2-71"
   },
   {
     "id": "changgyeonggung",
@@ -365,7 +369,9 @@ const landmarkData = [
         "전반적으로 누구나 편안하게 걸을 수 있는 무장애 관광지로 손색이 없습니다."
       ]
     },
-    "popularity": 71
+    "popularity": 71,
+    "road_address": "서울특별시 종로구 창경궁로 185",
+    "jibun_address": "서울특별시 종로구 와룡동 2-1"
   },
   {
     "id": "deoksugung",
@@ -486,7 +492,9 @@ const landmarkData = [
         "도심 한복판이라 주변 도로가 항상 붐빈다는 점도 차량 이동 시 고려해야 할 사항입니다."
       ]
     },
-    "popularity": 84
+    "popularity": 84,
+    "road_address": "서울특별시 중구 세종대로 99",
+    "jibun_address": "서울특별시 중구 정동 5-1"
   },
   {
     "id": "gyeonghuigung",
@@ -606,7 +614,9 @@ const landmarkData = [
         "주변에 버스 정류장이 많아 대중교통을 이용한 접근성은 무난한 편입니다."
       ]
     },
-    "popularity": 50
+    "popularity": 50,
+    "road_address": "서울특별시 종로구 새문안로 45",
+    "jibun_address": "서울특별시 종로구 신문로2가 1-126"
   },
   {
     "id": "jongmyo",
@@ -723,7 +733,9 @@ const landmarkData = [
         "장애인 화장실과 휠체어 대여 서비스는 갖추어져 있으나, 전반적인 이동 편의성은 경복궁이나 덕수궁에 비해 다소 떨어지는 편입니다."
       ]
     },
-    "popularity": 64
+    "popularity": 64,
+    "road_address": "서울특별시 종로구 종로 157",
+    "jibun_address": "서울특별시 종로구 훈정동 1-2"
   },
   {
     "id": "bukchon",
@@ -843,7 +855,9 @@ const landmarkData = [
         "곳곳에 벤치가 부족한 편이라 걷다가 힘들면 카페에 들어가 쉬어야 하는 구조입니다."
       ]
     },
-    "popularity": 96
+    "popularity": 96,
+    "road_address": "서울특별시 종로구 계동길 37",
+    "jibun_address": "서울특별시 종로구 계동 105"
   },
   {
     "id": "seochon",
@@ -963,7 +977,9 @@ const landmarkData = [
         "경복궁, 청와대와 도보로 연결되어 있어 주변 관광지와 연계하여 이동하기에도 아주 편리합니다."
       ]
     },
-    "popularity": 80
+    "popularity": 80,
+    "road_address": "서울특별시 종로구 자하문로 일대",
+    "jibun_address": "서울특별시 종로구 옥인동 일대"
   },
   {
     "id": "ikseon",
@@ -1083,7 +1099,9 @@ const landmarkData = [
         "역에서 가깝다는 장점 하나를 제외하면, 내부 이동 편의성은 매우 낮은 편입니다."
       ]
     },
-    "popularity": 88
+    "popularity": 88,
+    "road_address": "서울특별시 종로구 익선동길 일대",
+    "jibun_address": "서울특별시 종로구 익선동 166"
   },
   {
     "id": "unhyeongung",
@@ -1202,7 +1220,9 @@ const landmarkData = [
         "규모가 작아 많이 걷지 않아도 전체를 둘러볼 수 있어 거동이 불편한 어르신들에게도 무리 없는 코스입니다."
       ]
     },
-    "popularity": 47
+    "popularity": 47,
+    "road_address": "서울특별시 종로구 삼일대로 464",
+    "jibun_address": "서울특별시 종로구 운니동 114-10"
   },
   {
     "id": "namsangol",
@@ -1322,7 +1342,9 @@ const landmarkData = [
         "시각장애인을 위한 점자 안내판이나 음성 안내기도 일부 구역에 설치되어 있습니다."
       ]
     },
-    "popularity": 59
+    "popularity": 59,
+    "road_address": "서울특별시 중구 퇴계로34길 28",
+    "jibun_address": "서울특별시 중구 필동2가 84-1"
   },
   {
     "id": "gwanghwamun",
@@ -1442,7 +1464,9 @@ const landmarkData = [
         "시위나 행사가 있는 날에는 주변 도로가 통제되거나 버스 노선이 우회할 수 있으니 교통 정보를 미리 확인해야 합니다."
       ]
     },
-    "popularity": 94
+    "popularity": 94,
+    "road_address": "서울특별시 종로구 세종대로 172",
+    "jibun_address": "서울특별시 종로구 세종로 81-3"
   },
   {
     "id": "sungnyemun",
@@ -1562,7 +1586,9 @@ const landmarkData = [
         "남대문시장 방문객으로 인해 주변 도로가 항상 혼잡하다는 점은 감안해야 합니다."
       ]
     },
-    "popularity": 56
+    "popularity": 56,
+    "road_address": "서울특별시 중구 세종대로 40",
+    "jibun_address": "서울특별시 중구 남대문로4가 29"
   },
   {
     "id": "heunginjimun",
@@ -1679,7 +1705,9 @@ const landmarkData = [
         "DDP 주차장을 이용하고 걸어오는 것이 그나마 편리한 주차 방법입니다."
       ]
     },
-    "popularity": 44
+    "popularity": 44,
+    "road_address": "서울특별시 종로구 종로 288",
+    "jibun_address": "서울특별시 종로구 종로6가 69"
   },
   {
     "id": "hanyangdoseong",
@@ -1799,7 +1827,9 @@ const landmarkData = [
         "등산화나 편한 운동화는 선택이 아닌 필수이며, 식수가 부족할 수 있으니 미리 준비해야 합니다."
       ]
     },
-    "popularity": 42
+    "popularity": 42,
+    "road_address": "서울특별시 종로구 북악산로 267",
+    "jibun_address": "서울특별시 종로구 삼청동 산2-1"
   },
   {
     "id": "changuimun",
@@ -1916,7 +1946,9 @@ const landmarkData = [
         "튼튼한 두 다리와 편한 신발만 있다면 버스 환승 한 번으로 서울의 가장 높은 곳에 닿을 수 있는 매력적인 곳입니다."
       ]
     },
-    "popularity": 37
+    "popularity": 37,
+    "road_address": "서울특별시 종로구 창의문로 136",
+    "jibun_address": "서울특별시 종로구 청운동 산4-2"
   },
   {
     "id": "seolleung",
@@ -2033,7 +2065,9 @@ const landmarkData = [
         "도심 한복판이라 주변에 버스 노선도 매우 많아 어디서든 찾아오기 쉽습니다."
       ]
     },
-    "popularity": 51
+    "popularity": 51,
+    "road_address": "서울특별시 강남구 선릉로100길 1",
+    "jibun_address": "서울특별시 강남구 삼성동 131"
   },
   {
     "id": "jeongdong",
@@ -2152,7 +2186,9 @@ const landmarkData = [
         "주차 공간은 서울시립미술관 주차장이나 인근 유료 주차장을 이용해야 하는데, 공간이 협소하고 비싸 대중교통 이용이 훨씬 합리적입니다."
       ]
     },
-    "popularity": 44
+    "popularity": 44,
+    "road_address": "서울특별시 중구 정동길 일대",
+    "jibun_address": "서울특별시 중구 정동 일대"
   },
   {
     "id": "chilgung",
@@ -2271,7 +2307,9 @@ const landmarkData = [
         "경복궁 신무문(북문)으로 나오면 바로 건너편이라 경복궁 관람 후 이동하기에는 아주 편리한 위치입니다."
       ]
     },
-    "popularity": 36
+    "popularity": 36,
+    "road_address": "서울특별시 종로구 창덕궁길 2-1",
+    "jibun_address": "서울특별시 종로구 궁정동 1"
   },
   {
     "id": "seoul_history_museum",
@@ -2390,7 +2428,9 @@ const landmarkData = [
         "이동 약자가 보호자 없이도 관람하기에 큰 무리가 없는, 접근성 점수 만점에 가까운 곳입니다."
       ]
     },
-    "popularity": 55
+    "popularity": 55,
+    "road_address": "서울특별시 종로구 새문안로 55",
+    "jibun_address": "서울특별시 종로구 신문로2가 2-1"
   },
   {
     "id": "korean_history_museum",
@@ -2507,7 +2547,9 @@ const landmarkData = [
         "광화문 광장과 평지로 연결되어 있어 주변 명소로의 이동도 아주 수월합니다."
       ]
     },
-    "popularity": 59
+    "popularity": 59,
+    "road_address": "서울특별시 종로구 세종대로 198",
+    "jibun_address": "서울특별시 종로구 세종로 82-1"
   },
   {
     "id": "namsan_tower",
@@ -2627,7 +2669,9 @@ const landmarkData = [
         "걷기를 좋아한다면 산책로가 잘 정비되어 있어 걸어서 올라가는 것이 가장 확실한 접근법일 수도 있습니다."
       ]
     },
-    "popularity": 98
+    "popularity": 98,
+    "road_address": "서울특별시 용산구 남산공원길 105",
+    "jibun_address": "서울특별시 용산구 용산동2가 산1-3"
   },
   {
     "id": "lotte_tower",
@@ -2746,7 +2790,9 @@ const landmarkData = [
         "공항버스 리무진 정류장이 바로 앞에 있어 외국인이나 지방 여행객들의 접근도 편리합니다."
       ]
     },
-    "popularity": 96
+    "popularity": 96,
+    "road_address": "서울특별시 송파구 올림픽로 300",
+    "jibun_address": "서울특별시 송파구 신천동 29"
   },
   {
     "id": "63_building",
@@ -2865,7 +2911,9 @@ const landmarkData = [
         "한강공원과 바로 연결되어 있어 공원 산책로를 통해 접근하는 것도 방법입니다."
       ]
     },
-    "popularity": 81
+    "popularity": 81,
+    "road_address": "서울특별시 영등포구 63로 50",
+    "jibun_address": "서울특별시 영등포구 여의도동 60"
   },
   {
     "id": "bugak_skyway",
@@ -2986,7 +3034,9 @@ const landmarkData = [
         "접근성은 떨어지지만 그 불편함을 감수할 만큼 뷰가 훌륭한 곳입니다."
       ]
     },
-    "popularity": 55
+    "popularity": 55,
+    "road_address": "서울특별시 성북구 북악산로 267",
+    "jibun_address": "서울특별시 성북구 정릉동 산1-1"
   },
   {
     "id": "naksan",
@@ -3106,7 +3156,9 @@ const landmarkData = [
         "밤늦게까지 가로등이 밝아 도보 이동 시 안전한 편입니다."
       ]
     },
-    "popularity": 67
+    "popularity": 67,
+    "road_address": "서울특별시 종로구 낙산길 41",
+    "jibun_address": "서울특별시 종로구 동숭동 산2-10"
   },
   {
     "id": "eungbongsan",
@@ -3225,7 +3277,9 @@ const landmarkData = [
         "도심 속에서 가장 빠르고 쉽게 '정상 정복'의 기분을 낼 수 있는 곳입니다."
       ]
     },
-    "popularity": 49
+    "popularity": 49,
+    "road_address": "서울특별시 성동구 금호로 46",
+    "jibun_address": "서울특별시 성동구 금호동4가 산1-7"
   },
   {
     "id": "haneul_park",
@@ -3343,7 +3397,9 @@ const landmarkData = [
         "자가용 이용 시 난지천공원 주차장을 이용하면 비교적 여유롭습니다."
       ]
     },
-    "popularity": 85
+    "popularity": 85,
+    "road_address": "서울특별시 마포구 하늘공원로 95",
+    "jibun_address": "서울특별시 마포구 상암동 481-6"
   },
   {
     "id": "banpo_hangang",
@@ -3461,7 +3517,9 @@ const landmarkData = [
         "화장실과 편의점 등 편의 시설이 곳곳에 배치되어 있고 장애인 편의 시설도 잘 갖추어져 있어 이용이 편리합니다."
       ]
     },
-    "popularity": 91
+    "popularity": 91,
+    "road_address": "서울특별시 서초구 신반포로11길 40",
+    "jibun_address": "서울특별시 서초구 반포동 115-5"
   },
   {
     "id": "jeongdong_observatory",
@@ -3579,7 +3637,9 @@ const landmarkData = [
         "다만 평일 낮에는 공무원들과 민원인들로 엘리베이터가 혼잡할 수 있으며, 별도의 주차 공간은 제공되지 않아 대중교통을 이용하는 것이 좋습니다."
       ]
     },
-    "popularity": 36
+    "popularity": 36,
+    "road_address": "서울특별시 중구 덕수궁길 15",
+    "jibun_address": "서울특별시 중구 정동 1-76"
   },
   {
     "id": "maebongsan",
@@ -3696,7 +3756,9 @@ const landmarkData = [
         "도심 속에 있지만 산은 산이므로 편한 신발과 복장을 갖추고 방문하는 것이 좋습니다."
       ]
     },
-    "popularity": 43
+    "popularity": 43,
+    "road_address": "서울특별시 강남구 도곡로 일대",
+    "jibun_address": "서울특별시 강남구 도곡동 산54"
   },
   {
     "id": "achasan",
@@ -3815,7 +3877,9 @@ const landmarkData = [
         "도심에서 가장 쉽고 빠르게 자연 속으로 들어갈 수 있는 최고의 접근성을 자랑합니다."
       ]
     },
-    "popularity": 63
+    "popularity": 63,
+    "road_address": "서울특별시 광진구 아차산로 일대",
+    "jibun_address": "서울특별시 광진구 광장동 산1"
   },
   {
     "id": "inwangsan",
@@ -3934,7 +3998,9 @@ const landmarkData = [
         "도심에서 가장 빠르게 '산'의 맛을 느낄 수 있는 접근성 좋은 명산입니다."
       ]
     },
-    "popularity": 76
+    "popularity": 76,
+    "road_address": "서울특별시 종로구 인왕산로 일대",
+    "jibun_address": "서울특별시 종로구 무악동 산3-1"
   },
   {
     "id": "namsan_cable_car",
@@ -4053,7 +4119,9 @@ const landmarkData = [
         "주차장은 있으나 공간이 협소하고 발렛 비용이 발생하며, 주말에는 진입 대기가 길어 대중교통과 도보를 이용하는 것이 훨씬 빠르고 편리합니다."
       ]
     },
-    "popularity": 66
+    "popularity": 66,
+    "road_address": "서울특별시 중구 소파로 83",
+    "jibun_address": "서울특별시 중구 회현동1가 산1-19"
   },
   {
     "id": "sebitseom",
@@ -4172,7 +4240,9 @@ const landmarkData = [
         "화장실, 수유실, 편의점 등 편의 시설이 잘 갖추어져 있어 장시간 머물기에도 불편함이 없습니다."
       ]
     },
-    "popularity": 51
+    "popularity": 51,
+    "road_address": "서울특별시 서초구 올림픽대로 2085-14",
+    "jibun_address": "서울특별시 서초구 반포동 115"
   },
   {
     "id": "seoullo_7017",
@@ -4291,7 +4361,9 @@ const landmarkData = [
         "주차장은 서울역이나 인근 빌딩 주차장을 이용해야 하므로 유료이며, 대중교통 이용이 가장 합리적이고 편리합니다."
       ]
     },
-    "popularity": 76
+    "popularity": 76,
+    "road_address": "서울특별시 중구 청파로 432",
+    "jibun_address": "서울특별시 중구 봉래동2가 122"
   },
   {
     "id": "ddp",
@@ -4411,7 +4483,9 @@ const landmarkData = [
         "공항버스 정류장도 바로 앞에 있어 외국인이나 지방 여행객들의 접근도 용이합니다."
       ]
     },
-    "popularity": 88
+    "popularity": 88,
+    "road_address": "서울특별시 중구 을지로 281",
+    "jibun_address": "서울특별시 중구 을지로7가 2-1"
   },
   {
     "id": "myeongdong",
@@ -4530,7 +4604,9 @@ const landmarkData = [
         "부득이한 경우 백화점 주차장을 이용하고 쇼핑 금액으로 주차비를 정산하는 것이 그나마 낫습니다."
       ]
     },
-    "popularity": 99
+    "popularity": 99,
+    "road_address": "서울특별시 중구 명동길 일대",
+    "jibun_address": "서울특별시 중구 명동2가 일대"
   },
   {
     "id": "dongdaemun",
@@ -4648,7 +4724,9 @@ const landmarkData = [
         "복잡한 지하상가와 출구 때문에 길을 잃기 쉬우니 지도 앱을 잘 활용해야 합니다."
       ]
     },
-    "popularity": 95
+    "popularity": 95,
+    "road_address": "서울특별시 종로구 종로 266",
+    "jibun_address": "서울특별시 종로구 종로5가 265"
   },
   {
     "id": "namdaemun",
@@ -4768,7 +4846,9 @@ const landmarkData = [
         "복잡한 미로 같아서 길을 잃기 쉬우니 바닥의 안내 표시나 지도 앱을 잘 활용해야 합니다."
       ]
     },
-    "popularity": 75
+    "popularity": 75,
+    "road_address": "서울특별시 중구 남대문시장4길 21",
+    "jibun_address": "서울특별시 중구 남창동 49"
   },
   {
     "id": "gwangjang",
@@ -4887,7 +4967,9 @@ const landmarkData = [
         "청계천 산책로와 계단이나 경사로로 연결되어 있어 도보 여행 코스로 확장하기에는 편리합니다."
       ]
     },
-    "popularity": 87
+    "popularity": 87,
+    "road_address": "서울특별시 종로구 창경궁로 88",
+    "jibun_address": "서울특별시 종로구 예지동 6-1"
   },
   {
     "id": "hongdae",
@@ -5008,7 +5090,9 @@ const landmarkData = [
         "심야 버스나 택시 잡기도 비교적 수월한 편입니다."
       ]
     },
-    "popularity": 99
+    "popularity": 99,
+    "road_address": "서울특별시 마포구 어울마당로 일대",
+    "jibun_address": "서울특별시 마포구 서교동 일대"
   },
   {
     "id": "gangnam",
@@ -5130,7 +5214,9 @@ const landmarkData = [
         "약속 시간에 늦지 않으려면 무조건 지하철을 이용하는 것이 상책입니다."
       ]
     },
-    "popularity": 97
+    "popularity": 97,
+    "road_address": "서울특별시 강남구 강남대로 지하396",
+    "jibun_address": "서울특별시 강남구 역삼동 858"
   },
   {
     "id": "garosu",
@@ -5251,7 +5337,9 @@ const landmarkData = [
         "신사역에서 한강 공원까지 도보로 이동 가능한 거리에 있어 연계 관광 시 도보 이동성을 고려해야 합니다."
       ]
     },
-    "popularity": 94
+    "popularity": 94,
+    "road_address": "서울특별시 강남구 가로수길 일대",
+    "jibun_address": "서울특별시 강남구 신사동 일대"
   },
   {
     "id": "itaewon",
@@ -5370,7 +5458,9 @@ const landmarkData = [
         "택시 잡기가 어려운 지역 중 하나이므로 심야 귀가 시에는 대중교통 시간을 잘 확인해야 합니다."
       ]
     },
-    "popularity": 92
+    "popularity": 92,
+    "road_address": "서울특별시 용산구 이태원로 일대",
+    "jibun_address": "서울특별시 용산구 이태원동 일대"
   },
   {
     "id": "insadong",
@@ -5489,7 +5579,9 @@ const landmarkData = [
         "주차장은 매우 부족하고 요금이 비싸며 주변 교통이 항상 혼잡하므로 자가용보다는 대중교통을 이용하는 것이 절대적으로 편리합니다."
       ]
     },
-    "popularity": 90
+    "popularity": 90,
+    "road_address": "서울특별시 종로구 인사동길 일대",
+    "jibun_address": "서울특별시 종로구 인사동 일대"
   },
   {
     "id": "coex",
@@ -5610,7 +5702,9 @@ const landmarkData = [
         "내부가 워낙 넓고 미로 같아서 길치라면 지도 앱이나 키오스크를 자주 확인해야 합니다."
       ]
     },
-    "popularity": 85
+    "popularity": 85,
+    "road_address": "서울특별시 강남구 영동대로 513",
+    "jibun_address": "서울특별시 강남구 삼성동 159"
   },
   {
     "id": "cheongdam",
@@ -5730,7 +5824,9 @@ const landmarkData = [
         "택시 잡기도 비교적 쉬운 편입니다."
       ]
     },
-    "popularity": 79
+    "popularity": 79,
+    "road_address": "서울특별시 강남구 청담동 일대",
+    "jibun_address": "서울특별시 강남구 청담동 일대"
   },
   {
     "id": "ifc_mall",
@@ -5850,7 +5946,9 @@ const landmarkData = [
         "더현대 서울과 지하로 연결되어 있어 두 몰을 오가며 즐기기에 최상의 접근성을 자랑합니다."
       ]
     },
-    "popularity": 69
+    "popularity": 69,
+    "road_address": "서울특별시 영등포구 국제금융로 10",
+    "jibun_address": "서울특별시 영등포구 여의도동 23"
   },
   {
     "id": "times_square",
@@ -5974,7 +6072,9 @@ const landmarkData = [
         "주변 도로가 상습 정체 구역이라 대중교통 이용이 권장됩니다."
       ]
     },
-    "popularity": 63
+    "popularity": 63,
+    "road_address": "서울특별시 영등포구 영중로 15",
+    "jibun_address": "서울특별시 영등포구 영등포동4가 442"
   },
   {
     "id": "the_hyundai",
@@ -6095,7 +6195,9 @@ const landmarkData = [
         "현대백화점 앱을 통해 주차권이나 웨이팅 정보를 미리 확인하면 편리합니다."
       ]
     },
-    "popularity": 75
+    "popularity": 75,
+    "road_address": "서울특별시 영등포구 여의대로 108",
+    "jibun_address": "서울특별시 영등포구 여의도동 22"
   },
   {
     "id": "noryangjin",
@@ -6213,7 +6315,9 @@ const landmarkData = [
         "24시간 개방되어 있어(소매점은 새벽 닫음) 언제든 접근이 가능한 열린 공간입니다."
       ]
     },
-    "popularity": 66
+    "popularity": 66,
+    "road_address": "서울특별시 동작구 노들로 674",
+    "jibun_address": "서울특별시 동작구 노량진동 13-8"
   },
   {
     "id": "gyeongdong",
@@ -6326,7 +6430,9 @@ const landmarkData = [
         "엘리베이터나 편의 시설이 부족한 구역이 많아 이동 약자에게는 힘든 코스일 수 있습니다."
       ]
     },
-    "popularity": 49
+    "popularity": 49,
+    "road_address": "서울특별시 동대문구 고산자로36길 3",
+    "jibun_address": "서울특별시 동대문구 제기동 1035"
   },
   {
     "id": "mangwon_market",
@@ -6440,7 +6546,9 @@ const landmarkData = [
         "따릉이 대여소가 많아 자전거를 이용해 시장과 한강을 오가는 것이 가장 효율적이고 즐거운 이동 방법입니다."
       ]
     },
-    "popularity": 69
+    "popularity": 69,
+    "road_address": "서울특별시 마포구 포은로8길 14",
+    "jibun_address": "서울특별시 마포구 망원동 414-18"
   },
   {
     "id": "tongin",
@@ -6559,7 +6667,9 @@ const landmarkData = [
         "화장실은 도시락 카페나 고객 센터 내부에 있어 비교적 깨끗하게 관리되고 있습니다."
       ]
     },
-    "popularity": 59
+    "popularity": 59,
+    "road_address": "서울특별시 종로구 자하문로15길 18",
+    "jibun_address": "서울특별시 종로구 통인동 10-3"
   },
   {
     "id": "seongsu",
@@ -6674,7 +6784,9 @@ const landmarkData = [
         "평지라 걷기에는 좋지만, 편한 신발을 신고 대중교통을 이용하는 것이 성수동을 즐기는 가장 현명한 방법입니다."
       ]
     },
-    "popularity": 97
+    "popularity": 97,
+    "road_address": "서울특별시 성동구 성수이로 일대",
+    "jibun_address": "서울특별시 성동구 성수동2가 일대"
   },
   {
     "id": "yeonnam",
@@ -6793,7 +6905,9 @@ const landmarkData = [
         "따릉이 대여소가 많아 자전거를 이용해 동네를 둘러보는 것도 좋은 방법입니다."
       ]
     },
-    "popularity": 90
+    "popularity": 90,
+    "road_address": "서울특별시 마포구 연남로 일대",
+    "jibun_address": "서울특별시 마포구 연남동 일대"
   },
   {
     "id": "yeonhui",
@@ -6913,7 +7027,9 @@ const landmarkData = [
         "지하철의 부재가 오히려 외부 인파를 걸러내어 동네의 한적함을 유지해 주는 요인이기도 합니다."
       ]
     },
-    "popularity": 48
+    "popularity": 48,
+    "road_address": "서울특별시 서대문구 연희로 일대",
+    "jibun_address": "서울특별시 서대문구 연희동 일대"
   },
   {
     "id": "hannam",
@@ -7031,7 +7147,9 @@ const landmarkData = [
         "한강진역 공영 주차장을 이용하면 비교적 저렴하게 주차하고 도보로 이동할 수 있습니다."
       ]
     },
-    "popularity": 78
+    "popularity": 78,
+    "road_address": "서울특별시 용산구 한남대로 일대",
+    "jibun_address": "서울특별시 용산구 한남동 일대"
   },
   {
     "id": "mullae",
@@ -7147,7 +7265,9 @@ const landmarkData = [
         "골목이 좁아 운전하기도 힘들므로 자가용보다는 대중교통을 이용하고 튼튼한 두 다리로 걷는 것이 문래동을 즐기는 가장 좋은 방법입니다."
       ]
     },
-    "popularity": 58
+    "popularity": 58,
+    "road_address": "서울특별시 영등포구 도림로 일대",
+    "jibun_address": "서울특별시 영등포구 문래동3가 일대"
   },
   {
     "id": "sindang",
@@ -7264,7 +7384,9 @@ const landmarkData = [
         "따릉이 대여소가 많아 자전거를 이용한 이동도 편리합니다."
       ]
     },
-    "popularity": 48
+    "popularity": 48,
+    "road_address": "서울특별시 중구 다산로 일대",
+    "jibun_address": "서울특별시 중구 신당동 일대"
   },
   {
     "id": "euljiro3ga",
@@ -7381,7 +7503,9 @@ const landmarkData = [
         "편한 신발을 신고 튼튼한 두 다리로 걷는 것이 을지로를 즐기는 유일하고도 가장 좋은 방법입니다."
       ]
     },
-    "popularity": 58
+    "popularity": 58,
+    "road_address": "서울특별시 중구 을지로 일대",
+    "jibun_address": "서울특별시 중구 을지로3가 일대"
   },
   {
     "id": "seongbuk",
@@ -7498,7 +7622,9 @@ const landmarkData = [
         "걷기를 좋아하는 사람에게는 성곽길을 따라 걷는 것이 최고의 이동 방법이자 여행입니다."
       ]
     },
-    "popularity": 65
+    "popularity": 65,
+    "road_address": "서울특별시 성북구 성북로 일대",
+    "jibun_address": "서울특별시 성북구 성북동 일대"
   },
   {
     "id": "buam",
@@ -7616,7 +7742,9 @@ const landmarkData = [
         "조금 불편하지만 그만큼의 가치가 있는 뷰와 분위기를 보장합니다."
       ]
     },
-    "popularity": 46
+    "popularity": 46,
+    "road_address": "서울특별시 종로구 창의문로 일대",
+    "jibun_address": "서울특별시 종로구 부암동 일대"
   },
   {
     "id": "cheongpa",
@@ -7733,7 +7861,9 @@ const landmarkData = [
         "주차 공간은 거주자 우선 주차 구역이 대부분이라 자가용 이용은 불가능에 가까우며, 숙명여대 주차장이나 효창공원 주차장을 이용해야 합니다."
       ]
     },
-    "popularity": 39
+    "popularity": 39,
+    "road_address": "서울특별시 용산구 청파로 일대",
+    "jibun_address": "서울특별시 용산구 청파동 일대"
   },
   {
     "id": "songni",
@@ -7853,7 +7983,9 @@ const landmarkData = [
         "따릉이나 전동 킥보드를 이용하기 좋은 환경이라 대중교통과 연계하여 이동하기 편리합니다."
       ]
     },
-    "popularity": 38
+    "popularity": 38,
+    "road_address": "서울특별시 송파구 백제고분로 일대",
+    "jibun_address": "서울특별시 송파구 송파동 일대"
   },
   {
     "id": "seoul_forest",
@@ -7972,7 +8104,9 @@ const landmarkData = [
         "따릉이 대여소가 많아 자전거를 이용한 접근도 매우 편리합니다."
       ]
     },
-    "popularity": 95
+    "popularity": 95,
+    "road_address": "서울특별시 성동구 뚝섬로 273",
+    "jibun_address": "서울특별시 성동구 성수동1가 685"
   },
   {
     "id": "yeouido_park",
@@ -8082,7 +8216,9 @@ const landmarkData = [
         "IFC몰이나 더현대서울과 지하로 연결되지는 않지만 횡단보도 하나만 건너면 되어 연계성이 좋습니다."
       ]
     },
-    "popularity": 72
+    "popularity": 72,
+    "road_address": "서울특별시 영등포구 여의공원로 68",
+    "jibun_address": "서울특별시 영등포구 여의도동 68"
   },
   {
     "id": "olympic_park",
@@ -8193,7 +8329,9 @@ const landmarkData = [
         "공원 내 순환 열차(호돌이 열차)를 이용하면 넓은 부지를 편하게 이동할 수 있습니다."
       ]
     },
-    "popularity": 89
+    "popularity": 89,
+    "road_address": "서울특별시 송파구 올림픽로 424",
+    "jibun_address": "서울특별시 송파구 방이동 88"
   },
   {
     "id": "worldcup_park",
@@ -8305,7 +8443,9 @@ const landmarkData = [
         "공원 내부가 워낙 넓으니 편한 신발과 여유로운 시간 계획이 필수입니다."
       ]
     },
-    "popularity": 78
+    "popularity": 78,
+    "road_address": "서울특별시 마포구 월드컵로 243-60",
+    "jibun_address": "서울특별시 마포구 상암동 481-6"
   },
   {
     "id": "namsan_park",
@@ -8418,7 +8558,9 @@ const landmarkData = [
         "도심 속 산이지만 접근 방법이 다양해 선택의 폭이 넓습니다."
       ]
     },
-    "popularity": 72
+    "popularity": 72,
+    "road_address": "서울특별시 중구 삼일대로 231",
+    "jibun_address": "서울특별시 중구 회현동1가 산1-3"
   },
   {
     "id": "bukhansan_national",
@@ -8540,7 +8682,9 @@ const landmarkData = [
         "등산화, 등산복, 물 등 준비물이 필요하므로 가볍게 들를 수 있는 곳은 아닙니다."
       ]
     },
-    "popularity": 93
+    "popularity": 93,
+    "road_address": "서울특별시 강북구 삼양로181길 349",
+    "jibun_address": "서울특별시 강북구 우이동 산65"
   },
   {
     "id": "gwanaksan",
@@ -8659,7 +8803,9 @@ const landmarkData = [
         "주차장은 서울대 주차장이나 관악문화재단 주차장을 이용할 수 있지만 유료이며 주말에는 혼잡할 수 있어 대중교통 이용이 가장 편리합니다."
       ]
     },
-    "popularity": 65
+    "popularity": 65,
+    "road_address": "서울특별시 관악구 남부순환로 일대",
+    "jibun_address": "서울특별시 관악구 신림동 산56-1"
   },
   {
     "id": "dobongsan",
@@ -8776,7 +8922,9 @@ const landmarkData = [
         "등산 장비가 없더라도 입구 상가에서 필요한 물품을 쉽게 구매할 수 있는 인프라가 잘 갖추어져 있습니다."
       ]
     },
-    "popularity": 57
+    "popularity": 57,
+    "road_address": "서울특별시 도봉구 도봉산길 86",
+    "jibun_address": "서울특별시 도봉구 도봉동 산28-3"
   },
   {
     "id": "suraksan",
@@ -8893,7 +9041,9 @@ const landmarkData = [
         "주차장은 수락산 디자인거리 공영 주차장이나 역 주변 환승 주차장을 이용해야 하는데, 주말에는 혼잡할 수 있어 대중교통이 가장 편리합니다."
       ]
     },
-    "popularity": 47
+    "popularity": 47,
+    "road_address": "서울특별시 노원구 동일로 261길 86",
+    "jibun_address": "서울특별시 노원구 상계동 산104"
   },
   {
     "id": "cheonggyecheon",
@@ -9011,7 +9161,9 @@ const landmarkData = [
         "도심 한복판이라 주차는 인근 빌딩 유료 주차장을 이용해야 하므로 대중교통 이용이 필수입니다."
       ]
     },
-    "popularity": 91
+    "popularity": 91,
+    "road_address": "서울특별시 종로구 창경궁로 일대",
+    "jibun_address": "서울특별시 종로구 서린동 일대"
   },
   {
     "id": "seonyudo",
@@ -9129,7 +9281,9 @@ const landmarkData = [
         "섬이라는 특성상 접근 과정이 조금 길지만, 그만큼 도시와 분리된 느낌을 줍니다."
       ]
     },
-    "popularity": 74
+    "popularity": 74,
+    "road_address": "서울특별시 영등포구 선유로 343",
+    "jibun_address": "서울특별시 영등포구 양화동 95"
   },
   {
     "id": "yangjae",
@@ -9246,7 +9400,9 @@ const landmarkData = [
         "강남권 어디서든 접근하기 쉬운 위치에 있어 생활 속 접근성이 뛰어납니다."
       ]
     },
-    "popularity": 53
+    "popularity": 53,
+    "road_address": "서울특별시 서초구 양재천로 일대",
+    "jibun_address": "서울특별시 서초구 양재동 일대"
   },
   {
     "id": "boramae",
@@ -9360,7 +9516,9 @@ const landmarkData = [
         "공원 내 매점, 화장실, 식수대 등 편의 시설 접근성도 아주 좋습니다."
       ]
     },
-    "popularity": 57
+    "popularity": 57,
+    "road_address": "서울특별시 동작구 여의대방로20길 33",
+    "jibun_address": "서울특별시 동작구 신대방동 395"
   },
   {
     "id": "yongsan_family",
@@ -9473,7 +9631,9 @@ const landmarkData = [
         "다만, 주말이나 공휴일, 특별 전시 기간에는 주차장이 매우 혼잡하여 진입 대기 시간이 길어질 수 있으므로 대중교통을 이용하는 것이 훨씬 편리합니다."
       ]
     },
-    "popularity": 53
+    "popularity": 53,
+    "road_address": "서울특별시 용산구 서빙고로 137",
+    "jibun_address": "서울특별시 용산구 용산동6가 168"
   },
   {
     "id": "children_grand",
@@ -9589,7 +9749,9 @@ const landmarkData = [
         "입구가 여러 곳이라 동선에 맞춰 편리한 곳을 이용할 수 있습니다."
       ]
     },
-    "popularity": 86
+    "popularity": 86,
+    "road_address": "서울특별시 광진구 능동로 216",
+    "jibun_address": "서울특별시 광진구 능동 18"
   },
   {
     "id": "jungnangcheon",
@@ -9706,7 +9868,9 @@ const landmarkData = [
         "자전거나 대중교통을 이용하는 것이 가장 효율적이고 편리합니다."
       ]
     },
-    "popularity": 45
+    "popularity": 45,
+    "road_address": "서울특별시 동대문구 천호대로 일대",
+    "jibun_address": "서울특별시 동대문구 장안동 일대"
   },
   {
     "id": "ansan_jarak",
@@ -9822,7 +9986,9 @@ const landmarkData = [
         "산을 오르는 가장 편안하고 친절한 길입니다."
       ]
     },
-    "popularity": 41
+    "popularity": 41,
+    "road_address": "서울특별시 서대문구 연희로32길 51",
+    "jibun_address": "서울특별시 서대문구 연희동 산1"
   },
   {
     "id": "dream_forest_park",
@@ -9934,7 +10100,9 @@ const landmarkData = [
         "주차장이 동문과 서문에 넓게 마련되어 있어 자가용 이용이 편리하지만, 주말이나 벚꽃 시즌에는 만차일 경우가 많아 대중교통 이용을 권장합니다."
       ]
     },
-    "popularity": 52
+    "popularity": 52,
+    "road_address": "서울특별시 강북구 월계로 173",
+    "jibun_address": "서울특별시 강북구 번동 산28-6"
   },
   {
     "id": "seoul_botanic",
@@ -10051,7 +10219,9 @@ const landmarkData = [
         "장애인 편의 시설이 완벽하게 갖추어져 있어 누구나 평등하게 자연을 누릴 수 있는 곳입니다."
       ]
     },
-    "popularity": 84
+    "popularity": 84,
+    "road_address": "서울특별시 강서구 마곡동로 161",
+    "jibun_address": "서울특별시 강서구 마곡동 790"
   },
   {
     "id": "national_museum",
@@ -10170,7 +10340,9 @@ const landmarkData = [
         "누구에게나 열려 있는, 문턱 없는 열린 문화 공간입니다."
       ]
     },
-    "popularity": 91
+    "popularity": 91,
+    "road_address": "서울특별시 용산구 서빙고로 137",
+    "jibun_address": "서울특별시 용산구 용산동6가 168-6"
   },
   {
     "id": "leeum",
@@ -10288,7 +10460,9 @@ const landmarkData = [
         "사전 예약 없이는 입장이 불가능하므로 반드시 온라인 예약을 해야 한다는 점이 진입 장벽일 수 있습니다."
       ]
     },
-    "popularity": 74
+    "popularity": 74,
+    "road_address": "서울특별시 용산구 이태원로55길 60-16",
+    "jibun_address": "서울특별시 용산구 한남동 747-18"
   },
   {
     "id": "apma",
@@ -10403,7 +10577,9 @@ const landmarkData = [
         "용산역(KTX)과도 가까워 지방에서 올라오는 관람객들도 쉽게 찾을 수 있습니다."
       ]
     },
-    "popularity": 45
+    "popularity": 45,
+    "road_address": "서울특별시 용산구 한강대로 100",
+    "jibun_address": "서울특별시 용산구 한강로2가 181"
   },
   {
     "id": "mmca_seoul",
@@ -10520,7 +10696,9 @@ const landmarkData = [
         "셔틀버스가 운행되기도 하니 방문 전 확인해 보는 것이 좋습니다."
       ]
     },
-    "popularity": 77
+    "popularity": 77,
+    "road_address": "서울특별시 종로구 삼청로 30",
+    "jibun_address": "서울특별시 종로구 소격동 165"
   },
   {
     "id": "mmca_deoksugung",
@@ -10633,7 +10811,9 @@ const landmarkData = [
         "주차장은 덕수궁 내에 없으므로 인근의 시청 주차장이나 사설 주차장을 이용해야 하는데, 대중교통 이용이 훨씬 편리합니다."
       ]
     },
-    "popularity": 61
+    "popularity": 61,
+    "road_address": "서울특별시 중구 세종대로 99",
+    "jibun_address": "서울특별시 중구 정동 5-1"
   },
   {
     "id": "folk_museum",
@@ -10749,7 +10929,9 @@ const landmarkData = [
         "삼청동, 북촌과 평지로 연결되어 있어 주변 명소로의 이동이 수월합니다."
       ]
     },
-    "popularity": 64
+    "popularity": 64,
+    "road_address": "서울특별시 종로구 삼청로 37",
+    "jibun_address": "서울특별시 종로구 세종로 1-1"
   },
   {
     "id": "war_memorial",
@@ -10868,7 +11050,9 @@ const landmarkData = [
         "서울 어디서든 쉽게 찾아올 수 있는 열린 공간입니다."
       ]
     },
-    "popularity": 81
+    "popularity": 81,
+    "road_address": "서울특별시 용산구 이태원로 29",
+    "jibun_address": "서울특별시 용산구 용산동1가 8"
   },
   {
     "id": "hangeul_museum",
@@ -10980,7 +11164,9 @@ const landmarkData = [
         "비 오는 날에도 지하철역에서 비를 맞지 않고 이동할 수 있는 점이 큰 장점입니다."
       ]
     },
-    "popularity": 52
+    "popularity": 52,
+    "road_address": "서울특별시 용산구 서빙고로 139",
+    "jibun_address": "서울특별시 용산구 용산동6가 168-6"
   },
   {
     "id": "daelim",
@@ -11092,7 +11278,9 @@ const landmarkData = [
         "인근 공영 주차장도 항상 만차라 차를 가져오면 고생할 수 있습니다."
       ]
     },
-    "popularity": 56
+    "popularity": 56,
+    "road_address": "서울특별시 종로구 자하문로4길 21",
+    "jibun_address": "서울특별시 종로구 통의동 35-1"
   },
   {
     "id": "sema",
@@ -11209,7 +11397,9 @@ const landmarkData = [
         "도심 한복판이라 버스 노선도 다양하여 찾아오기 쉽습니다."
       ]
     },
-    "popularity": 50
+    "popularity": 50,
+    "road_address": "서울특별시 중구 덕수궁길 61",
+    "jibun_address": "서울특별시 중구 서소문동 37"
   },
   {
     "id": "hangaram",
@@ -11326,7 +11516,9 @@ const landmarkData = [
         "접근성과 편의성 면에서 매우 우수한 문화 공간입니다."
       ]
     },
-    "popularity": 60
+    "popularity": 60,
+    "road_address": "서울특별시 서초구 남부순환로 2406",
+    "jibun_address": "서울특별시 서초구 서초동 700"
   },
   {
     "id": "d_museum",
@@ -11438,7 +11630,9 @@ const landmarkData = [
         "하지만 주말에는 성수동 일대 교통이 혼잡하고 만차 가능성이 있어 대중교통 이용이 가장 빠르고 편리합니다."
       ]
     },
-    "popularity": 67
+    "popularity": 67,
+    "road_address": "서울특별시 용산구 독서당로 29",
+    "jibun_address": "서울특별시 용산구 한남동 683"
   },
   {
     "id": "savina",
@@ -11547,7 +11741,9 @@ const landmarkData = [
         "안국동 골목 여행을 하며 들르기에 부담 없는 위치입니다."
       ]
     },
-    "popularity": 40
+    "popularity": 40,
+    "road_address": "서울특별시 종로구 삼청로 3",
+    "jibun_address": "서울특별시 종로구 안국동 159"
   },
   {
     "id": "arario",
@@ -11657,7 +11853,9 @@ const landmarkData = [
         "건축 원형 보존을 위해 편의 시설이 부족한 점은 감안해야 합니다."
       ]
     },
-    "popularity": 43
+    "popularity": 43,
+    "road_address": "서울특별시 종로구 율곡로3길 72",
+    "jibun_address": "서울특별시 종로구 소격동 76"
   },
   {
     "id": "ilmin",
@@ -11773,7 +11971,9 @@ const landmarkData = [
         "접근성과 이동 편의성 모두 훌륭한 곳입니다."
       ]
     },
-    "popularity": 38
+    "popularity": 38,
+    "road_address": "서울특별시 종로구 세종대로 152",
+    "jibun_address": "서울특별시 종로구 세종로 139"
   },
   {
     "id": "kansong",
@@ -11887,7 +12087,9 @@ const landmarkData = [
         "다리가 불편한 분들에게는 접근이 쉽지 않은 편입니다."
       ]
     },
-    "popularity": 40
+    "popularity": 40,
+    "road_address": "서울특별시 성북구 성북로 102-11",
+    "jibun_address": "서울특별시 성북구 성북동 97-1"
   },
   {
     "id": "sejong_story",
@@ -11996,7 +12198,9 @@ const landmarkData = [
         "주차장은 세종로 공영 주차장을 이용할 수 있어 자가용 접근성도 좋지만, 주말에는 만차일 수 있고 주차비가 발생하므로 대중교통 이용이 가장 편리합니다."
       ]
     },
-    "popularity": 39
+    "popularity": 39,
+    "road_address": "서울특별시 종로구 세종대로 지하175",
+    "jibun_address": "서울특별시 종로구 세종로 81"
   },
   {
     "id": "palace_museum",
@@ -12110,7 +12314,9 @@ const landmarkData = [
         "경복궁 경내와 평지로 연결되어 있어 이동이 수월합니다."
       ]
     },
-    "popularity": 51
+    "popularity": 51,
+    "road_address": "서울특별시 종로구 효자로 12",
+    "jibun_address": "서울특별시 종로구 세종로 1-57"
   },
   {
     "id": "craft_museum",
@@ -12223,7 +12429,9 @@ const landmarkData = [
         "주변 북촌이나 인사동으로의 도보 이동도 매우 편리합니다."
       ]
     },
-    "popularity": 43
+    "popularity": 43,
+    "road_address": "서울특별시 종로구 율곡로3길 4",
+    "jibun_address": "서울특별시 종로구 안국동 175-88"
   },
   {
     "id": "apgujeong_rodeo",
@@ -12304,7 +12512,9 @@ const landmarkData = [
         "지하철역에서 바로 접근 가능하며 평탄한 거리입니다.",
         "휠체어 접근성이 좋은 편입니다."
       ]
-    }
+    },
+    "road_address": "서울특별시 강남구 압구정로 일대",
+    "jibun_address": "서울특별시 강남구 신사동 일대"
   },
   {
     "id": "gyeongridan",
@@ -12388,7 +12598,9 @@ const landmarkData = [
         "언덕이 가파르고 계단이 많아 접근성이 좋지 않습니다.",
         "휠체어나 유모차 이동이 어렵습니다."
       ]
-    }
+    },
+    "road_address": "서울특별시 용산구 회나무로 일대",
+    "jibun_address": "서울특별시 용산구 이태원동 일대"
   },
   {
     "id": "samgakji",
@@ -12466,7 +12678,9 @@ const landmarkData = [
         "평탄한 도로로 접근성이 좋습니다.",
         "지하철역에서 가�게 위치합니다."
       ]
-    }
+    },
+    "road_address": "서울특별시 용산구 한강대로 일대",
+    "jibun_address": "서울특별시 용산구 한강로2가 일대"
   },
   {
     "id": "samcheong",
@@ -12587,6 +12801,8 @@ const landmarkData = [
         "오래된 한옥을 개조한 가게들은 문턱이 높거나 좁은 경우가 있어 주의가 필요합니다.",
         "대중교통 접근성은 좋으나 주차 공간이 부족하니 지하철 이용을 권장합니다."
       ]
-    }
+    },
+    "road_address": "서울특별시 종로구 삼청로 일대",
+    "jibun_address": "서울특별시 종로구 삼청동 일대"
   }
 ];

@@ -47,6 +47,19 @@ body {
     -webkit-font-smoothing: antialiased;
 }
 
+/* 언어별 폰트 설정 */
+body[data-lang="zh"] {
+    font-family: 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+}
+
+body[data-lang="ja"] {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Yu Gothic', sans-serif;
+}
+
+body[data-lang="en"] {
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+}
+
 /* ===== Header ===== */
 .header {
     display: flex;
@@ -322,8 +335,8 @@ body {
 }
 
 .cell-photo {
-    width: 70px;
-    height: 64px;
+    width: 80px;
+    height: 72px;
     border-radius: 12px;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     display: flex;
@@ -332,12 +345,18 @@ body {
     color: white;
     font-size: 24px;
     overflow: hidden;
+    flex-shrink: 0;
 }
 
 .cell-photo img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+    -ms-interpolation-mode: bicubic;
+    backface-visibility: hidden;
+    transform: translateZ(0);
 }
 
 .cell-name {
@@ -1276,6 +1295,11 @@ body {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+    -ms-interpolation-mode: bicubic;
+    backface-visibility: hidden;
+    transform: translateZ(0);
 }
 
 .gallery-thumb.placeholder {
@@ -1743,3 +1767,71 @@ body {
     right: 0 !important;
 }
 
+/* ===== Language Toggle Button ===== */
+.lang-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border: 2px solid var(--accent-violet);
+    border-radius: 50%;
+    background: transparent;
+    color: var(--accent-violet);
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: 'Pretendard', sans-serif;
+}
+
+.lang-toggle:hover {
+    background: var(--accent-violet);
+    color: white;
+    transform: scale(1.05);
+}
+
+.lang-toggle:active {
+    transform: scale(0.95);
+}
+
+@media (max-width: 768px) {
+    .lang-toggle {
+        width: 32px;
+        height: 32px;
+        font-size: 11px;
+    }
+    
+    .header-right {
+        min-width: auto;
+    }
+}
+
+
+/* Language Selector */
+.lang-selector {
+    display: flex;
+    gap: 6px;
+}
+
+.lang-btn {
+    padding: 8px 16px;
+    background: transparent;
+    border: none;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #64748b;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.lang-btn:hover {
+    color: var(--accent-violet);
+    background: #eef2ff;
+}
+
+.lang-btn.active {
+    background: var(--accent-gradient);
+    color: #ffffff;
+}
