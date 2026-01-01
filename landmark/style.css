@@ -1097,10 +1097,64 @@ body[data-lang="en"] {
 /* ===== 반응형 - 900px ===== */
 @media (max-width: 900px) {
     .header {
+        display: flex;
+        flex-wrap: wrap;
+        padding: 8px 12px;
+        gap: 6px;
+    }
+    
+    /* 1줄: 타이틀(좌) + 언어토글(우) - 같은 줄에 배치 */
+    .header-left {
+        order: 1;
+        flex: 0 0 auto;
+    }
+    
+    .header-right {
+        order: 2;
+        flex: 1;
+        display: flex;
+        justify-content: flex-end;
+    }
+    
+    /* 2줄: 리스트/지도 탭 */
+    .header-center {
+        order: 3;
+        flex: 0 0 100%;
         justify-content: center;
     }
     
-    .header-right { display: none; }
+    /* 108개 명소만 숨기기 */
+    .db-count {
+        display: none;
+    }
+    
+    /* 로고 - 크게 유지 */
+    .logo-main {
+        font-size: 18px;
+    }
+    
+    .logo-sub {
+        font-size: 13px;
+    }
+    
+    .logo-divider {
+        font-size: 12px;
+        margin: 0 1px;
+    }
+    
+    .logo-link {
+        gap: 4px;
+    }
+    
+    .lang-selector {
+        padding: 1px;
+        gap: 0;
+    }
+    
+    .lang-btn {
+        padding: 2px 5px;
+        font-size: 10px;
+    }
     
     .about-stats { gap: 12px; }
     .about-stat-num { font-size: 13px; }
@@ -1144,20 +1198,19 @@ body[data-lang="en"] {
     .scores-grid-2col {
         grid-template-columns: 1fr;
     }
-    .header {
-        flex-wrap: wrap;
-        gap: 10px;
-        padding: 12px 16px;
+    
+    /* 헤더: 타이틀 크게, 언어 버튼 작게 */
+    .lang-btn {
+        padding: 2px 4px;
+        font-size: 9px;
     }
     
-    .header-left { 
-        flex: 100%; 
-        justify-content: center;
+    .logo-main {
+        font-size: 18px;
     }
     
-    .header-center { 
-        flex: 100%;
-        justify-content: center;
+    .logo-sub {
+        font-size: 13px;
     }
     
     .main-container { padding: 12px; }
@@ -1816,15 +1869,18 @@ body[data-lang="en"] {
 /* Language Selector */
 .lang-selector {
     display: flex;
-    gap: 6px;
+    gap: 0;
+    background: #f1f5f9;
+    border-radius: 6px;
+    padding: 2px;
 }
 
 .lang-btn {
-    padding: 8px 16px;
+    padding: 4px 7px;
     background: transparent;
     border: none;
-    border-radius: 8px;
-    font-size: 13px;
+    border-radius: 4px;
+    font-size: 10px;
     font-weight: 500;
     color: #64748b;
     cursor: pointer;
@@ -1833,12 +1889,12 @@ body[data-lang="en"] {
 
 .lang-btn:hover {
     color: var(--accent-violet);
-    background: #eef2ff;
 }
 
 .lang-btn.active {
-    background: var(--accent-gradient);
+    background: var(--accent-violet);
     color: #ffffff;
+    border-radius: 4px;
 }
 
 /* ===== 다국어 폰트 굵기 안정화 ===== */
