@@ -1466,6 +1466,10 @@ function openModal(id) {
     renderPopularitySection(item, lang);
     renderScoreSummary(item);
     renderScoreDetails(item, lang);
+    renderNearbyLandmarks(item, lang);
+    
+    // 스팟 지도 초기화
+    initSpotMap(item, displayName);
     
     // 지도 검색 - 한국어는 한국어 이름, 그 외는 영어 이름으로 검색
     const searchName = isKorean ? item.name : (item.name_en || item.name);
@@ -1473,8 +1477,11 @@ function openModal(id) {
     const googleQuery = encodeURIComponent(searchName + ' ' + searchCity);
     const naverQuery = encodeURIComponent(isKorean ? item.name : (item.name_en || item.name));
     
-    document.getElementById('modalGoogleMap').href = `https://www.google.com/maps/search/?api=1&query=${googleQuery}`;
-    document.getElementById('modalNaverMap').href = `https://map.naver.com/v5/search/${naverQuery}`;
+    const googleMapUrl = `https://www.google.com/maps/search/?api=1&query=${googleQuery}`;
+    const naverMapUrl = `https://map.naver.com/v5/search/${naverQuery}`;
+    
+    document.getElementById('modalGoogleMap').href = googleMapUrl;
+    document.getElementById('modalNaverMap').href = naverMapUrl;
     
     // 로고 + 서비스명
     const mapLabels = {
@@ -1493,7 +1500,248 @@ function openModal(id) {
     setTimeout(() => { setupStickyObserver(); }, 100);
 }
 
+// 스팟 지도 초기화
+let spotMap = null;
+function initSpotMap(item, displayName) {
+    const container = document.getElementById('spotMapContainer');
+    if (!container || !item.coordinates?.lat || !item.coordinates?.lng) {
+        if (container) container.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--text-tertiary);">위치 정보 없음</div>';
+        return;
+    }
+    
+    const position = { lat: item.coordinates.lat, lng: item.coordinates.lng };
+    const cat = categoryInfo[item.category] || {};
+    
+    // 기존 지도가 있으면 제거
+    container.innerHTML = '';
+    
+    // 새 지도 생성 (줌 레벨 14)
+    spotMap = new google.maps.Map(container, {
+        center: position,
+        zoom: 14,
+        styles: [{ featureType: 'poi', elementType: 'labels', stylers: [{ visibility: 'off' }] }],
+        mapTypeControl: false,
+        fullscreenControl: false,
+        streetViewControl: false,
+        zoomControl: true
+    });
+    
+    // 메인 마커 생성 (이모지 포함)
+    const catIcon = cat.icon || '📍';
+    const catColor = getCategoryColor(item.category);
+    const markerSize = 40;
+    const markerSvg = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="${markerSize}" height="${markerSize}" viewBox="0 0 ${markerSize} ${markerSize}">
+            <circle cx="${markerSize/2}" cy="${markerSize/2}" r="${markerSize/2 - 2}" fill="${catColor}" stroke="#ffffff" stroke-width="3"/>
+            <text x="50%" y="54%" text-anchor="middle" dominant-baseline="middle" font-size="20">${catIcon}</text>
+        </svg>
+    `;
+    
+    const marker = new google.maps.Marker({
+        position,
+        map: spotMap,
+        title: displayName,
+        icon: {
+            url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(markerSvg),
+            scaledSize: new google.maps.Size(markerSize, markerSize),
+            anchor: new google.maps.Point(markerSize/2, markerSize/2)
+        },
+        zIndex: 1000
+    });
+    
+    // 라벨 추가
+    const labelDiv = document.createElement('div');
+    labelDiv.innerHTML = `
+        <div style="
+            background: rgba(255,255,255,0.95);
+            padding: 6px 12px;
+            border-radius: 12px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+            font-size: 12px;
+            font-weight: 600;
+            color: #1e1b4b;
+            white-space: nowrap;
+            position: relative;
+        ">
+            ${displayName}
+            <div style="
+                position: absolute;
+                bottom: -6px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 0;
+                height: 0;
+                border-left: 6px solid transparent;
+                border-right: 6px solid transparent;
+                border-top: 6px solid rgba(255,255,255,0.95);
+            "></div>
+        </div>
+    `;
+    
+    // 라벨 오버레이 클래스 (position: 'top' 또는 'bottom')
+    class SpotLabel extends google.maps.OverlayView {
+        constructor(position, content, zIndex = 100, labelPosition = 'top') {
+            super();
+            this.position = position;
+            this.content = content;
+            this.zIndex = zIndex;
+            this.labelPosition = labelPosition;
+        }
+        onAdd() {
+            this.div = document.createElement('div');
+            const transform = this.labelPosition === 'bottom' 
+                ? 'translate(-50%, 20px)' 
+                : 'translate(-50%, -100%)';
+            const marginTop = this.labelPosition === 'bottom' ? '0' : '-25px';
+            this.div.style.cssText = `position:absolute;transform:${transform};margin-top:${marginTop};z-index:${this.zIndex};`;
+            this.div.innerHTML = this.content;
+            this.getPanes().overlayMouseTarget.appendChild(this.div);
+        }
+        draw() {
+            const pos = this.getProjection().fromLatLngToDivPixel(this.position);
+            if (pos) {
+                this.div.style.left = pos.x + 'px';
+                this.div.style.top = pos.y + 'px';
+            }
+        }
+        onRemove() {
+            this.div?.parentNode?.removeChild(this.div);
+        }
+    }
+    
+    // 메인 라벨 추가 (높은 z-index)
+    const label = new SpotLabel(new google.maps.LatLng(position.lat, position.lng), labelDiv.innerHTML, 1000);
+    label.setMap(spotMap);
+    
+    // 주변 명소 마커 추가
+    const allData = getLandmarkData();
+    // 모든 스팟 데이터 (거리순 정렬)
+    const allOtherSpots = allData
+        .filter(other => other.id !== item.id && other.coordinates?.lat && other.coordinates?.lng)
+        .map(other => {
+            const dist = calculateDistance(position.lat, position.lng, other.coordinates.lat, other.coordinates.lng);
+            return { ...other, distance: dist };
+        })
+        .sort((a, b) => a.distance - b.distance);
+    
+    // 가까운 5개 (라벨 표시용)
+    const nearestFive = allOtherSpots.slice(0, 5);
+    
+    // InfoWindow 생성 (하나만 사용)
+    const infoWindow = new google.maps.InfoWindow();
+    const viewBtnText = { ko: '보기', en: 'View', zh: '查看', ja: '見る' };
+    const currentLang = getLang();
+    
+    // 지도 클릭 시 InfoWindow 닫기
+    spotMap.addListener('click', () => {
+        infoWindow.close();
+    });
+    
+    // 모든 스팟에 마커 표시
+    allOtherSpots.forEach(nearby => {
+        const nearbyCat = categoryInfo[nearby.category] || {};
+        const nearbyIcon = nearbyCat.icon || '📍';
+        const nearbyColor = getCategoryColor(nearby.category);
+        const nearbySize = 32;
+        const lang = getLang();
+        const nearbyName = lang === 'ko' ? nearby.name : (nearby.name_en || nearby.name);
+        const nearbyCatName = lang === 'ko' ? (nearbyCat.name_ko || nearby.category) : (nearbyCat.name_en || nearby.category);
+        const distText = nearby.distance < 1 
+            ? `${Math.round(nearby.distance * 1000)}m` 
+            : `${nearby.distance.toFixed(1)}km`;
+        
+        const nearbySvg = `
+            <svg xmlns="http://www.w3.org/2000/svg" width="${nearbySize}" height="${nearbySize}" viewBox="0 0 ${nearbySize} ${nearbySize}">
+                <circle cx="${nearbySize/2}" cy="${nearbySize/2}" r="${nearbySize/2 - 2}" fill="${nearbyColor}" stroke="#ffffff" stroke-width="2" opacity="0.85"/>
+                <text x="50%" y="54%" text-anchor="middle" dominant-baseline="middle" font-size="14">${nearbyIcon}</text>
+            </svg>
+        `;
+        
+        const nearbyMarker = new google.maps.Marker({
+            position: { lat: nearby.coordinates.lat, lng: nearby.coordinates.lng },
+            map: spotMap,
+            title: nearbyName,
+            icon: {
+                url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(nearbySvg),
+                scaledSize: new google.maps.Size(nearbySize, nearbySize),
+                anchor: new google.maps.Point(nearbySize/2, nearbySize/2)
+            },
+            zIndex: 100
+        });
+        
+        // 가까운 5개에만 라벨 추가
+        if (nearestFive.includes(nearby)) {
+            const labelPos = nearby.coordinates.lat > position.lat ? 'bottom' : 'top';
+            const nearbyLabelHtml = `
+                <div style="
+                    background: rgba(255,255,255,0.9);
+                    padding: 4px 8px;
+                    border-radius: 8px;
+                    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+                    font-size: 11px;
+                    font-weight: 500;
+                    color: #374151;
+                    white-space: nowrap;
+                ">${nearbyName}</div>
+            `;
+            const nearbyLabel = new SpotLabel(
+                new google.maps.LatLng(nearby.coordinates.lat, nearby.coordinates.lng), 
+                nearbyLabelHtml, 
+                50,
+                labelPos
+            );
+            nearbyLabel.setMap(spotMap);
+        }
+        
+        // 클릭 시 InfoWindow 툴팁 표시
+        nearbyMarker.addListener('click', () => {
+            const content = `
+                <div style="padding:8px;min-width:150px;font-family:Pretendard,sans-serif;">
+                    <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+                        <span style="font-size:20px;">${nearbyIcon}</span>
+                        <div>
+                            <div style="font-weight:600;font-size:13px;color:#1e1b4b;">${nearbyName}</div>
+                            <div style="font-size:11px;color:#6b7280;">${nearbyCatName} · ${distText}</div>
+                        </div>
+                    </div>
+                    <button onclick="openModal('${nearby.id}')" style="
+                        width:100%;
+                        padding:8px 12px;
+                        background:linear-gradient(135deg,#6366f1,#7c3aed);
+                        color:white;
+                        border:none;
+                        border-radius:6px;
+                        font-size:12px;
+                        font-weight:600;
+                        cursor:pointer;
+                    ">${viewBtnText[currentLang] || viewBtnText.ko}</button>
+                </div>
+            `;
+            infoWindow.setContent(content);
+            infoWindow.open(spotMap, nearbyMarker);
+        });
+    });
+}
+
 function updateModalTitles(lang) {
+    // SVG 그라데이션 정의
+    const gradDef = '<defs><linearGradient id="svgGrad" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#6366f1"/><stop offset="100%" stop-color="#7c3aed"/></linearGradient></defs>';
+    
+    // SVG 아이콘 정의 (그라데이션 적용)
+    const svgIcons = {
+        intro: `<svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="url(#svgGrad)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${gradDef}<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`,
+        photos: `<svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="url(#svgGrad)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${gradDef}<rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>`,
+        info: `<svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="url(#svgGrad)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${gradDef}<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`,
+        address: `<svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="url(#svgGrad)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${gradDef}<path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>`,
+        popularity: `<svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="url(#svgGrad)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${gradDef}<path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>`,
+        desc: `<svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="url(#svgGrad)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${gradDef}<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>`,
+        location: `<svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="url(#svgGrad)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${gradDef}<polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>`,
+        tips: `<svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="url(#svgGrad)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${gradDef}<path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>`,
+        scores: `<svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="url(#svgGrad)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${gradDef}<line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>`,
+        detailed: `<svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="url(#svgGrad)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${gradDef}<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/></svg>`,
+        nearby: `<svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="url(#svgGrad)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${gradDef}<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>`
+    };
+    
     // 모든 섹션 h3 태그 직접 업데이트
     const titles = {
         intro: { ko: '소개', en: 'INTRODUCTION', zh: '简介', ja: '紹介' },
@@ -1504,32 +1752,52 @@ function updateModalTitles(lang) {
         popularity: { ko: '인기도', en: 'POPULARITY', zh: '人气指数', ja: '人気度' },
         desc: { ko: '상세 설명', en: 'DESCRIPTION', zh: '详细介绍', ja: '詳細説明' },
         scores: { ko: '데이터 기반 점수', en: 'SCORES', zh: '数据评分', ja: 'データスコア' },
-        detailed: { ko: '데이터 기반 상세 평가', en: 'DETAILED EVALUATION', zh: '详细评价', ja: '詳細評価' }
+        detailed: { ko: '데이터 기반 상세 평가', en: 'DETAILED EVALUATION', zh: '详细评価', ja: '詳細評価' },
+        location: { ko: '위치', en: 'LOCATION', zh: '位置', ja: '位置' },
+        nearby: { ko: '가까운 명소', en: 'NEARBY', zh: '附近景点', ja: '近くのスポット' }
     };
     
     const sectionTitles = document.querySelectorAll('.modal-section h3, .score-summary-section h3');
     sectionTitles.forEach(h3 => {
         const text = h3.textContent.toLowerCase();
+        let key = '';
+        
         if (text.includes('소개') || text.includes('introduction') || text.includes('简介') || text.includes('紹介')) {
-            h3.textContent = titles.intro[lang] || titles.intro.ko;
+            key = 'intro';
         } else if (text.includes('사진') || text.includes('photos') || text.includes('照片') || text.includes('写真')) {
-            h3.textContent = titles.photos[lang] || titles.photos.ko;
+            key = 'photos';
         } else if (text.includes('팁') || text.includes('tips') || text.includes('攻略') || text.includes('ヒント')) {
-            h3.textContent = titles.tips[lang] || titles.tips.ko;
+            key = 'tips';
         } else if (text.includes('운영') || text.includes('information') || text.includes('运营') || text.includes('営業')) {
-            h3.textContent = titles.info[lang] || titles.info.ko;
+            key = 'info';
         } else if (text.includes('주소') || text.includes('address') || text.includes('地址') || text.includes('住所')) {
-            h3.textContent = titles.address[lang] || titles.address.ko;
+            key = 'address';
         } else if (text.includes('인기도') || text.includes('popularity') || text.includes('人气') || text.includes('人気度')) {
-            h3.textContent = titles.popularity[lang] || titles.popularity.ko;
+            key = 'popularity';
         } else if ((text.includes('상세 설명') || text.includes('상세설명') || text.includes('详细介绍') || text.includes('詳細説明')) || (text.includes('description') && !text.includes('detailed') && !text.includes('evaluation'))) {
-            h3.textContent = titles.desc[lang] || titles.desc.ko;
-        } else if (text.includes('데이터 기반 점수') || text.includes('scores') || text.includes('数据评分') || text.includes('データスコア')) {
-            h3.textContent = titles.scores[lang] || titles.scores.ko;
+            key = 'desc';
         } else if (text.includes('상세 평가') || text.includes('detailed') || text.includes('evaluation') || text.includes('详细评价') || text.includes('詳細評価')) {
-            h3.textContent = titles.detailed[lang] || titles.detailed.ko;
+            key = 'detailed';
+        } else if (text.includes('기반 점수') || text.includes('scores') || text.includes('数据评分') || text.includes('データスコア')) {
+            key = 'scores';
+        } else if (text.includes('위치') || text.includes('location') || text.includes('位置')) {
+            key = 'location';
+        } else if (text.includes('가까운') || text.includes('nearby') || text.includes('附近') || text.includes('近く')) {
+            key = 'nearby';
+        }
+        
+        if (key && titles[key] && svgIcons[key]) {
+            const newTitle = titles[key][lang] || titles[key].ko;
+            h3.innerHTML = svgIcons[key] + ' ' + newTitle;
         }
     });
+    
+    // 데이터 기반 점수 타이틀 직접 처리 (CSS ::before로 아이콘 표시)
+    const scoresTitle = document.getElementById('scoresTitle');
+    if (scoresTitle) {
+        const scoresTitleText = titles.scores[lang] || titles.scores.ko;
+        scoresTitle.textContent = scoresTitleText;
+    }
     
     const labels = document.querySelectorAll('.info-label');
     const labelTexts = {
@@ -1814,4 +2082,85 @@ function updateGalleryImage() {
 function jumpToGalleryImage(index) {
     currentGalleryIndex = index;
     updateGalleryImage();
+}
+
+// 두 좌표 사이 거리 계산 (km)
+function calculateDistance(lat1, lng1, lat2, lng2) {
+    const R = 6371; // 지구 반경 (km)
+    const dLat = (lat2 - lat1) * Math.PI / 180;
+    const dLng = (lng2 - lng1) * Math.PI / 180;
+    const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+              Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+              Math.sin(dLng/2) * Math.sin(dLng/2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    return R * c;
+}
+
+// 가까운 명소 렌더링
+function renderNearbyLandmarks(currentItem, lang) {
+    const el = document.getElementById('modalNearby');
+    if (!el) return;
+    
+    const currentCoords = currentItem.coordinates;
+    if (!currentCoords || !currentCoords.lat || !currentCoords.lng) {
+        el.innerHTML = '<li class="nearby-empty">위치 정보가 없습니다</li>';
+        return;
+    }
+    
+    // 현재 언어에 맞는 데이터 가져오기
+    const allData = getLandmarkData();
+    
+    // 거리 계산 및 정렬
+    const nearbyItems = allData
+        .filter(item => item.id !== currentItem.id && item.coordinates?.lat && item.coordinates?.lng)
+        .map(item => {
+            const dist = calculateDistance(
+                currentCoords.lat, currentCoords.lng,
+                item.coordinates.lat, item.coordinates.lng
+            );
+            return { ...item, distance: dist };
+        })
+        .filter(item => item.distance > 0) // 자기 자신 제외
+        .sort((a, b) => a.distance - b.distance)
+        .slice(0, 5); // 최대 5개
+    
+    if (nearbyItems.length === 0) {
+        el.innerHTML = '<li class="nearby-empty">주변에 다른 명소가 없습니다</li>';
+        return;
+    }
+    
+    const isKorean = lang === 'ko';
+    const viewBtnText = { ko: '보기', en: 'View', zh: '查看', ja: '見る' };
+    
+    el.innerHTML = nearbyItems.map(item => {
+        const cat = categoryInfo[item.category];
+        const icon = cat?.icon || '📍';
+        const catName = isKorean ? (cat?.name_ko || item.category) : (cat?.name_en || item.category);
+        const name = isKorean ? item.name : (item.name_en || item.name);
+        const distText = item.distance < 1 
+            ? `${Math.round(item.distance * 1000)}m` 
+            : `${item.distance.toFixed(1)}km`;
+        
+        return `
+            <li class="nearby-item" data-id="${item.id}" onclick="selectNearbyItem(this, '${item.id}')">
+                <span class="nearby-icon">${icon}</span>
+                <div class="nearby-info">
+                    <div class="nearby-name">${name}</div>
+                    <div class="nearby-category">${catName}</div>
+                </div>
+                <span class="nearby-distance">${distText}</span>
+                <button class="nearby-view-btn" onclick="event.stopPropagation(); openModal('${item.id}')">${viewBtnText[lang] || viewBtnText.ko}</button>
+            </li>
+        `;
+    }).join('');
+}
+
+// 가까운 명소 선택
+function selectNearbyItem(el, id) {
+    // 다른 선택 해제
+    document.querySelectorAll('.nearby-item.selected').forEach(item => {
+        if (item !== el) item.classList.remove('selected');
+    });
+    // 토글
+    el.classList.toggle('selected');
 }

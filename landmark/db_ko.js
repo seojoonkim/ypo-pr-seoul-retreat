@@ -3611,8 +3611,8 @@ const landmarkData_ko = [
   {
     "id": "maebongsan",
     "coordinates": {
-      "lat": 37.5017,
-      "lng": 127.06
+      "lat": 37.4723,
+      "lng": 127.0378
     },
     "category": "viewpoint",
     "summary": "강남 도심 속 야경 명소, 30분이면 오르는 쉬운 전망 포인트",
@@ -7800,8 +7800,8 @@ const landmarkData_ko = [
   {
     "id": "songni",
     "coordinates": {
-      "lat": 37.507,
-      "lng": 127.045
+      "lat": 37.5085,
+      "lng": 127.1005
     },
     "category": "hipplace",
     "summary": "송파의 경리단길, 잠실 근처 떠오르는 카페 거리",
