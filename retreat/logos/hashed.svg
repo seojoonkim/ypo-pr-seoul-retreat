@@ -1,7 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 60">
-  <rect width="200" height="60" fill="#0a0a0a"/>
-  <!-- Hashed wordmark in white -->
-  <text x="16" y="42" font-family="'Courier New', monospace" font-weight="700" font-size="30" fill="white" letter-spacing="2">HASHED</text>
-  <!-- hash symbol accent -->
-  <text x="162" y="20" font-family="monospace" font-size="14" fill="#6366f1">#</text>
-</svg>

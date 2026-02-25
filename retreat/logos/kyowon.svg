@@ -1,10 +1,40 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 60">
-  <rect width="240" height="60" fill="white"/>
-  <!-- K -->
-  <rect x="10" y="10" width="8" height="40" fill="#1B1F2E"/>
-  <polygon points="18,30 38,10 48,10 28,30 48,50 38,50" fill="#1B1F2E"/>
-  <!-- YOWON wordmark -->
-  <text x="56" y="42" font-family="Arial Black, Arial, sans-serif" font-weight="900" font-size="26" fill="#1B1F2E" letter-spacing="0.5">YOWON</text>
-  <!-- orange accent dot -->
-  <circle cx="52" cy="15" r="5" fill="#FF6B00"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240">
+  <rect width="240" height="240" fill="white"/>
+  
+  <!-- KYO -->
+  <text x="25" y="110" font-family="'Arial', sans-serif" font-weight="900" font-size="52" fill="black" letter-spacing="1">KY</text>
+  <!-- Orange O -->
+  <path d="M135,110 A25,25 0 1,1 185,110 A25,25 0 1,1 135,110 Z" fill="#FF5E00"/>
+  <circle cx="160" cy="85" r="12" fill="white"/>
+  <!-- Cutout for the intersection -->
+  <circle cx="160" cy="115" r="10" fill="white"/>
+  
+  <!-- WON -->
+  <text x="35" y="170" font-family="'Arial', sans-serif" font-weight="900" font-size="52" fill="black" letter-spacing="1">W</text>
+  <text x="188" y="170" font-family="'Arial', sans-serif" font-weight="900" font-size="52" fill="black" letter-spacing="1">N</text>
+  <!-- Orange O -->
+  <path d="M135,145 A25,25 0 1,0 185,145 A25,25 0 1,0 135,145 Z" fill="#FF5E00"/>
+  <circle cx="160" cy="145" r="12" fill="white"/>
+  
+  <rect x="0" y="0" width="240" height="240" fill="none" stroke="none"/>
+  <!-- Perfecting the shapes using exact paths to match the image precisely -->
+  <g transform="translate(25, 60)">
+    <!-- K -->
+    <path d="M0,0 L12,0 L12,20 L28,0 L42,0 L22,23 L45,45 L30,45 L12,28 L12,45 L0,45 Z" fill="black"/>
+    <!-- Y -->
+    <path d="M45,0 L57,0 L70,22 L82,0 L94,0 L76,28 L76,45 L64,45 L64,28 Z" fill="black"/>
+    <!-- Top O -->
+    <path d="M100,22.5 C100,8 112,-2 125,-2 C138,-2 150,8 150,22.5 C150,30 146,36 140,40 C136,37 131,35 125,35 C119,35 114,37 110,40 C104,36 100,30 100,22.5 Z M115,22.5 C115,14 120,9 125,9 C130,9 135,14 135,22.5 C135,31 130,36 125,36 C120,36 115,31 115,22.5 Z" fill="#FF5E00"/>
+  </g>
+  
+  <g transform="translate(38, 120)">
+    <!-- W -->
+    <path d="M0,0 L15,0 L23,30 L31,0 L43,0 L51,30 L59,0 L74,0 L60,45 L42,45 L36,15 L30,45 L12,45 Z" fill="black"/>
+    
+    <!-- Bottom O -->
+    <path d="M87,22.5 C87,37 99,47 112,47 C125,47 137,37 137,22.5 C137,15 133,9 127,5 C123,8 118,10 112,10 C106,10 101,8 97,5 C91,9 87,15 87,22.5 Z M102,22.5 C102,31 107,36 112,36 C117,36 122,31 122,22.5 C122,14 117,9 112,9 C107,9 102,14 102,22.5 Z" fill="#FF5E00"/>
+    
+    <!-- N -->
+    <path d="M150,0 L166,0 L186,30 L186,0 L198,0 L198,45 L182,45 L162,15 L162,45 L150,45 Z" fill="black"/>
+  </g>
 </svg>
