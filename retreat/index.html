@@ -126,37 +126,58 @@
         <div class="section">
             <div class="section-label" data-ko="호스팅 파트너" data-en="Hosting Committee">호스팅 파트너</div>
             <div class="host-logo-row">
-                <a class="host-logo-card leader" href="https://www.kyowon.co.kr" target="_blank" title="교원그룹 (Leader)">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/Kyowon_Group_CI.svg/320px-Kyowon_Group_CI.svg.png"
-                        alt="교원그룹" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-                    <span class="logo-fallback">교원그룹</span>
+                <a class="host-logo-card leader" href="https://www.kyowon.co.kr" target="_blank">
                     <span class="host-role-badge leader-badge" data-ko="리더" data-en="Leader">리더</span>
+                    <div class="logo-img-wrap">
+                        <img src="https://img.logo.dev/kyowon.co.kr?token=pk_X8PfLRlTSle3YuS0bB62tA&size=100&format=png"
+                            alt="교원그룹"
+                            onerror="this.replaceWith(document.getElementById('fb-kyowon').content.cloneNode(true))">
+                    </div>
+                    <span class="logo-name">교원그룹</span>
                 </a>
-                <a class="host-logo-card" href="https://www.gsglobal.com" target="_blank" title="GS글로벌">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/GS_Group_Logo.svg/320px-GS_Group_Logo.svg.png"
-                        alt="GS글로벌" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-                    <span class="logo-fallback">GS Global</span>
+                <a class="host-logo-card" href="https://www.gsglobal.com" target="_blank">
                     <span class="host-role-badge" data-ko="멤버" data-en="Member">멤버</span>
+                    <div class="logo-img-wrap">
+                        <img src="https://img.logo.dev/gsglobal.com?token=pk_X8PfLRlTSle3YuS0bB62tA&size=100&format=png"
+                            alt="GS글로벌"
+                            onerror="this.replaceWith(document.getElementById('fb-gs').content.cloneNode(true))">
+                    </div>
+                    <span class="logo-name">GS글로벌</span>
                 </a>
-                <a class="host-logo-card" href="https://www.hashed.com" target="_blank" title="해시드">
-                    <img src="https://cdn.brandfetch.io/hashed.com/w/400/h/400/logo" alt="해시드"
-                        onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-                    <span class="logo-fallback">Hashed</span>
+                <a class="host-logo-card" href="https://www.hashed.com" target="_blank">
                     <span class="host-role-badge" data-ko="멤버" data-en="Member">멤버</span>
+                    <div class="logo-img-wrap">
+                        <img src="https://img.logo.dev/hashed.com?token=pk_X8PfLRlTSle3YuS0bB62tA&size=100&format=png"
+                            alt="해시드"
+                            onerror="this.replaceWith(document.getElementById('fb-hashed').content.cloneNode(true))">
+                    </div>
+                    <span class="logo-name">Hashed</span>
                 </a>
-                <a class="host-logo-card" href="https://www.kscity.co.kr" target="_blank" title="한국도시가스">
-                    <img src="https://cdn.brandfetch.io/kscity.co.kr/w/400/h/400/logo" alt="한국도시가스"
-                        onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-                    <span class="logo-fallback">Korea City Gas</span>
+                <a class="host-logo-card" href="https://www.kscity.co.kr" target="_blank">
                     <span class="host-role-badge" data-ko="멤버" data-en="Member">멤버</span>
+                    <div class="logo-img-wrap">
+                        <img src="https://img.logo.dev/kscity.co.kr?token=pk_X8PfLRlTSle3YuS0bB62tA&size=100&format=png"
+                            alt="한국도시가스"
+                            onerror="this.replaceWith(document.getElementById('fb-kscity').content.cloneNode(true))">
+                    </div>
+                    <span class="logo-name">한국도시가스</span>
                 </a>
-                <a class="host-logo-card" href="https://www.kcd.co.kr" target="_blank" title="한국신용데이터">
-                    <img src="https://cdn.brandfetch.io/kcd.co.kr/w/400/h/400/logo" alt="한국신용데이터"
-                        onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-                    <span class="logo-fallback">Korea Credit Data</span>
+                <a class="host-logo-card" href="https://www.kcd.co.kr" target="_blank">
                     <span class="host-role-badge" data-ko="멤버" data-en="Member">멤버</span>
+                    <div class="logo-img-wrap">
+                        <img src="https://img.logo.dev/kcd.co.kr?token=pk_X8PfLRlTSle3YuS0bB62tA&size=100&format=png"
+                            alt="한국신용데이터"
+                            onerror="this.replaceWith(document.getElementById('fb-kcd').content.cloneNode(true))">
+                    </div>
+                    <span class="logo-name">한국신용데이터</span>
                 </a>
             </div>
+            <!-- Fallback templates (shown if logo fails to load) -->
+            <template id="fb-kyowon"><span class="logo-initial" style="background:#4f46e5">교</span></template>
+            <template id="fb-gs"><span class="logo-initial" style="background:#0066cc">GS</span></template>
+            <template id="fb-hashed"><span class="logo-initial" style="background:#1a1a2e">H</span></template>
+            <template id="fb-kscity"><span class="logo-initial" style="background:#e05a1b">도</span></template>
+            <template id="fb-kcd"><span class="logo-initial" style="background:#00b894">K</span></template>
             <div class="budget-strip">
                 <span data-ko="💰 YPO 협회 지원 예산: USD 55,000" data-en="💰 YPO Grant: USD 55,000">💰 YPO 협회 지원 예산: USD
                     55,000</span>
