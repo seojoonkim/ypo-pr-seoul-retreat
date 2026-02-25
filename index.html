@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Only In Seoul | 서울에서만 가능한 경험</title>
+    <title>YPO SEOUL 2026</title>
     <link href="https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
     <style>
         * {
@@ -13,720 +14,324 @@
         }
 
         :root {
-            --accent-violet: #6366f1;
-            --accent-pink: #a78bfa;
-            --accent-cyan: #22d3ee;
-            --text-white: #ffffff;
-            --text-gray: #e2e8f0;
-            --glass-bg: rgba(15, 20, 40, 0.55);
-            --glass-border: rgba(255, 255, 255, 0.12);
-            --glass-highlight: rgba(255, 255, 255, 0.05);
+            --accent-violet: #4338ca;
+            --accent-violet-soft: #818cf8;
+            --accent-gradient: linear-gradient(135deg, #6366f1 0%, #7c3aed 100%);
+            --bg-primary: #fafafa;
+            --bg-secondary: #ffffff;
+            --text-primary: #1e1b4b;
+            --text-secondary: #4c4878;
+            --text-tertiary: #94a3b8;
+            --border: #e2e8f0;
+            --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         body {
             font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-            min-height: 100vh;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            height: 100vh;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 40px 24px;
-            -webkit-font-smoothing: antialiased;
-            position: relative;
-            overflow-x: hidden;
-        }
-
-        /* 배경 이미지 레이어 - 애니메이션 추가 */
-        .bg-image {
-            position: fixed;
-            top: -5%;
-            left: -5%;
-            width: 110%;
-            height: 110%;
-            background: url('seoul-bg.jpg') center center / cover no-repeat;
-            z-index: -3;
-            animation: bgPan 30s ease-in-out infinite;
-        }
-
-        @keyframes bgPan {
-            0%, 100% { transform: scale(1) translate(0, 0); }
-            25% { transform: scale(1.03) translate(-1%, -0.5%); }
-            50% { transform: scale(1.02) translate(0.5%, -1%); }
-            75% { transform: scale(1.03) translate(-0.5%, 0.5%); }
-        }
-
-        /* 배경 오버레이 - 더 어둡게 조정 */
-        .bg-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(
-                180deg,
-                rgba(10, 15, 35, 0.6) 0%,
-                rgba(15, 20, 45, 0.55) 30%,
-                rgba(20, 25, 55, 0.5) 70%,
-                rgba(10, 15, 35, 0.65) 100%
-            );
-            z-index: -2;
-        }
-
-        /* 빛 효과 레이어 */
-        .bg-glow {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: 
-                radial-gradient(ellipse at 20% 20%, rgba(99, 102, 241, 0.10) 0%, transparent 50%),
-                radial-gradient(ellipse at 80% 80%, rgba(167, 139, 250, 0.06) 0%, transparent 50%),
-                radial-gradient(ellipse at 50% 50%, rgba(34, 211, 238, 0.04) 0%, transparent 60%);
-            z-index: -1;
-            animation: glowPulse 8s ease-in-out infinite;
-        }
-
-        @keyframes glowPulse {
-            0%, 100% { opacity: 0.5; }
-            50% { opacity: 0.9; }
-        }
-
-        /* 떠다니는 빛 파티클 */
-        .bg-particles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
             overflow: hidden;
-            pointer-events: none;
+            -webkit-font-smoothing: antialiased;
         }
 
-        .particle {
-            position: absolute;
-            width: 6px;
-            height: 6px;
-            background: rgba(255, 255, 255, 0.7);
-            border-radius: 50%;
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5), 0 0 20px rgba(99, 102, 241, 0.3);
-            animation: float 20s infinite ease-in-out;
-        }
-
-        .particle:nth-child(1) { left: 5%; top: 15%; animation-delay: 0s; animation-duration: 25s; }
-        .particle:nth-child(2) { left: 15%; top: 75%; animation-delay: 2s; animation-duration: 20s; }
-        .particle:nth-child(3) { left: 25%; top: 35%; animation-delay: 4s; animation-duration: 28s; }
-        .particle:nth-child(4) { left: 35%; top: 55%; animation-delay: 1s; animation-duration: 22s; }
-        .particle:nth-child(5) { left: 45%; top: 25%; animation-delay: 3s; animation-duration: 26s; }
-        .particle:nth-child(6) { left: 55%; top: 65%; animation-delay: 5s; animation-duration: 24s; }
-        .particle:nth-child(7) { left: 65%; top: 45%; animation-delay: 2s; animation-duration: 21s; }
-        .particle:nth-child(8) { left: 75%; top: 20%; animation-delay: 4s; animation-duration: 27s; }
-        .particle:nth-child(9) { left: 85%; top: 80%; animation-delay: 1s; animation-duration: 23s; }
-        .particle:nth-child(10) { left: 10%; top: 50%; animation-delay: 3s; animation-duration: 29s; }
-        .particle:nth-child(11) { left: 20%; top: 10%; animation-delay: 0.5s; animation-duration: 24s; }
-        .particle:nth-child(12) { left: 30%; top: 85%; animation-delay: 2.5s; animation-duration: 26s; }
-        .particle:nth-child(13) { left: 40%; top: 40%; animation-delay: 1.5s; animation-duration: 22s; }
-        .particle:nth-child(14) { left: 50%; top: 70%; animation-delay: 3.5s; animation-duration: 25s; }
-        .particle:nth-child(15) { left: 60%; top: 30%; animation-delay: 0s; animation-duration: 28s; }
-        .particle:nth-child(16) { left: 70%; top: 60%; animation-delay: 4.5s; animation-duration: 21s; }
-        .particle:nth-child(17) { left: 80%; top: 45%; animation-delay: 2s; animation-duration: 27s; }
-        .particle:nth-child(18) { left: 90%; top: 15%; animation-delay: 1s; animation-duration: 23s; }
-        .particle:nth-child(19) { left: 8%; top: 90%; animation-delay: 3s; animation-duration: 26s; }
-        .particle:nth-child(20) { left: 92%; top: 55%; animation-delay: 5s; animation-duration: 24s; }
-
-        @keyframes float {
-            0%, 100% { 
-                transform: translate(0, 0) scale(1);
-                opacity: 0.6;
-            }
-            25% { 
-                transform: translate(30px, -40px) scale(1.3);
-                opacity: 1;
-            }
-            50% { 
-                transform: translate(-20px, -80px) scale(0.9);
-                opacity: 0.7;
-            }
-            75% { 
-                transform: translate(40px, -40px) scale(1.2);
-                opacity: 0.9;
-            }
-        }
-
-        /* 빛줄기 효과 */
-        .bg-rays {
-            position: fixed;
-            top: 0;
-            left: 0;
+        /* ===== Top Navigation Bar ===== */
+        .top-nav-wrapper {
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border);
             width: 100%;
-            height: 100%;
-            z-index: -1;
-            background: 
-                linear-gradient(135deg, transparent 40%, rgba(99, 102, 241, 0.03) 50%, transparent 60%),
-                linear-gradient(225deg, transparent 40%, rgba(167, 139, 250, 0.02) 50%, transparent 60%);
-            animation: rayShift 15s ease-in-out infinite;
-            pointer-events: none;
-        }
-
-        @keyframes rayShift {
-            0%, 100% { opacity: 0.5; transform: translateX(0); }
-            50% { opacity: 1; transform: translateX(5%); }
-        }
-
-        /* 컨텐츠 컨테이너 */
-        .container {
-            max-width: 1000px;
-            width: 100%;
+            flex-shrink: 0;
             position: relative;
-            z-index: 1;
+            z-index: 10;
         }
 
-        /* 헤더 */
-        .header {
-            text-align: center;
-            margin-bottom: 48px;
+        .top-nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            height: 56px;
+            max-width: 1020px;
+            width: 100%;
+            margin: 0 auto;
         }
 
-        .logo {
-            font-size: 52px;
+        .nav-logo {
+            font-size: 16px;
             font-weight: 800;
-            color: var(--text-white);
-            margin-bottom: 12px;
-            text-shadow: 0 4px 30px rgba(0, 0, 0, 0.5), 0 2px 10px rgba(99, 102, 241, 0.4);
-            letter-spacing: -1px;
+            color: var(--text-primary);
+            text-decoration: none;
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            flex-shrink: 0;
         }
 
-        .logo span {
-            background: linear-gradient(135deg, var(--accent-violet) 0%, var(--accent-pink) 50%, var(--accent-cyan) 100%);
+        .nav-logo span {
+            background: var(--accent-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
 
-        .tagline {
-            font-size: 16px;
-            color: var(--text-gray);
-            font-weight: 400;
-            letter-spacing: 2px;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-        }
-
-        /* 메인 섹션 - 박스 제거, 투명 */
-        .main-section {
-            margin-bottom: 40px;
-            max-width: 1000px;
-            width: 100%;
-        }
-
-        /* 섹션 타이틀 */
-        .section-title {
-            font-size: 13px;
-            font-weight: 600;
-            color: rgba(255, 255, 255, 0.8);
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            margin-bottom: 28px;
-            text-shadow: 0 2px 15px rgba(0, 0, 0, 0.6);
-        }
-
-        /* 카드 그리드 */
-        .cards-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 16px;
-        }
-
-        /* 카드 스타일 - 글래스모피즘 */
-        .card {
+        /* Tab Navigation */
+        .nav-tabs {
             display: flex;
-            flex-direction: column;
             align-items: center;
-            justify-content: center;
-            padding: 24px 16px;
-            border-radius: 16px;
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            text-decoration: none;
-            color: var(--text-white);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            gap: 4px;
+        }
+
+        .nav-tab {
             position: relative;
-            overflow: hidden;
-            min-height: 160px;
-        }
-
-        /* 카드 하이라이트 효과 */
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .card.active:hover {
-            transform: translateY(-8px) scale(1.02);
-            background: rgba(20, 25, 50, 0.65);
-            border-color: rgba(99, 102, 241, 0.4);
-            box-shadow: 
-                0 20px 40px rgba(0, 0, 0, 0.4),
-                0 0 30px rgba(99, 102, 241, 0.15),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
-        }
-
-        .card.active:hover::before {
-            opacity: 1;
-        }
-
-        .card.disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        /* 카드 아이콘 */
-        .card-icon {
-            width: 48px;
-            height: 48px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 28px;
-            margin-bottom: 12px;
-            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
-        }
-
-        /* 카드 컨텐츠 */
-        .card-content {
-            text-align: center;
-        }
-
-        .card-title {
-            font-size: 16px;
-            font-weight: 700;
-            margin-bottom: 4px;
-            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
-        }
-
-        .card-desc {
-            font-size: 12px;
-            color: rgba(255, 255, 255, 0.6);
-            margin-bottom: 10px;
-        }
-
-        /* 배지 */
-        .badge {
-            display: inline-block;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 10px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .badge-live {
-            background: linear-gradient(135deg, rgba(34, 197, 94, 0.3), rgba(34, 197, 94, 0.15));
-            color: #4ade80;
-            border: 1px solid rgba(34, 197, 94, 0.4);
-            box-shadow: 0 0 12px rgba(34, 197, 94, 0.2);
-        }
-
-        .badge-soon {
-            background: rgba(255, 255, 255, 0.08);
-            color: rgba(255, 255, 255, 0.5);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-        }
-
-        /* 하단 정보 패널 */
-        .info-panel {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 16px 24px;
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            border-radius: 12px;
-            margin-bottom: 24px;
-        }
-
-        .info-text {
+            padding: 8px 28px;
+            border: none;
+            border-radius: 10px;
+            background: transparent;
+            color: var(--text-tertiary);
+            font-family: inherit;
             font-size: 14px;
-            color: var(--text-gray);
-        }
-
-        .info-text strong {
-            color: var(--text-white);
-        }
-
-        .info-stats {
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
             display: flex;
-            gap: 32px;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
         }
 
-        .stat {
-            text-align: center;
+        .nav-tab:hover {
+            color: var(--text-secondary);
+            background: #f1f5f9;
         }
 
-        .stat-value {
-            font-size: 24px;
-            font-weight: 800;
-            color: var(--text-white);
+        .nav-tab.active {
+            background: var(--accent-gradient);
+            color: #ffffff;
+            box-shadow: 0 2px 12px rgba(99, 102, 241, 0.3);
+        }
+
+        .nav-tab .tab-icon {
+            font-size: 16px;
             line-height: 1;
         }
 
-        .stat-label {
-            font-size: 10px;
-            color: rgba(255, 255, 255, 0.5);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-top: 4px;
+        .nav-tab .tab-count {
+            font-size: 11px;
+            font-weight: 500;
+            padding: 2px 7px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            opacity: 0;
+            transition: opacity var(--transition);
         }
 
-        /* 푸터 */
-        .footer {
-            text-align: center;
-            color: rgba(255, 255, 255, 0.4);
-            font-size: 12px;
+        .nav-tab.active .tab-count {
+            opacity: 1;
         }
 
-        /* 반응형 - 태블릿 */
-        @media (max-width: 900px) {
-            .cards-grid {
-                grid-template-columns: repeat(4, 1fr);
-                gap: 12px;
-            }
+        .lang-toggle {
+            display: flex;
+            align-items: center;
+            background: var(--bg-tertiary);
+            border-radius: 20px;
+            padding: 3px;
+            border: 1px solid var(--border);
         }
 
-        /* 반응형 - 작은 태블릿 */
-        @media (max-width: 768px) {
-            .cards-grid {
-                grid-template-columns: repeat(4, 1fr);
-                gap: 10px;
-            }
-
-            .card {
-                padding: 16px 10px;
-                min-height: 140px;
-            }
-
-            .card-icon {
-                width: 40px;
-                height: 40px;
-                font-size: 24px;
-            }
-
-            .card-title {
-                font-size: 14px;
-            }
-
-            .card-desc {
-                font-size: 11px;
-            }
-
-            .info-panel {
-                flex-direction: column;
-                gap: 16px;
-                text-align: center;
-            }
-
-            .info-stats {
-                width: 100%;
-                justify-content: center;
-            }
-
-            .stat {
-                text-align: center;
-            }
+        .lang-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-tertiary);
+            font-size: 11px;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: var(--transition);
         }
 
-        /* 반응형 - 모바일 */
+        .lang-btn.active {
+            background: var(--bg-secondary);
+            color: var(--accent-violet);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        /* ===== Content Area ===== */
+        .content-area {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tab-frame {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .tab-frame.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* ===== Mobile Responsive ===== */
         @media (max-width: 600px) {
-            body {
-                padding: 24px 16px;
+            .top-nav {
+                padding: 0 12px;
+                height: 50px;
             }
 
-            .header {
-                margin-bottom: 32px;
+            .nav-logo {
+                font-size: 15px;
             }
 
-            .logo {
-                font-size: 36px;
+            .nav-tabs {
+                position: static;
+                transform: none;
             }
 
-            .tagline {
+            .nav-tab {
+                padding: 6px 16px;
                 font-size: 13px;
+                gap: 6px;
             }
 
-            .section-title {
-                font-size: 11px;
-                margin-bottom: 16px;
-            }
-
-            .cards-grid {
-                grid-template-columns: repeat(4, 1fr);
-                gap: 8px;
-            }
-
-            .card {
-                padding: 12px 6px;
-                border-radius: 12px;
-            }
-
-            .card-icon {
-                width: 36px;
-                height: 36px;
-                font-size: 22px;
-                margin-bottom: 8px;
-            }
-
-            .card-title {
+            .nav-tab .tab-icon {
                 font-size: 14px;
             }
 
-            .badge {
-                padding: 2px 6px;
-                font-size: 9px;
+            .nav-tab .tab-count {
+                display: none;
             }
 
-            .info-panel {
-                flex-direction: row;
-                padding: 10px 14px;
-            }
-
-            .info-text {
-                font-size: 12px;
-            }
-
-            .stat-value {
-                font-size: 16px;
-            }
-
-            .stat-label {
-                font-size: 9px;
-            }
-
-            .footer {
-                margin-top: 12px;
-                font-size: 11px;
+            .nav-right {
+                display: none;
             }
         }
 
-        /* 아주 작은 화면 (iPhone SE 등) */
         @media (max-width: 380px) {
-            .header {
-                margin-bottom: 20px;
-            }
-
-            .logo {
-                font-size: 28px;
-            }
-
-            .section-title {
-                font-size: 12px;
-                margin-bottom: 10px;
-            }
-
-            .card {
-                padding: 10px 4px;
-            }
-
-            .card-icon {
-                width: 32px;
-                height: 32px;
-                font-size: 20px;
-            }
-
-            .card-title {
+            .nav-logo {
                 font-size: 13px;
+            }
+
+            .nav-tab {
+                padding: 6px 12px;
+                font-size: 12px;
             }
         }
     </style>
 </head>
+
 <body>
-    <!-- 배경 레이어 -->
-    <div class="bg-image"></div>
-    <div class="bg-overlay"></div>
-    <div class="bg-glow"></div>
-    <div class="bg-rays"></div>
-    <div class="bg-particles">
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
+    <!-- Top Navigation -->
+    <div class="top-nav-wrapper">
+        <nav class="top-nav">
+            <a href="./" class="nav-logo">YPO <span>SEOUL 2026</span></a>
+
+            <div class="nav-tabs">
+                <button class="nav-tab active" data-tab="retreat" onclick="switchTab('retreat')">✨ 안내</button>
+                <button class="nav-tab" data-tab="schedule" onclick="switchTab('schedule')">📅 스케줄</button>
+                <button class="nav-tab" data-tab="landmark" onclick="switchTab('landmark')">🏛️ 명소</button>
+                <button class="nav-tab" data-tab="restaurant" onclick="switchTab('restaurant')">🍜 맛집</button>
+            </div>
+
+            <div class="lang-toggle">
+                <button class="lang-btn active" data-global-lang="ko" onclick="setGlobalLang('ko')">KOR</button>
+                <button class="lang-btn" data-global-lang="en" onclick="setGlobalLang('en')">ENG</button>
+            </div>
+        </nav>
     </div>
 
-    <!-- 컨텐츠 -->
-    <div class="container">
-        <!-- 헤더 -->
-        <header class="header">
-            <h1 class="logo">Only <span>In Seoul</span></h1>
-            <p class="tagline">서울에서만 가능한 경험</p>
-        </header>
-
-        <!-- 메인 섹션 -->
-        <div class="main-section">
-            <div class="section-title">Only Here</div>
-            
-            <div class="cards-grid">
-                <!-- 1. 숨은 명소 (관광지) -->
-                <a href="landmark/index.html" class="card active">
-                    <div class="card-icon">🏛️</div>
-                    <div class="card-content">
-                        <h3 class="card-title">서울 명소</h3>
-                        <p class="card-desc">137개 명소 가이드</p>
-                        <span class="badge badge-live">Live</span>
-                    </div>
-                </a>
-
-                <!-- 2. 맛집 -->
-                <a href="restaurant/index.html" class="card active">
-                    <div class="card-icon">🍜</div>
-                    <div class="card-content">
-                        <h3 class="card-title">맛집</h3>
-                        <p class="card-desc" id="restaurantCount">75개 특별 레스토랑</p>
-                        <span class="badge badge-live">Live</span>
-                    </div>
-                </a>
-
-                <!-- 3. K-POP 공연 -->
-                <a href="kpop/index.html" class="card active">
-                    <div class="card-icon">🎤</div>
-                    <div class="card-content">
-                        <h3 class="card-title">K-POP 공연</h3>
-                        <p class="card-desc" id="kpopCount">100개 콘서트</p>
-                        <span class="badge badge-live">Live</span>
-                    </div>
-                </a>
-
-                <!-- 4. 피부과 시술 -->
-                <a href="derm/index.html" class="card active">
-                    <div class="card-icon">💉</div>
-                    <div class="card-content">
-                        <h3 class="card-title">피부과 시술</h3>
-                        <p class="card-desc">196개 시술 가이드</p>
-                        <span class="badge badge-live">Live</span>
-                    </div>
-                </a>
-
-                <!-- K-뷰티 -->
-                <div class="card disabled">
-                    <div class="card-icon">💄</div>
-                    <div class="card-content">
-                        <h3 class="card-title">K-뷰티</h3>
-                        <p class="card-desc">화장품 · 스킨케어</p>
-                        <span class="badge badge-soon">Soon</span>
-                    </div>
-                </div>
-
-                <!-- K-패션 -->
-                <div class="card disabled">
-                    <div class="card-icon">👗</div>
-                    <div class="card-content">
-                        <h3 class="card-title">K-패션</h3>
-                        <p class="card-desc">브랜드 · 쇼핑</p>
-                        <span class="badge badge-soon">Soon</span>
-                    </div>
-                </div>
-
-                <!-- 성형외과 -->
-                <div class="card disabled">
-                    <div class="card-icon">🏥</div>
-                    <div class="card-content">
-                        <h3 class="card-title">성형외과</h3>
-                        <p class="card-desc">수술 · 시술 가이드</p>
-                        <span class="badge badge-soon">Soon</span>
-                    </div>
-                </div>
-
-                <!-- 카페 & 바 -->
-                <div class="card disabled">
-                    <div class="card-icon">☕</div>
-                    <div class="card-content">
-                        <h3 class="card-title">카페 & 바</h3>
-                        <p class="card-desc">핫플 · 루프탑</p>
-                        <span class="badge badge-soon">Soon</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- 하단 정보 패널 -->
-        <div class="info-panel">
-            <div class="info-text">
-                <strong>Skip the tourist traps.</strong> Get the real Seoul.
-            </div>
-            <div class="info-stats">
-                <div class="stat">
-                    <div class="stat-value">4</div>
-                    <div class="stat-label">Live Services</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-value">508+</div>
-                    <div class="stat-label">Curated Items</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- 푸터 -->
-        <footer class="footer">
-            <p>© 2025 Only In Seoul. All rights reserved.</p>
-        </footer>
+    <!-- Content Frames -->
+    <div class="content-area">
+        <iframe id="frame-retreat" class="tab-frame active" src="retreat/index.html?embed=1" loading="eager"
+            title="리트릿 안내"></iframe>
+        <iframe id="frame-schedule" class="tab-frame" src="schedule/index.html?embed=1" loading="lazy"
+            title="스케줄"></iframe>
+        <iframe id="frame-landmark" class="tab-frame" src="landmark/index.html?embed=1" loading="lazy"
+            title="서울 명소 가이드"></iframe>
+        <iframe id="frame-restaurant" class="tab-frame" src="restaurant/index.html?embed=1" loading="lazy"
+            title="맛집 가이드"></iframe>
     </div>
 
-    <!-- Restaurant DB for count -->
-    <script src="restaurant/db.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', async function() {
-            // Restaurant count
-            if (typeof RESTAURANTS !== 'undefined') {
-                const count = RESTAURANTS.length;
-                document.getElementById('restaurantCount').textContent = count + '개 특별 레스토랑';
-            }
-            
-            // K-POP count from Supabase
-            try {
-                const SUPABASE_URL = 'https://iausfassbdmpieinhaba.supabase.co';
-                const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlhdXNmYXNzYmRtcGllaW5oYWJhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY3NTg1ODQsImV4cCI6MjA4MjMzNDU4NH0.E6zhK_NvH8MMjAbGU9yJruJPytwtL8TeJm-pqWhIduc';
-                
-                const response = await fetch(`${SUPABASE_URL}/rest/v1/performances?select=mt20id`, {
-                    headers: {
-                        'apikey': SUPABASE_ANON_KEY,
-                        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
-                    },
-                });
-                
-                if (response.ok) {
-                    const data = await response.json();
-                    document.getElementById('kpopCount').textContent = data.length + '개 콘서트';
-                }
-            } catch (error) {
-                console.error('Failed to fetch K-POP count:', error);
+        function switchTab(tab) {
+            // Update tab buttons
+            document.querySelectorAll('.nav-tab').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.tab === tab);
+            });
+
+            // Update frames
+            document.querySelectorAll('.tab-frame').forEach(frame => {
+                frame.classList.remove('active');
+            });
+            document.getElementById('frame-' + tab).classList.add('active');
+        }
+
+        // Handle keyboard navigation
+        document.addEventListener('keydown', function (e) {
+            if (e.key === '1' && (e.metaKey || e.ctrlKey)) {
+                e.preventDefault();
+                switchTab('retreat');
+            } else if (e.key === '2' && (e.metaKey || e.ctrlKey)) {
+                e.preventDefault();
+                switchTab('schedule');
+            } else if (e.key === '3' && (e.metaKey || e.ctrlKey)) {
+                e.preventDefault();
+                switchTab('landmark');
+            } else if (e.key === '4' && (e.metaKey || e.ctrlKey)) {
+                e.preventDefault();
+                switchTab('restaurant');
             }
         });
+
+        // Language Handling
+        const defaultLang = localStorage.getItem('lang') || 'ko';
+
+        function setGlobalLang(lang) {
+            localStorage.setItem('lang', lang);
+
+            // UI Toggle Update
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.globalLang === lang);
+            });
+
+            // Post Message to all iframes
+            document.querySelectorAll('.tab-frame').forEach(frame => {
+                if (frame.contentWindow) {
+                    frame.contentWindow.postMessage({ type: 'CHANGE_LANG', lang: lang }, '*');
+                }
+            });
+
+            // Also translate the top nav tab names
+            const tabNames = {
+                ko: { retreat: "✨ 안내", schedule: "📅 스케줄", landmark: "🏛️ 명소", restaurant: "🍜 맛집" },
+                en: { retreat: "✨ Info", schedule: "📅 Schedule", landmark: "🏛️ Landmarks", restaurant: "🍜 Dining" }
+            };
+
+            document.querySelectorAll('.nav-tab').forEach(btn => {
+                const tab = btn.dataset.tab;
+                let text = tabNames[lang][tab];
+
+                // Preserve the badge span if it exists
+                const badge = btn.querySelector('.tab-count');
+                btn.innerHTML = text;
+                if (badge) btn.appendChild(badge);
+            });
+        }
+
+        // Initialize Language on load
+        setGlobalLang(defaultLang);
     </script>
 </body>
+
 </html>

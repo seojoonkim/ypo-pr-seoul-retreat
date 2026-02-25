@@ -1,61 +1,65 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>서울 명소 가이드 | Only In Seoul</title>
+    <title>서울 명소 가이드 | YPO SEOUL 2026</title>
     <link href="https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <!-- SVG 그라데이션 정의 -->
     <svg style="position:absolute;width:0;height:0;">
         <defs>
             <linearGradient id="iconGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stop-color="#6366f1"/>
-                <stop offset="100%" stop-color="#7c3aed"/>
+                <stop offset="0%" stop-color="#6366f1" />
+                <stop offset="100%" stop-color="#7c3aed" />
             </linearGradient>
         </defs>
     </svg>
-    
+
     <!-- Header -->
-    <header class="header">
-        <div class="header-left">
-            <a href="../" class="logo-link logo-main">Only In Seoul</a>
-            <a href="./" class="logo-link">
-                <span class="logo-divider">|</span>
-                <span class="logo-sub">서울 명소 가이드</span>
-            </a>
-            <span class="db-count" id="dbCount">137개 명소</span>
-        </div>
-        
-        <div class="header-center">
-            <nav class="view-tabs">
-                <button class="view-tab active" data-view="list">리스트</button>
-                <button class="view-tab" data-view="map">지도</button>
-            </nav>
-        </div>
-        
-        <div class="header-right">
-            <div class="lang-selector">
-                <button class="lang-btn active" data-lang="ko">한</button>
-                <button class="lang-btn" data-lang="en">EN</button>
-                <button class="lang-btn" data-lang="zh">中</button>
-                <button class="lang-btn" data-lang="ja">日</button>
+    <div class="header-wrapper">
+        <header class="header">
+            <div class="header-left">
+                <a href="../" class="logo-link logo-main">YPO SEOUL 2026</a>
+                <a href="./" class="logo-link">
+                    <span class="logo-divider">|</span>
+                    <span class="logo-sub">서울 명소 가이드</span>
+                </a>
+                <span class="db-count" id="dbCount">137개 명소</span>
             </div>
-        </div>
-    </header>
+
+            <div class="header-center">
+                <nav class="view-tabs">
+                    <button class="view-tab active" data-view="list">리스트</button>
+                    <button class="view-tab" data-view="map">지도</button>
+                </nav>
+            </div>
+
+            <div class="header-right">
+                <div class="lang-selector">
+                    <button class="lang-btn active" data-lang="ko">한</button>
+                    <button class="lang-btn" data-lang="en">EN</button>
+                </div>
+            </div>
+        </header>
+    </div>
 
     <!-- Main -->
     <main class="main-container">
         <!-- About Section -->
         <div class="about-section">
             <div class="about-header">
-                <h2>Only In Seoul 명소 컬렉션</h2>
+                <h2>YPO SEOUL 2026 명소 컬렉션</h2>
             </div>
             <p class="about-desc">
-                네이버 블로그 30만개 이상의 분석을 통해 선별한 서울 대표 명소 <span id="aboutTotalCount">137</span>곳. 
+                네이버 블로그 30만개 이상의 분석을 통해 선별한 서울 대표 명소 <span id="aboutTotalCount">137</span>곳.
                 실제 방문자들의 경험을 바탕으로 한 신뢰도 높은 점수를 제공합니다.
             </p>
             <p class="about-categories" id="aboutCategories">
@@ -74,7 +78,7 @@
                 <button class="filter-btn" data-category="nature">🌳 공원/자연</button>
                 <button class="filter-btn" data-category="museum">🏛️ 박물관/미술관</button>
             </div>
-            
+
             <div class="filter-group" id="scoreFilters" style="margin-top: 4px;">
                 <button class="score-filter-btn active" data-score="all">추천 전체</button>
                 <button class="score-filter-btn" data-score="photo">📷 사진촬영</button>
@@ -112,7 +116,7 @@
                 <tbody id="tableBody"></tbody>
             </table>
         </div>
-        
+
         <!-- Map View -->
         <div class="map-container" id="mapView" style="display: none;">
             <div id="map"></div>
@@ -122,7 +126,7 @@
     <!-- Detail Modal -->
     <div class="modal-overlay" id="modal">
         <div class="modal modal-wide">
-            
+
             <!-- Modal Header -->
             <div class="modal-header">
                 <div class="modal-header-left">
@@ -131,37 +135,59 @@
                 </div>
                 <button class="modal-close" onclick="closeModal()">&times;</button>
             </div>
-            
+
             <!-- Modal Body: 2 Column -->
             <div class="modal-body-two-col">
-                
+
                 <!-- Left Column -->
                 <div class="modal-col-left">
                     <div class="modal-section">
-                        <h3><svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> 소개</h3>
+                        <h3><svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                            </svg> 소개</h3>
                         <div class="intro-box">
                             <p class="intro-summary" id="modalSummary"></p>
                         </div>
                     </div>
-                    
+
                     <div class="modal-section">
-                        <h3><svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg> 사진</h3>
+                        <h3><svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                                <circle cx="8.5" cy="8.5" r="1.5" />
+                                <polyline points="21 15 16 10 5 21" />
+                            </svg> 사진</h3>
                         <div class="gallery-grid" id="modalGallery"></div>
                     </div>
-                    
+
                     <div class="modal-section">
-                        <h3><svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 운영 정보</h3>
+                        <h3><svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10" />
+                                <polyline points="12 6 12 12 16 14" />
+                            </svg> 운영 정보</h3>
                         <div class="info-grid">
-                            <div class="info-item"><span class="info-label">입장료</span><span class="info-value" id="modalAdmission">-</span></div>
-                            <div class="info-item"><span class="info-label">운영시간</span><span class="info-value" id="modalHours">-</span></div>
-                            <div class="info-item"><span class="info-label">휴무일</span><span class="info-value" id="modalClosed">-</span></div>
-                            <div class="info-item"><span class="info-label">소요시간</span><span class="info-value" id="modalDuration">-</span></div>
-                            <div class="info-item"><span class="info-label">가까운역</span><span class="info-value" id="modalStation">-</span></div>
+                            <div class="info-item"><span class="info-label">입장료</span><span class="info-value"
+                                    id="modalAdmission">-</span></div>
+                            <div class="info-item"><span class="info-label">운영시간</span><span class="info-value"
+                                    id="modalHours">-</span></div>
+                            <div class="info-item"><span class="info-label">휴무일</span><span class="info-value"
+                                    id="modalClosed">-</span></div>
+                            <div class="info-item"><span class="info-label">소요시간</span><span class="info-value"
+                                    id="modalDuration">-</span></div>
+                            <div class="info-item"><span class="info-label">가까운역</span><span class="info-value"
+                                    id="modalStation">-</span></div>
                         </div>
                     </div>
-                    
+
                     <div class="modal-section">
-                        <h3><svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> 주소</h3>
+                        <h3><svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                                <circle cx="12" cy="10" r="3" />
+                            </svg> 주소</h3>
                         <div class="address-item">
                             <span class="address-tag" id="labelRoadAddress">도로명</span>
                             <span class="address-text" id="modalRoadAddress">-</span>
@@ -182,49 +208,85 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- Right Column -->
                 <div class="modal-col-right">
                     <div class="modal-section">
-                        <h3><svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg> 인기도</h3>
+                        <h3><svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+                            </svg> 인기도</h3>
                         <div class="popularity-section" id="modalPopularity"></div>
                     </div>
-                    
+
                     <div class="desc-tips-row">
                         <div class="modal-section desc-section">
-                            <h3><svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg> 상세 설명</h3>
+                            <h3><svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="#7c3aed"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                                    <polyline points="14 2 14 8 20 8" />
+                                    <line x1="16" y1="13" x2="8" y2="13" />
+                                    <line x1="16" y1="17" x2="8" y2="17" />
+                                    <polyline points="10 9 9 9 8 9" />
+                                </svg> 상세 설명</h3>
                             <p class="detail-description" id="modalDescription"></p>
                         </div>
-                        
+
                         <div class="modal-section tips-section" id="tipsSection">
-                            <h3><svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg> 방문 팁</h3>
+                            <h3><svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="#7c3aed"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path
+                                        d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                                </svg> 방문 팁</h3>
                             <ul class="tips-list" id="modalTips"></ul>
                         </div>
                     </div>
-                    
+
                     <div class="map-nearby-row">
                         <div class="modal-section map-section">
-                            <h3><svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg> 위치</h3>
+                            <h3><svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="#7c3aed"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6" />
+                                    <line x1="8" y1="2" x2="8" y2="18" />
+                                    <line x1="16" y1="6" x2="16" y2="22" />
+                                </svg> 위치</h3>
                             <div class="spot-map-container" id="spotMapContainer"></div>
                         </div>
-                        
+
                         <div class="modal-section nearby-section">
-                            <h3><svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg> 가까운 명소</h3>
+                            <h3><svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="#7c3aed"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="10" />
+                                    <circle cx="12" cy="12" r="6" />
+                                    <circle cx="12" cy="12" r="2" />
+                                </svg> 가까운 명소</h3>
                             <ul class="nearby-list" id="modalNearby"></ul>
                         </div>
                     </div>
-                    
+
                     <div class="score-summary-section" id="scoreSummarySection">
-                        <h3 id="scoresTitle"><svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg> 데이터 기반 점수</h3>
+                        <h3 id="scoresTitle"><svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="#7c3aed"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="18" y1="20" x2="18" y2="10" />
+                                <line x1="12" y1="20" x2="12" y2="4" />
+                                <line x1="6" y1="20" x2="6" y2="14" />
+                            </svg> 데이터 기반 점수</h3>
                         <div class="score-summary-grid" id="modalScoreSummary"></div>
                     </div>
-                    
+
                     <div class="modal-section">
-                        <h3><svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/></svg> 데이터 기반 상세 평가</h3>
+                        <h3><svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                                <polyline points="14 2 14 8 20 8" />
+                                <line x1="16" y1="13" x2="8" y2="13" />
+                                <line x1="16" y1="17" x2="8" y2="17" />
+                                <line x1="10" y1="9" x2="8" y2="9" />
+                            </svg> 데이터 기반 상세 평가</h3>
                         <div class="scores-grid-2col" id="modalScoresList"></div>
                     </div>
                 </div>
-                
+
             </div>
         </div>
     </div>
@@ -244,12 +306,22 @@
         </div>
     </div>
 
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBfHgqFqiNHlO2MzLKn3H1PBl55kIY8Mzg&callback=initGoogleMap" async defer></script>
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBfHgqFqiNHlO2MzLKn3H1PBl55kIY8Mzg&callback=initGoogleMap"
+        async defer></script>
     <script src="db_ko.js"></script>
     <script src="db_en.js"></script>
     <script src="db_zh.js"></script>
     <script src="db_ja.js"></script>
     <script src="i18n.js"></script>
     <script src="app.js"></script>
+    <script>
+        // Embed mode: hide main logo when loaded in iframe
+        if (new URLSearchParams(window.location.search).has('embed')) {
+            document.querySelector('.logo-main')?.style.setProperty('display', 'none');
+            document.querySelector('.logo-divider')?.style.setProperty('display', 'none');
+        }
+    </script>
 </body>
+
 </html>

@@ -24,7 +24,7 @@ let currentGalleryCaption = '';
 // 커스텀 라벨 오버레이 초기화 (Google Maps 로드 후 호출)
 function initLabelOverlay() {
     if (!google?.maps?.OverlayView) return;
-    
+
     LabelOverlay = class extends google.maps.OverlayView {
         constructor(position, text, options = {}) {
             super();
@@ -36,7 +36,7 @@ function initLabelOverlay() {
             this.offsetY = -20; // 간격 줄임
             this.anchorDirection = 'bottom';
         }
-        
+
         onAdd() {
             this.div = document.createElement('div');
             this.div.className = 'custom-map-label';
@@ -55,7 +55,7 @@ function initLabelOverlay() {
                 z-index: ${this.options.zIndex || 1};
                 pointer-events: auto;
             `;
-            
+
             // 말풍선 꼬리 추가
             const anchor = this.div.querySelector('.label-anchor');
             if (anchor) {
@@ -71,42 +71,42 @@ function initLabelOverlay() {
                     border-top: 6px solid rgba(255,255,255,0.95);
                 `;
             }
-            
+
             if (this.options.onClick) {
                 this.div.addEventListener('click', this.options.onClick);
             }
-            
+
             const panes = this.getPanes();
             panes.overlayMouseTarget.appendChild(this.div);
         }
-        
+
         draw() {
             if (!this.div) return;
             const overlayProjection = this.getProjection();
             if (!overlayProjection) return;
-            
+
             const pos = overlayProjection.fromLatLngToDivPixel(this.position);
             if (!pos) return;
-            
+
             this.div.style.left = (pos.x + this.offsetX) + 'px';
             this.div.style.top = (pos.y + this.offsetY) + 'px';
-            
+
             // 방향에 따라 꼬리 위치 조정
             this.updateAnchorPosition();
         }
-        
+
         updateAnchorPosition() {
             const anchor = this.div?.querySelector('.label-anchor');
             if (!anchor || !this.div) return;
-            
+
             // 기본값 리셋
             anchor.style.cssText = `
                 position: absolute;
                 width: 0;
                 height: 0;
             `;
-            
-            switch(this.anchorDirection) {
+
+            switch (this.anchorDirection) {
                 case 'bottom': // 라벨이 위에, 꼬리가 아래로 (마커를 가리킴)
                     this.div.style.transform = 'translate(-50%, -100%)';
                     anchor.style.bottom = '-6px';
@@ -153,55 +153,55 @@ function initLabelOverlay() {
                     anchor.style.borderTop = '6px solid rgba(255,255,255,0.95)';
             }
         }
-        
+
         onRemove() {
             if (this.div) {
                 this.div.parentNode?.removeChild(this.div);
                 this.div = null;
             }
         }
-        
+
         setVisible(visible) {
             if (this.div) {
                 this.div.style.display = visible ? 'block' : 'none';
             }
         }
-        
+
         setOffset(x, y, direction) {
             this.offsetX = x;
             this.offsetY = y;
             this.anchorDirection = direction;
             this.draw();
         }
-        
+
         getPixelPosition() {
             const projection = this.getProjection();
             if (!projection) return null;
             return projection.fromLatLngToDivPixel(this.position);
         }
-        
+
         getBounds() {
             if (!this.div) return null;
             const pos = this.getPixelPosition();
             if (!pos) return null;
             const width = this.div.offsetWidth || 60;
             const height = this.div.offsetHeight || 26;
-            
+
             const x = pos.x + this.offsetX;
             const y = pos.y + this.offsetY;
-            
+
             // 방향에 따른 실제 bounds 계산
-            switch(this.anchorDirection) {
+            switch (this.anchorDirection) {
                 case 'bottom': // 라벨이 위에
-                    return { left: x - width/2, right: x + width/2, top: y - height, bottom: y, width, height };
+                    return { left: x - width / 2, right: x + width / 2, top: y - height, bottom: y, width, height };
                 case 'top': // 라벨이 아래에
-                    return { left: x - width/2, right: x + width/2, top: y, bottom: y + height, width, height };
+                    return { left: x - width / 2, right: x + width / 2, top: y, bottom: y + height, width, height };
                 case 'left': // 라벨이 오른쪽에
-                    return { left: x, right: x + width, top: y - height/2, bottom: y + height/2, width, height };
+                    return { left: x, right: x + width, top: y - height / 2, bottom: y + height / 2, width, height };
                 case 'right': // 라벨이 왼쪽에
-                    return { left: x - width, right: x, top: y - height/2, bottom: y + height/2, width, height };
+                    return { left: x - width, right: x, top: y - height / 2, bottom: y + height / 2, width, height };
                 default:
-                    return { left: x - width/2, right: x + width/2, top: y - height, bottom: y, width, height };
+                    return { left: x - width / 2, right: x + width / 2, top: y - height, bottom: y, width, height };
             }
         }
     };
@@ -211,19 +211,19 @@ function initLabelOverlay() {
 function getLandmarkData() {
     const lang = getLang();
     const koData = typeof landmarkData_ko !== 'undefined' ? landmarkData_ko : [];
-    
+
     // 한국어인 경우 그대로 반환
     if (lang === 'ko') return koData;
-    
+
     // 다른 언어인 경우 해당 언어 데이터에 한국어 좌표 병합
     let langData;
-    switch(lang) {
+    switch (lang) {
         case 'en': langData = typeof landmarkData_en !== 'undefined' ? landmarkData_en : []; break;
         case 'zh': langData = typeof landmarkData_zh !== 'undefined' ? landmarkData_zh : []; break;
         case 'ja': langData = typeof landmarkData_ja !== 'undefined' ? landmarkData_ja : []; break;
         default: return koData;
     }
-    
+
     // 좌표 병합
     return langData.map(item => {
         const koItem = koData.find(k => k.id === item.id);
@@ -258,11 +258,11 @@ const scoreInfo = {
 
 // ===== 언어 헬퍼 =====
 function getLang() {
-    try { return localStorage.getItem('lang') || 'ko'; } catch(e) { return 'ko'; }
+    try { return localStorage.getItem('lang') || 'ko'; } catch (e) { return 'ko'; }
 }
 
 function setLangStorage(lang) {
-    try { localStorage.setItem('lang', lang); } catch(e) {}
+    try { localStorage.setItem('lang', lang); } catch (e) { }
 }
 
 function getCatName(cat) {
@@ -303,9 +303,9 @@ function getItemAdmission(item) {
     if (!item) return '-';
     const lang = getLang();
     if (lang === 'ko') return item.admission;
-    
+
     const admission = item.admission || '';
-    
+
     // 공통 패턴 번역
     const patterns = {
         en: {
@@ -327,7 +327,7 @@ function getItemAdmission(item) {
             '외국인': '外国人', '内国人': '韓国人'
         }
     };
-    
+
     let result = admission;
     const p = patterns[lang] || patterns.en;
     // 긴 패턴부터 먼저 매칭
@@ -342,9 +342,9 @@ function getItemHours(item) {
     if (!item) return '-';
     const lang = getLang();
     const hours = item.hours || '-';
-    
+
     if (lang === 'ko') return hours;
-    
+
     // 운영시간 패턴 번역
     const patterns = {
         en: {
@@ -372,7 +372,7 @@ function getItemHours(item) {
             '시간': '時間'
         }
     };
-    
+
     let result = hours;
     const p = patterns[lang] || patterns.en;
     // 긴 패턴부터 먼저 매칭
@@ -387,12 +387,12 @@ function getItemLocation(item) {
     if (!item || !item.district) return '';
     const lang = getLang();
     const districtValue = item.district;
-    
+
     // 한국어: 원본 그대로
     if (lang === 'ko') {
         return districtValue;
     }
-    
+
     // 구 번역 맵
     const guMap = {
         '종로구': { en: 'Jongno-gu', zh: '钟路区', ja: '鍾路区' },
@@ -421,7 +421,7 @@ function getItemLocation(item) {
         '송파구': { en: 'Songpa-gu', zh: '松坡区', ja: '松坡区' },
         '강동구': { en: 'Gangdong-gu', zh: '江东区', ja: '江東区' }
     };
-    
+
     // 동/장소 로마자 맵 (영어용, 중국어/일본어도 동일하게 사용)
     const placeMap = {
         // 동 이름
@@ -476,48 +476,48 @@ function getItemLocation(item) {
         '인사동': 'Insadong', '신촌': 'Sinchon', '홍대': 'Hongdae', '왕십리': 'Wangsimni',
         '연신내': 'Yeonsinnae', '충정로': 'Chungjeongno'
     };
-    
+
     // 구 번역 함수
     function translateGu(gu) {
         return guMap[gu]?.[lang] || guMap[gu]?.en || gu;
     }
-    
+
     // 장소 번역 함수 (로마자 변환)
     function translatePlace(place) {
         return placeMap[place] || place;
     }
-    
+
     // 케이스 1: 슬래시로 구분된 복수 구 (예: "강북구/은평구", "종로구/중구")
     if (districtValue.includes('/')) {
         const parts = districtValue.split('/');
         return parts.map(p => translateGu(p.trim())).join(' & ');
     }
-    
+
     // 케이스 2: 공백으로 구분 (예: "강남구 삼성동", "종로구 세종로")
     const parts = districtValue.split(' ');
     if (parts.length === 1) {
         // 구만 있는 경우
         return translateGu(parts[0]);
     }
-    
+
     // 구 + 나머지
     const guPart = parts[0];
     const restPart = parts.slice(1).join(' ');
-    
+
     const translatedGu = translateGu(guPart);
     const translatedRest = translatePlace(restPart);
-    
+
     return `${translatedGu} ${translatedRest}`;
 }
 
 function getItemRoadAddress(item) {
     if (!item) return '';
-    
+
     // 현재 언어 DB에 주소가 있으면 사용
     if (item.road_address) {
         return item.road_address;
     }
-    
+
     // 없으면 영어 DB에서 fallback
     if (typeof landmarkData_en !== 'undefined') {
         const enItem = landmarkData_en.find(e => e.id === item.id);
@@ -525,18 +525,18 @@ function getItemRoadAddress(item) {
             return enItem.road_address;
         }
     }
-    
+
     return '';
 }
 
 function getItemJibunAddress(item) {
     if (!item) return '';
-    
+
     // 현재 언어 DB에 주소가 있으면 사용
     if (item.jibun_address) {
         return item.jibun_address;
     }
-    
+
     // 없으면 영어 DB에서 fallback
     if (typeof landmarkData_en !== 'undefined') {
         const enItem = landmarkData_en.find(e => e.id === item.id);
@@ -544,7 +544,7 @@ function getItemJibunAddress(item) {
             return enItem.jibun_address;
         }
     }
-    
+
     return '';
 }
 
@@ -552,7 +552,7 @@ function translateDistrict(district) {
     if (!district) return '-';
     const lang = getLang();
     if (lang === 'ko') return district;
-    
+
     const districtMap = {
         en: {
             "종로구": "Jongno-gu", "중구": "Jung-gu", "용산구": "Yongsan-gu",
@@ -585,7 +585,7 @@ function translateDistrict(district) {
             "서초구": "瑞草区", "강남구": "江南区", "송파구": "松坡区", "강동구": "江東区"
         }
     };
-    
+
     const map = districtMap[lang] || districtMap.en;
     for (const [ko, trans] of Object.entries(map)) {
         if (district.startsWith(ko)) {
@@ -620,7 +620,7 @@ function translateDuration(duration) {
     if (!duration) return '-';
     const lang = getLang();
     if (lang === 'ko') return duration;
-    
+
     const map = {
         en: {
             '30분-1시간': '30min-1hr', '1-2시간': '1-2 hours', '2-3시간': '2-3 hours',
@@ -642,9 +642,9 @@ function translateStation(station) {
     if (!station) return '-';
     const lang = getLang();
     if (lang === 'ko') return station;
-    
+
     let result = station;
-    
+
     // 주요 역명 번역
     const stationNames = {
         en: {
@@ -678,19 +678,19 @@ function translateStation(station) {
             '합정': '合井', '망원': '望遠', '연남': '延南', '상수': '上水'
         }
     };
-    
+
     const names = stationNames[lang] || stationNames.en;
     for (const [ko, trans] of Object.entries(names)) {
         result = result.replace(new RegExp(ko, 'g'), trans);
     }
-    
+
     // 일반 패턴 번역
     const patterns = {
         en: { '역': ' Station', '번출구': ' Exit', '호선': ' Line ' },
         zh: { '역': '站', '번출구': '号出口', '호선': '号线' },
         ja: { '역': '駅', '번출구': '番出口', '호선': '号線' }
     };
-    
+
     const p = patterns[lang] || patterns.en;
     for (const [ko, trans] of Object.entries(p)) {
         result = result.replace(new RegExp(ko, 'g'), trans);
@@ -702,7 +702,7 @@ function translateClosed(closed) {
     if (!closed) return '-';
     const lang = getLang();
     if (lang === 'ko') return closed;
-    
+
     const map = {
         en: {
             "월요일": "Monday", "화요일": "Tuesday", "수요일": "Wednesday",
@@ -724,52 +724,77 @@ function translateClosed(closed) {
 }
 
 // ===== Google Maps =====
+let mapInitialized = false;
+
 function initGoogleMap() {
+    window.googleMapsReady = true;
+
+    const mapView = document.getElementById('mapView');
+    if (mapView && mapView.style.display === 'block') {
+        initMap();
+    }
+}
+window.initGoogleMap = initGoogleMap;
+
+function initMap() {
+    if (!window.google || !window.google.maps) {
+        setTimeout(initMap, 100);
+        return;
+    }
+
     const mapContainer = document.getElementById('map');
     if (!mapContainer) return;
-    
+
+    if (mapInitialized && map) {
+        google.maps.event.trigger(map, 'resize');
+        map.setCenter({ lat: 37.5665, lng: 126.9780 });
+        return;
+    }
+
     map = new google.maps.Map(mapContainer, {
         center: { lat: 37.5665, lng: 126.9780 },
         zoom: 12,
         styles: [{ featureType: 'poi', elementType: 'labels', stylers: [{ visibility: 'off' }] }],
         mapTypeControl: false, fullscreenControl: true, streetViewControl: false
     });
-    
+
     // 커스텀 라벨 오버레이 클래스 초기화
     initLabelOverlay();
-    
+
     map.addListener('click', () => {
         if (currentInfoWindow) { currentInfoWindow.close(); currentInfoWindow = null; }
     });
-    
+
     // 줌 변경 시 라벨 가시성 업데이트
     map.addListener('zoom_changed', () => {
         updateLabelsVisibility();
     });
-    
+
     // 지도 이동 후 라벨 위치 재계산
     map.addListener('idle', () => {
         if (LabelOverlay) updateLabelsVisibility();
     });
+
+    mapInitialized = true;
 }
 
 // ===== 초기화 =====
 document.addEventListener('DOMContentLoaded', () => {
     // 현재 언어에 맞는 데이터 로드
     allData = getLandmarkData();
-    
+
     if (!allData || allData.length === 0) {
         console.error('landmarkData not found!');
         return;
     }
-    
+
     console.log(`✅ 데이터 로드 완료: ${allData.length}개 (${getLang()})`);
-    
+
     // 초기 언어에 따른 폰트 설정
     document.body.setAttribute('data-lang', getLang());
-    
+
     filteredData = [...allData].sort((a, b) => (b.popularity || 0) - (a.popularity || 0));
-    
+
     setupEventListeners();
     updateUITexts();
     renderTable();
@@ -779,25 +804,25 @@ document.addEventListener('DOMContentLoaded', () => {
 // ===== 언어 토글 =====
 function setLanguage(lang) {
     setLangStorage(lang);
-    
+
     // body에 언어 속성 설정 (폰트 변경용)
     document.body.setAttribute('data-lang', lang);
-    
+
     // 언어별 데이터 다시 로드
     allData = getLandmarkData();
-    
+
     // 현재 필터 상태 유지하면서 데이터 재정렬
     applyFilters();
-    
+
     updateUITexts();
     renderTable();
     updateStats();
-    
+
     // 언어 버튼 활성화 상태 업데이트
     document.querySelectorAll('.lang-btn').forEach(btn => {
         btn.classList.toggle('active', btn.dataset.lang === lang);
     });
-    
+
     const mapView = document.getElementById('mapView');
     if (mapView && mapView.style.display !== 'none') renderMap();
 }
@@ -806,12 +831,12 @@ function setLanguage(lang) {
 function updateUITexts() {
     const lang = getLang();
     const totalCount = allData.length;
-    
+
     // 언어 버튼 활성화 상태
     document.querySelectorAll('.lang-btn').forEach(btn => {
         btn.classList.toggle('active', btn.dataset.lang === lang);
     });
-    
+
     // 헤더 배지 (108개 명소)
     const headerBadge = document.getElementById('dbCount');
     if (headerBadge) {
@@ -823,26 +848,26 @@ function updateUITexts() {
         };
         headerBadge.textContent = badgeTexts[lang] || badgeTexts.ko;
     }
-    
+
     const subTitle = document.querySelector('.logo-sub');
     if (subTitle) {
         const titles = { ko: '서울 명소 가이드', en: 'Seoul Attractions Guide', zh: '首尔景点指南', ja: 'ソウル名所ガイド' };
         subTitle.textContent = titles[lang] || titles.ko;
     }
-    
+
     document.querySelectorAll('.view-tab').forEach(tab => {
         const listNames = { ko: '리스트', en: 'List', zh: '列表', ja: 'リスト' };
         const mapNames = { ko: '지도', en: 'Map', zh: '地图', ja: '地図' };
         if (tab.dataset.view === 'list') tab.textContent = listNames[lang] || listNames.ko;
         if (tab.dataset.view === 'map') tab.textContent = mapNames[lang] || mapNames.ko;
     });
-    
+
     const aboutTitle = document.querySelector('.about-header h2');
     if (aboutTitle) {
-        const titles = { ko: 'Only In Seoul 명소 컬렉션', en: 'Only In Seoul Attractions Collection', zh: 'Only In Seoul 景点精选', ja: 'Only In Seoul 名所コレクション' };
+        const titles = { ko: 'YPO SEOUL 2026 명소 컬렉션', en: 'YPO SEOUL 2026 Attractions Collection', zh: 'YPO SEOUL 2026 景点精选', ja: 'YPO SEOUL 2026 名所コレクション' };
         aboutTitle.textContent = titles[lang] || titles.ko;
     }
-    
+
     // 소개 텍스트
     const aboutDesc = document.querySelector('.about-desc');
     if (aboutDesc) {
@@ -854,7 +879,7 @@ function updateUITexts() {
         };
         aboutDesc.innerHTML = descTexts[lang] || descTexts.ko;
     }
-    
+
     // 카테고리 통계
     const aboutCategories = document.getElementById('aboutCategories');
     if (aboutCategories) {
@@ -862,7 +887,7 @@ function updateUITexts() {
         Object.keys(categoryInfo).forEach(cat => {
             catCounts[cat] = allData.filter(d => d.category === cat).length;
         });
-        
+
         const catStatsTexts = {
             ko: `고궁/역사 ${catCounts.palace}곳, 전망/야경 ${catCounts.viewpoint}곳, 쇼핑 ${catCounts.shopping}곳, 힙플레이스 ${catCounts.hipplace}곳, 공원/자연 ${catCounts.nature}곳, 박물관/미술관 ${catCounts.museum}곳`,
             en: `Palaces/History ${catCounts.palace}, Views/Night ${catCounts.viewpoint}, Shopping ${catCounts.shopping}, Hip Places ${catCounts.hipplace}, Parks/Nature ${catCounts.nature}, Museums ${catCounts.museum}`,
@@ -871,24 +896,24 @@ function updateUITexts() {
         };
         aboutCategories.textContent = catStatsTexts[lang] || catStatsTexts.ko;
     }
-    
+
     // 검색결과 텍스트
     updateFilteredCountText();
-    
+
     document.querySelectorAll('#categoryFilters .filter-btn').forEach(btn => {
         const cat = btn.dataset.category;
         const allNames = { ko: '장소 전체', en: 'All Places', zh: '全部景点', ja: 'すべて' };
         if (cat === 'all') btn.textContent = allNames[lang] || allNames.ko;
         else if (categoryInfo[cat]) btn.textContent = `${categoryInfo[cat].icon} ${getCatName(categoryInfo[cat])}`;
     });
-    
+
     document.querySelectorAll('#scoreFilters .score-filter-btn').forEach(btn => {
         const score = btn.dataset.score;
         const allNames = { ko: '추천 전체', en: 'All Picks', zh: '全部推荐', ja: 'すべて' };
         if (score === 'all') btn.textContent = allNames[lang] || allNames.ko;
         else if (scoreInfo[score]) btn.textContent = `${scoreInfo[score].icon} ${getScoreName(score)}`;
     });
-    
+
     const headers = document.querySelectorAll('.landmark-table th');
     const headerTexts = {
         ko: ['#', '사진', '이름', '카테고리', '위치', '소요시간', '인기도'],
@@ -921,7 +946,7 @@ function setupEventListeners() {
     document.querySelectorAll('.lang-btn').forEach(btn => {
         btn.addEventListener('click', () => setLanguage(btn.dataset.lang));
     });
-    
+
     document.querySelectorAll('.view-tab').forEach(tab => {
         tab.addEventListener('click', () => {
             document.querySelectorAll('.view-tab').forEach(t => t.classList.remove('active'));
@@ -929,10 +954,13 @@ function setupEventListeners() {
             const view = tab.dataset.view;
             document.getElementById('listView').style.display = view === 'list' ? 'block' : 'none';
             document.getElementById('mapView').style.display = view === 'map' ? 'block' : 'none';
-            if (view === 'map') renderMap();
+            if (view === 'map') {
+                initMap();
+                renderMap();
+            }
         });
     });
-    
+
     document.querySelectorAll('#categoryFilters .filter-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             document.querySelectorAll('#categoryFilters .filter-btn').forEach(b => b.classList.remove('active'));
@@ -941,7 +969,7 @@ function setupEventListeners() {
             applyFilters();
         });
     });
-    
+
     document.querySelectorAll('#scoreFilters .score-filter-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             document.querySelectorAll('#scoreFilters .score-filter-btn').forEach(b => b.classList.remove('active'));
@@ -951,11 +979,11 @@ function setupEventListeners() {
             applyFilters();
         });
     });
-    
+
     document.getElementById('modal')?.addEventListener('click', (e) => {
         if (e.target.classList.contains('modal-overlay')) closeModal();
     });
-    
+
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') { closeModal(); closeGallery(); }
         const galleryModal = document.getElementById('galleryModal');
@@ -964,7 +992,7 @@ function setupEventListeners() {
             if (e.key === 'ArrowRight') navigateGallery(1);
         }
     });
-    
+
     document.getElementById('galleryModal')?.addEventListener('click', e => {
         if (e.target.id === 'galleryModal') closeGallery();
     });
@@ -997,7 +1025,7 @@ function updateStats() {
         museum: allData.filter(d => d.category === 'museum').length
     };
     const total = allData.length;
-    
+
     const dbCountEl = document.getElementById('dbCount');
     if (dbCountEl) {
         const dbTexts = {
@@ -1006,7 +1034,7 @@ function updateStats() {
         };
         dbCountEl.textContent = dbTexts[lang] || dbTexts.ko;
     }
-    
+
     const aboutDescEl = document.querySelector('.about-desc');
     if (aboutDescEl) {
         const descTexts = {
@@ -1017,7 +1045,7 @@ function updateStats() {
         };
         aboutDescEl.innerHTML = descTexts[lang] || descTexts.ko;
     }
-    
+
     const categoriesEl = document.getElementById('aboutCategories');
     if (categoriesEl) {
         const catTexts = {
@@ -1051,7 +1079,7 @@ function renderTable() {
     const lang = getLang();
     const tbody = document.getElementById('tableBody');
     if (!tbody) return;
-    
+
     if (filteredData.length === 0) {
         const noResultsMsg = {
             ko: '검색 결과가 없습니다.',
@@ -1063,7 +1091,7 @@ function renderTable() {
         updateFilteredCount();
         return;
     }
-    
+
     tbody.innerHTML = filteredData.map((item, idx) => {
         const cat = categoryInfo[item.category] || {};
         const thumbUrl = `${IMAGE_BASE_URL}/${item.id}/${item.id}_01.jpg`;
@@ -1072,7 +1100,7 @@ function renderTable() {
         const catName = getCatName(cat);
         const district = getItemLocation(item);
         const duration = translateDuration(item.duration);
-        
+
         return `
             <tr onclick="openModal('${item.id}')">
                 <td class="cell-rank">${idx + 1}</td>
@@ -1112,11 +1140,15 @@ function getCategoryColor(category) {
 // ===== 지도 =====
 function renderMap() {
     if (!map) { setTimeout(renderMap, 100); return; }
+
+    // 강제로 리사이즈 이벤트를 발생시켜 지도가 제대로 렌더링되게 함
+    google.maps.event.trigger(map, 'resize');
+
     const lang = getLang();
-    
+
     // 기존 마커 제거
-    markers.forEach(m => { 
-        if (m.marker) m.marker.setMap(null); 
+    markers.forEach(m => {
+        if (m.marker) m.marker.setMap(null);
         if (m.label) {
             if (m.label.setMap) m.label.setMap(null);
             else if (m.label.onRemove) m.label.onRemove();
@@ -1124,10 +1156,10 @@ function renderMap() {
     });
     markers = [];
     if (currentInfoWindow) { currentInfoWindow.close(); currentInfoWindow = null; }
-    
+
     // 인기도순으로 정렬하여 상위 항목 먼저 처리
     const sortedData = [...filteredData].sort((a, b) => (b.ranking?.popularity || 0) - (a.ranking?.popularity || 0));
-    
+
     sortedData.forEach((item, index) => {
         if (item.coordinates?.lat && item.coordinates?.lng) {
             const cat = categoryInfo[item.category] || {};
@@ -1135,35 +1167,35 @@ function renderMap() {
             const displayName = getItemName(item);
             const summary = getItemSummary(item);
             const popularity = item.ranking?.popularity || 0;
-            
+
             // 카테고리 이모지와 색상
             const catIcon = cat.icon || '📍';
             const catColor = getCategoryColor(item.category);
-            
+
             // 커스텀 마커 아이콘 (원 + 이모지)
             const markerSize = 32;
             const markerSvg = `
                 <svg xmlns="http://www.w3.org/2000/svg" width="${markerSize}" height="${markerSize}" viewBox="0 0 ${markerSize} ${markerSize}">
-                    <circle cx="${markerSize/2}" cy="${markerSize/2}" r="${markerSize/2 - 2}" fill="${catColor}" stroke="#ffffff" stroke-width="2"/>
+                    <circle cx="${markerSize / 2}" cy="${markerSize / 2}" r="${markerSize / 2 - 2}" fill="${catColor}" stroke="#ffffff" stroke-width="2"/>
                     <text x="50%" y="54%" text-anchor="middle" dominant-baseline="middle" font-size="16">${catIcon}</text>
                 </svg>
             `;
-            
+
             const marker = new google.maps.Marker({
                 position, map, title: displayName,
                 icon: {
                     url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(markerSvg),
                     scaledSize: new google.maps.Size(markerSize, markerSize),
-                    anchor: new google.maps.Point(markerSize/2, markerSize/2)
+                    anchor: new google.maps.Point(markerSize / 2, markerSize / 2)
                 }
             });
-            
+
             const viewMoreText = lang === 'en' ? 'View Details' : '자세히 보기';
             const firstPhoto = `${IMAGE_BASE_URL}/${item.id}/${item.id}_01.jpg`;
             const photoSection = `<div style="width:110px;height:150px;flex-shrink:0;overflow:hidden;background:linear-gradient(135deg, #f8fafc 0%, #eef2ff 100%);display:flex;align-items:center;justify-content:center;">
                        <img src="${firstPhoto}" alt="${displayName}" style="width:100%;height:100%;object-fit:cover;" onerror="this.style.display='none';this.parentElement.innerHTML='<span style=font-size:40px>${cat.icon || '📍'}</span>';">
                    </div>`;
-            
+
             const infoContent = `
                 <div style="display:flex;width:300px;height:150px;background:#fff;overflow:hidden;">
                     ${photoSection}
@@ -1174,23 +1206,23 @@ function renderMap() {
                     </div>
                 </div>
             `;
-            
+
             const infoWindow = new google.maps.InfoWindow({ content: infoContent, pixelOffset: new google.maps.Size(0, -10) });
-            
+
             marker.addListener('click', () => { if (currentInfoWindow) currentInfoWindow.close(); infoWindow.open(map, marker); currentInfoWindow = infoWindow; });
-            
+
             // 커스텀 라벨 오버레이 사용 (있으면) 또는 기본 마커 라벨
             let label;
             if (LabelOverlay) {
                 label = new LabelOverlay(
                     new google.maps.LatLng(position.lat, position.lng),
                     displayName,
-                    { 
+                    {
                         zIndex: 1000 + popularity,
-                        onClick: () => { 
-                            if (currentInfoWindow) currentInfoWindow.close(); 
-                            infoWindow.open(map, marker); 
-                            currentInfoWindow = infoWindow; 
+                        onClick: () => {
+                            if (currentInfoWindow) currentInfoWindow.close();
+                            infoWindow.open(map, marker);
+                            currentInfoWindow = infoWindow;
                         }
                     }
                 );
@@ -1209,14 +1241,14 @@ function renderMap() {
                 label.rankIndex = index;
                 label.addListener('click', () => { if (currentInfoWindow) currentInfoWindow.close(); infoWindow.open(map, marker); currentInfoWindow = infoWindow; });
             }
-            
+
             markers.push({ marker, label, infoWindow, position, displayName });
         }
     });
-    
+
     // 줌 레벨에 따른 라벨 표시 업데이트
     updateLabelsVisibility();
-    
+
     if (filteredData.length > 0) {
         const bounds = new google.maps.LatLngBounds();
         filteredData.forEach(item => { if (item.coordinates?.lat && item.coordinates?.lng) bounds.extend({ lat: item.coordinates.lat, lng: item.coordinates.lng }); });
@@ -1228,7 +1260,7 @@ function renderMap() {
 function updateLabelsVisibility() {
     if (!map) return;
     const zoom = map.getZoom();
-    
+
     // 줌 레벨별 우선 표시할 라벨 수
     let priorityLabels;
     if (zoom >= 14) {
@@ -1242,53 +1274,53 @@ function updateLabelsVisibility() {
     } else {
         priorityLabels = 8;
     }
-    
+
     // 먼저 모든 라벨 숨기기
     markers.forEach(m => {
         if (m.label?.setVisible) m.label.setVisible(false);
     });
-    
+
     const placedLabels = []; // 배치된 라벨들의 위치 정보
-    
+
     // 1단계: 우선순위 높은 라벨들 먼저 배치
     const priorityMarkers = markers.filter(m => m.label?.rankIndex < priorityLabels);
-    
+
     priorityMarkers.forEach(m => {
         if (!m.label) return;
-        
+
         if (LabelOverlay && m.label instanceof LabelOverlay) {
             const bestOffset = findBestLabelPosition(m, placedLabels);
             m.label.setOffset(bestOffset.x, bestOffset.y, bestOffset.direction);
             m.label.setVisible(true);
-            
+
             const bounds = m.label.getBounds();
             if (bounds) placedLabels.push(bounds);
         } else {
             m.label.setVisible(true);
         }
     });
-    
+
     // 2단계: 나머지 라벨들 중 겹치지 않는 것들 표시 (고립된 스팟)
     const remainingMarkers = markers.filter(m => m.label?.rankIndex >= priorityLabels);
-    
+
     remainingMarkers.forEach(m => {
         if (!m.label) return;
-        
+
         if (LabelOverlay && m.label instanceof LabelOverlay) {
             // 기본 위치에서 겹침 확인
             const pos = m.label.getPixelPosition();
             if (!pos) return;
-            
+
             const labelWidth = (m.displayName?.length || 5) * 7 + 20;
             const labelHeight = 26;
-            
+
             const testBounds = {
-                left: pos.x - labelWidth/2,
-                right: pos.x + labelWidth/2,
+                left: pos.x - labelWidth / 2,
+                right: pos.x + labelWidth / 2,
                 top: pos.y - 20 - labelHeight,
                 bottom: pos.y - 20
             };
-            
+
             // 기존 배치된 라벨과 겹치지 않으면 표시
             let hasOverlap = false;
             for (const placed of placedLabels) {
@@ -1297,12 +1329,12 @@ function updateLabelsVisibility() {
                     break;
                 }
             }
-            
+
             if (!hasOverlap) {
                 const bestOffset = findBestLabelPosition(m, placedLabels);
                 m.label.setOffset(bestOffset.x, bestOffset.y, bestOffset.direction);
                 m.label.setVisible(true);
-                
+
                 const bounds = m.label.getBounds();
                 if (bounds) placedLabels.push(bounds);
             }
@@ -1313,19 +1345,19 @@ function updateLabelsVisibility() {
 // 라벨 겹침 방지를 위한 최적 위치 찾기
 function findBestLabelPosition(markerInfo, placedLabels) {
     if (!map || !markerInfo.label) return { x: 0, y: -20, direction: 'bottom' };
-    
+
     const projection = map.getProjection();
     if (!projection) return { x: 0, y: -20, direction: 'bottom' };
-    
+
     // 마커의 픽셀 위치 계산
     const pos = markerInfo.label.getPixelPosition();
     if (!pos) return { x: 0, y: -20, direction: 'bottom' };
-    
+
     // 라벨 크기 추정 (텍스트 길이 기반)
     const labelWidth = (markerInfo.displayName?.length || 5) * 7 + 20;
     const labelHeight = 26; // 말풍선 꼬리 포함
     const markerRadius = 16; // 마커 반경
-    
+
     // 가능한 위치들 - 방향과 실제 bounds 계산을 위한 정보 포함
     const positions = [
         { x: 0, y: -(markerRadius + 4), direction: 'bottom', anchor: 'bottom' },      // 위
@@ -1337,13 +1369,13 @@ function findBestLabelPosition(markerInfo, placedLabels) {
         { x: (markerRadius + 2), y: (markerRadius + 2), direction: 'top', anchor: 'top' },         // 우하단
         { x: -(markerRadius + 2), y: (markerRadius + 2), direction: 'top', anchor: 'top' }         // 좌하단
     ];
-    
+
     // 각 위치에서 겹침 확인
     for (const testPos of positions) {
         const testBounds = calculateLabelBounds(pos, testPos, labelWidth, labelHeight);
-        
+
         let hasOverlap = false;
-        
+
         // 다른 라벨과 겹침 확인
         for (const placed of placedLabels) {
             if (boundsOverlap(testBounds, placed)) {
@@ -1351,12 +1383,12 @@ function findBestLabelPosition(markerInfo, placedLabels) {
                 break;
             }
         }
-        
+
         if (!hasOverlap) {
             return testPos;
         }
     }
-    
+
     // 모든 위치가 겹치면 기본 위치 반환
     return positions[0];
 }
@@ -1365,19 +1397,19 @@ function findBestLabelPosition(markerInfo, placedLabels) {
 function calculateLabelBounds(markerPos, labelPos, width, height) {
     const x = markerPos.x + labelPos.x;
     const y = markerPos.y + labelPos.y;
-    
-    switch(labelPos.anchor) {
+
+    switch (labelPos.anchor) {
         case 'bottom': // transform: translate(-50%, -100%) - 라벨이 위에
             return {
-                left: x - width/2,
-                right: x + width/2,
+                left: x - width / 2,
+                right: x + width / 2,
                 top: y - height,
                 bottom: y
             };
         case 'top': // transform: translate(-50%, 0%) - 라벨이 아래에
             return {
-                left: x - width/2,
-                right: x + width/2,
+                left: x - width / 2,
+                right: x + width / 2,
                 top: y,
                 bottom: y + height
             };
@@ -1385,20 +1417,20 @@ function calculateLabelBounds(markerPos, labelPos, width, height) {
             return {
                 left: x,
                 right: x + width,
-                top: y - height/2,
-                bottom: y + height/2
+                top: y - height / 2,
+                bottom: y + height / 2
             };
         case 'right': // transform: translate(-100%, -50%) - 라벨이 왼쪽에
             return {
                 left: x - width,
                 right: x,
-                top: y - height/2,
-                bottom: y + height/2
+                top: y - height / 2,
+                bottom: y + height / 2
             };
         default:
             return {
-                left: x - width/2,
-                right: x + width/2,
+                left: x - width / 2,
+                right: x + width / 2,
                 top: y - height,
                 bottom: y
             };
@@ -1408,44 +1440,44 @@ function calculateLabelBounds(markerPos, labelPos, width, height) {
 // 두 영역이 겹치는지 확인
 function boundsOverlap(a, b) {
     const padding = 5; // 여백
-    return !(a.right + padding < b.left || 
-             a.left - padding > b.right || 
-             a.bottom + padding < b.top || 
-             a.top - padding > b.bottom);
+    return !(a.right + padding < b.left ||
+        a.left - padding > b.right ||
+        a.bottom + padding < b.top ||
+        a.top - padding > b.bottom);
 }
 
 // ===== 모달 =====
 function openModal(id) {
     const item = allData.find(d => d.id === id);
     if (!item) return;
-    
+
     const lang = getLang();
     const cat = categoryInfo[item.category] || {};
     const displayName = getItemName(item);
     const catName = getCatName(cat);
-    
+
     const modalOverlay = document.getElementById('modal');
     const leftCol = document.querySelector('.modal-col-left');
     const rightCol = document.querySelector('.modal-col-right');
     if (modalOverlay) modalOverlay.scrollTop = 0;
     if (leftCol) leftCol.scrollTop = 0;
     if (rightCol) rightCol.scrollTop = 0;
-    
+
     document.getElementById('modalName').textContent = displayName;
     document.getElementById('modalTags').innerHTML = `
         ${lang === 'ko' && item.name_en ? `<span class="modal-name-en">${item.name_en}</span>` : ''}
         ${lang === 'en' && item.name_ko ? `<span class="modal-name-en">${item.name_ko}</span>` : ''}
         <span class="modal-tag ${item.category}">${cat.icon} ${catName}</span>
     `;
-    
+
     updateModalTitles(lang);
-    
+
     document.getElementById('modalAdmission').textContent = getItemAdmission(item) || '-';
     document.getElementById('modalHours').textContent = getItemHours(item) || '-';
     document.getElementById('modalClosed').textContent = translateClosed(item.closed) || '-';
     document.getElementById('modalDuration').textContent = translateDuration(item.duration) || '-';
     document.getElementById('modalStation').textContent = translateStation(item.nearest_station) || '-';
-    
+
     // 주소: 한국어는 한국어 DB, 그 외(영어/중국어/일본어)는 영어 DB에서 가져옴
     const isKorean = lang === 'ko';
     if (isKorean) {
@@ -1457,32 +1489,32 @@ function openModal(id) {
         document.getElementById('modalRoadAddress').textContent = enItem?.road_address || '-';
         document.getElementById('modalJibunAddress').textContent = enItem?.jibun_address || '-';
     }
-    
+
     document.getElementById('modalSummary').textContent = getItemSummary(item) || '';
     document.getElementById('modalDescription').textContent = getItemDescription(item) || '';
-    
+
     loadGallery(item, displayName);
     loadTips(item, lang);
     renderPopularitySection(item, lang);
     renderScoreSummary(item);
     renderScoreDetails(item, lang);
     renderNearbyLandmarks(item, lang);
-    
+
     // 스팟 지도 초기화
     initSpotMap(item, displayName);
-    
+
     // 지도 검색 - 한국어는 한국어 이름, 그 외는 영어 이름으로 검색
     const searchName = isKorean ? item.name : (item.name_en || item.name);
     const searchCity = isKorean ? '서울' : 'Seoul';
     const googleQuery = encodeURIComponent(searchName + ' ' + searchCity);
     const naverQuery = encodeURIComponent(isKorean ? item.name : (item.name_en || item.name));
-    
+
     const googleMapUrl = `https://www.google.com/maps/search/?api=1&query=${googleQuery}`;
     const naverMapUrl = `https://map.naver.com/v5/search/${naverQuery}`;
-    
+
     document.getElementById('modalGoogleMap').href = googleMapUrl;
     document.getElementById('modalNaverMap').href = naverMapUrl;
-    
+
     // 로고 + 서비스명
     const mapLabels = {
         ko: { google: '구글맵', naver: '네이버지도' },
@@ -1493,10 +1525,10 @@ function openModal(id) {
     const mL = mapLabels[lang] || mapLabels.ko;
     document.querySelector('#modalGoogleMap').innerHTML = `<img src="https://www.google.com/favicon.ico" alt="" class="btn-favicon"> ${mL.google}`;
     document.querySelector('#modalNaverMap').innerHTML = `<img src="https://www.naver.com/favicon.ico" alt="" class="btn-favicon"> ${mL.naver}`;
-    
+
     document.getElementById('modal').classList.add('active');
     document.body.style.overflow = 'hidden';
-    
+
     setTimeout(() => { setupStickyObserver(); }, 100);
 }
 
@@ -1508,13 +1540,13 @@ function initSpotMap(item, displayName) {
         if (container) container.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--text-tertiary);">위치 정보 없음</div>';
         return;
     }
-    
+
     const position = { lat: item.coordinates.lat, lng: item.coordinates.lng };
     const cat = categoryInfo[item.category] || {};
-    
+
     // 기존 지도가 있으면 제거
     container.innerHTML = '';
-    
+
     // 새 지도 생성 (줌 레벨 14)
     spotMap = new google.maps.Map(container, {
         center: position,
@@ -1525,18 +1557,18 @@ function initSpotMap(item, displayName) {
         streetViewControl: false,
         zoomControl: true
     });
-    
+
     // 메인 마커 생성 (이모지 포함)
     const catIcon = cat.icon || '📍';
     const catColor = getCategoryColor(item.category);
     const markerSize = 40;
     const markerSvg = `
         <svg xmlns="http://www.w3.org/2000/svg" width="${markerSize}" height="${markerSize}" viewBox="0 0 ${markerSize} ${markerSize}">
-            <circle cx="${markerSize/2}" cy="${markerSize/2}" r="${markerSize/2 - 2}" fill="${catColor}" stroke="#ffffff" stroke-width="3"/>
+            <circle cx="${markerSize / 2}" cy="${markerSize / 2}" r="${markerSize / 2 - 2}" fill="${catColor}" stroke="#ffffff" stroke-width="3"/>
             <text x="50%" y="54%" text-anchor="middle" dominant-baseline="middle" font-size="20">${catIcon}</text>
         </svg>
     `;
-    
+
     const marker = new google.maps.Marker({
         position,
         map: spotMap,
@@ -1544,11 +1576,11 @@ function initSpotMap(item, displayName) {
         icon: {
             url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(markerSvg),
             scaledSize: new google.maps.Size(markerSize, markerSize),
-            anchor: new google.maps.Point(markerSize/2, markerSize/2)
+            anchor: new google.maps.Point(markerSize / 2, markerSize / 2)
         },
         zIndex: 1000
     });
-    
+
     // 라벨 추가
     const labelDiv = document.createElement('div');
     labelDiv.innerHTML = `
@@ -1577,7 +1609,7 @@ function initSpotMap(item, displayName) {
             "></div>
         </div>
     `;
-    
+
     // 라벨 오버레이 클래스 (position: 'top' 또는 'bottom')
     class SpotLabel extends google.maps.OverlayView {
         constructor(position, content, zIndex = 100, labelPosition = 'top') {
@@ -1589,8 +1621,8 @@ function initSpotMap(item, displayName) {
         }
         onAdd() {
             this.div = document.createElement('div');
-            const transform = this.labelPosition === 'bottom' 
-                ? 'translate(-50%, 20px)' 
+            const transform = this.labelPosition === 'bottom'
+                ? 'translate(-50%, 20px)'
                 : 'translate(-50%, -100%)';
             const marginTop = this.labelPosition === 'bottom' ? '0' : '-25px';
             this.div.style.cssText = `position:absolute;transform:${transform};margin-top:${marginTop};z-index:${this.zIndex};`;
@@ -1608,11 +1640,11 @@ function initSpotMap(item, displayName) {
             this.div?.parentNode?.removeChild(this.div);
         }
     }
-    
+
     // 메인 라벨 추가 (높은 z-index)
     const label = new SpotLabel(new google.maps.LatLng(position.lat, position.lng), labelDiv.innerHTML, 1000);
     label.setMap(spotMap);
-    
+
     // 주변 명소 마커 추가
     const allData = getLandmarkData();
     // 모든 스팟 데이터 (거리순 정렬)
@@ -1623,20 +1655,20 @@ function initSpotMap(item, displayName) {
             return { ...other, distance: dist };
         })
         .sort((a, b) => a.distance - b.distance);
-    
+
     // 가까운 5개 (라벨 표시용)
     const nearestFive = allOtherSpots.slice(0, 5);
-    
+
     // InfoWindow 생성 (하나만 사용)
     const infoWindow = new google.maps.InfoWindow();
     const viewBtnText = { ko: '보기', en: 'View', zh: '查看', ja: '見る' };
     const currentLang = getLang();
-    
+
     // 지도 클릭 시 InfoWindow 닫기
     spotMap.addListener('click', () => {
         infoWindow.close();
     });
-    
+
     // 모든 스팟에 마커 표시
     allOtherSpots.forEach(nearby => {
         const nearbyCat = categoryInfo[nearby.category] || {};
@@ -1646,17 +1678,17 @@ function initSpotMap(item, displayName) {
         const lang = getLang();
         const nearbyName = lang === 'ko' ? nearby.name : (nearby.name_en || nearby.name);
         const nearbyCatName = lang === 'ko' ? (nearbyCat.name_ko || nearby.category) : (nearbyCat.name_en || nearby.category);
-        const distText = nearby.distance < 1 
-            ? `${Math.round(nearby.distance * 1000)}m` 
+        const distText = nearby.distance < 1
+            ? `${Math.round(nearby.distance * 1000)}m`
             : `${nearby.distance.toFixed(1)}km`;
-        
+
         const nearbySvg = `
             <svg xmlns="http://www.w3.org/2000/svg" width="${nearbySize}" height="${nearbySize}" viewBox="0 0 ${nearbySize} ${nearbySize}">
-                <circle cx="${nearbySize/2}" cy="${nearbySize/2}" r="${nearbySize/2 - 2}" fill="${nearbyColor}" stroke="#ffffff" stroke-width="2" opacity="0.85"/>
+                <circle cx="${nearbySize / 2}" cy="${nearbySize / 2}" r="${nearbySize / 2 - 2}" fill="${nearbyColor}" stroke="#ffffff" stroke-width="2" opacity="0.85"/>
                 <text x="50%" y="54%" text-anchor="middle" dominant-baseline="middle" font-size="14">${nearbyIcon}</text>
             </svg>
         `;
-        
+
         const nearbyMarker = new google.maps.Marker({
             position: { lat: nearby.coordinates.lat, lng: nearby.coordinates.lng },
             map: spotMap,
@@ -1664,11 +1696,11 @@ function initSpotMap(item, displayName) {
             icon: {
                 url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(nearbySvg),
                 scaledSize: new google.maps.Size(nearbySize, nearbySize),
-                anchor: new google.maps.Point(nearbySize/2, nearbySize/2)
+                anchor: new google.maps.Point(nearbySize / 2, nearbySize / 2)
             },
             zIndex: 100
         });
-        
+
         // 가까운 5개에만 라벨 추가
         if (nearestFive.includes(nearby)) {
             const labelPos = nearby.coordinates.lat > position.lat ? 'bottom' : 'top';
@@ -1685,14 +1717,14 @@ function initSpotMap(item, displayName) {
                 ">${nearbyName}</div>
             `;
             const nearbyLabel = new SpotLabel(
-                new google.maps.LatLng(nearby.coordinates.lat, nearby.coordinates.lng), 
-                nearbyLabelHtml, 
+                new google.maps.LatLng(nearby.coordinates.lat, nearby.coordinates.lng),
+                nearbyLabelHtml,
                 50,
                 labelPos
             );
             nearbyLabel.setMap(spotMap);
         }
-        
+
         // 클릭 시 InfoWindow 툴팁 표시
         nearbyMarker.addListener('click', () => {
             const content = `
@@ -1726,7 +1758,7 @@ function initSpotMap(item, displayName) {
 function updateModalTitles(lang) {
     // SVG 그라데이션 정의
     const gradDef = '<defs><linearGradient id="svgGrad" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#6366f1"/><stop offset="100%" stop-color="#7c3aed"/></linearGradient></defs>';
-    
+
     // SVG 아이콘 정의 (그라데이션 적용)
     const svgIcons = {
         intro: `<svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="url(#svgGrad)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${gradDef}<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`,
@@ -1741,7 +1773,7 @@ function updateModalTitles(lang) {
         detailed: `<svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="url(#svgGrad)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${gradDef}<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/></svg>`,
         nearby: `<svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="url(#svgGrad)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${gradDef}<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>`
     };
-    
+
     // 모든 섹션 h3 태그 직접 업데이트
     const titles = {
         intro: { ko: '소개', en: 'INTRODUCTION', zh: '简介', ja: '紹介' },
@@ -1756,12 +1788,12 @@ function updateModalTitles(lang) {
         location: { ko: '위치', en: 'LOCATION', zh: '位置', ja: '位置' },
         nearby: { ko: '가까운 명소', en: 'NEARBY', zh: '附近景点', ja: '近くのスポット' }
     };
-    
+
     const sectionTitles = document.querySelectorAll('.modal-section h3, .score-summary-section h3');
     sectionTitles.forEach(h3 => {
         const text = h3.textContent.toLowerCase();
         let key = '';
-        
+
         if (text.includes('소개') || text.includes('introduction') || text.includes('简介') || text.includes('紹介')) {
             key = 'intro';
         } else if (text.includes('사진') || text.includes('photos') || text.includes('照片') || text.includes('写真')) {
@@ -1785,20 +1817,20 @@ function updateModalTitles(lang) {
         } else if (text.includes('가까운') || text.includes('nearby') || text.includes('附近') || text.includes('近く')) {
             key = 'nearby';
         }
-        
+
         if (key && titles[key] && svgIcons[key]) {
             const newTitle = titles[key][lang] || titles[key].ko;
             h3.innerHTML = svgIcons[key] + ' ' + newTitle;
         }
     });
-    
+
     // 데이터 기반 점수 타이틀 직접 처리 (CSS ::before로 아이콘 표시)
     const scoresTitle = document.getElementById('scoresTitle');
     if (scoresTitle) {
         const scoresTitleText = titles.scores[lang] || titles.scores.ko;
         scoresTitle.textContent = scoresTitleText;
     }
-    
+
     const labels = document.querySelectorAll('.info-label');
     const labelTexts = {
         ko: ['입장료', '운영시간', '휴무일', '소요시간', '가까운역'],
@@ -1808,7 +1840,7 @@ function updateModalTitles(lang) {
     };
     const texts = labelTexts[lang] || labelTexts.ko;
     labels.forEach((label, i) => { if (texts[i]) label.textContent = texts[i]; });
-    
+
     // 도로명/지번 태그 번역
     const addressLabels = {
         ko: { road: '도로명', jibun: '지번', copy: '복사', copied: '완료' },
@@ -1821,12 +1853,12 @@ function updateModalTitles(lang) {
     const jibunLabel = document.getElementById('labelJibunAddress');
     if (roadLabel) roadLabel.textContent = addrL.road;
     if (jibunLabel) jibunLabel.textContent = addrL.jibun;
-    
+
     // 복사 버튼 번역
     document.querySelectorAll('.copy-btn').forEach(btn => {
         if (!btn.classList.contains('copied')) btn.textContent = addrL.copy;
     });
-    
+
     // 복사 함수용 전역 변수 저장
     window.copyLabels = addrL;
 }
@@ -1834,14 +1866,14 @@ function updateModalTitles(lang) {
 function loadGallery(item, displayName) {
     const galleryEl = document.getElementById('modalGallery');
     if (!galleryEl) return;
-    
+
     const photos = [];
     for (let i = 1; i <= 15; i++) photos.push(`${IMAGE_BASE_URL}/${item.id}/${item.id}_${String(i).padStart(2, '0')}.jpg`);
-    
+
     galleryEl.innerHTML = '';
     const loadedPhotos = [];
     let loadCount = 0;
-    
+
     photos.forEach((p, i) => {
         const img = new Image();
         img.onload = () => { loadedPhotos.push({ url: p, index: i }); loadCount++; if (loadCount === photos.length) renderGalleryThumbs(galleryEl, loadedPhotos, displayName); };
@@ -1854,12 +1886,12 @@ function renderGalleryThumbs(container, loadedPhotos, name) {
     const lang = getLang();
     loadedPhotos.sort((a, b) => a.index - b.index);
     const validPhotos = loadedPhotos.map(p => p.url);
-    
+
     if (validPhotos.length === 0) {
         container.innerHTML = `<div class="no-photos">${lang === 'en' ? 'No photos available.' : '등록된 사진이 없습니다.'}</div>`;
         return;
     }
-    
+
     container.innerHTML = validPhotos.map((p, i) => `
         <div class="gallery-thumb" onclick="openGallery(${JSON.stringify(validPhotos).replace(/"/g, '&quot;')}, ${i}, '${name.replace(/'/g, "\\'")}')">
             <img src="${p}" alt="${name} ${i + 1}">
@@ -1876,10 +1908,10 @@ function loadTips(item, lang) {
         zh: '暂无提示信息。',
         ja: 'ヒントがありません。'
     };
-    
+
     if (tipsEl) {
-        const html = tips && tips.length > 0 
-            ? tips.map(tip => `<li>${tip}</li>`).join('') 
+        const html = tips && tips.length > 0
+            ? tips.map(tip => `<li>${tip}</li>`).join('')
             : `<li>${noTipsMsg[lang] || noTipsMsg.ko}</li>`;
         tipsEl.innerHTML = html;
     }
@@ -1888,20 +1920,20 @@ function loadTips(item, lang) {
 function renderPopularitySection(item, lang) {
     const el = document.getElementById('modalPopularity');
     if (!el) return;
-    
+
     const popularity = item.popularity || 50;
     const blogCount = item.blog_count || 0;
-    
+
     const sortedAll = [...allData].sort((a, b) => (b.popularity || 0) - (a.popularity || 0));
     const overallRank = sortedAll.findIndex(d => d.id === item.id) + 1;
-    
+
     const categoryItems = allData.filter(d => d.category === item.category);
     const sortedCat = [...categoryItems].sort((a, b) => (b.popularity || 0) - (a.popularity || 0));
     const catRank = sortedCat.findIndex(d => d.id === item.id) + 1;
-    
+
     const catInfo = categoryInfo[item.category] || {};
     const catName = getCatName(catInfo);
-    
+
     const formatCount = (c) => {
         if (lang === 'en') {
             if (c >= 1000000) return (c / 1000000).toFixed(1) + 'M';
@@ -1920,7 +1952,7 @@ function renderPopularitySection(item, lang) {
         if (c >= 1000) return (c / 1000).toFixed(1) + '천';
         return c.toLocaleString();
     };
-    
+
     const labels = {
         ko: { overall: '전체 순위', catRank: '순위', blog: '네이버 블로그', pop: '인기도', rank: '위', count: '건' },
         en: { overall: 'Overall Rank', catRank: 'Rank', blog: 'Blog Posts', pop: 'Popularity', rank: '', count: '' },
@@ -1928,7 +1960,7 @@ function renderPopularitySection(item, lang) {
         ja: { overall: '総合順位', catRank: '順位', blog: 'Naverブログ', pop: '人気度', rank: '位', count: '件' }
     };
     const L = labels[lang] || labels.ko;
-    
+
     el.innerHTML = lang === 'en' ? `
         <div class="popularity-card"><div class="label">${L.overall}</div><div class="value">#${overallRank}</div></div>
         <div class="popularity-card"><div class="label">${catName} ${L.catRank}</div><div class="value">#${catRank}</div></div>
@@ -1945,9 +1977,9 @@ function renderPopularitySection(item, lang) {
 function renderScoreSummary(item) {
     const el = document.getElementById('modalScoreSummary');
     if (!el) return;
-    
+
     const keys = ['photo', 'culture', 'activity', 'relaxation', 'crowdedness', 'couple', 'family', 'solo', 'foreigner', 'accessibility'];
-    
+
     el.innerHTML = keys.map(key => {
         const info = scoreInfo[key];
         const value = item.scores?.[key] || 0;
@@ -1964,10 +1996,10 @@ function renderScoreSummary(item) {
 function renderScoreDetails(item, lang) {
     const el = document.getElementById('modalScoresList');
     if (!el) return;
-    
+
     const keys = ['photo', 'culture', 'activity', 'relaxation', 'crowdedness', 'couple', 'family', 'solo', 'foreigner', 'accessibility'];
     const noReasonMsg = lang === 'en' ? 'Details coming soon' : '평가 근거 준비 중';
-    
+
     el.innerHTML = keys.map(key => {
         const info = scoreInfo[key];
         const value = item.scores?.[key] || 0;
@@ -1991,9 +2023,9 @@ function copyAddress(type) {
     const el = type === 'road' ? document.getElementById('modalRoadAddress') : document.getElementById('modalJibunAddress');
     const text = el?.textContent;
     if (!text || text === '-') return;
-    
+
     const labels = window.copyLabels || { copy: '복사', copied: '완료' };
-    
+
     navigator.clipboard.writeText(text).then(() => {
         const btn = el.parentElement.querySelector('.copy-btn');
         if (btn) {
@@ -2012,7 +2044,7 @@ function scrollToScoreDetail(key) {
     const summary = document.getElementById('scoreSummarySection');
     const isMobile = window.innerWidth <= 768;
     const container = isMobile ? document.querySelector('.modal-body-two-col') : document.querySelector('.modal-col-right');
-    
+
     if (target && container && summary) {
         const stickyH = summary.offsetHeight;
         const targetRect = target.getBoundingClientRect();
@@ -2028,7 +2060,7 @@ function setupStickyObserver() {
     const summary = document.getElementById('scoreSummarySection');
     const isMobile = window.innerWidth <= 768;
     const container = isMobile ? document.querySelector('.modal-body-two-col') : document.querySelector('.modal-col-right');
-    
+
     if (summary && container) {
         container.addEventListener('scroll', () => {
             const rect = summary.getBoundingClientRect();
@@ -2067,11 +2099,11 @@ function updateGalleryImage() {
     const counter = document.getElementById('galleryCounter');
     const caption = document.getElementById('galleryCaption');
     const thumbs = document.getElementById('galleryThumbnails');
-    
+
     if (img) img.src = currentGallery[currentGalleryIndex];
     if (counter) counter.textContent = `${currentGalleryIndex + 1} / ${currentGallery.length}`;
     if (caption) caption.textContent = currentGalleryCaption;
-    
+
     if (thumbs) {
         thumbs.innerHTML = currentGallery.map((p, i) => `
             <img src="${p}" class="gallery-thumb ${i === currentGalleryIndex ? 'active' : ''}" onclick="jumpToGalleryImage(${i})" onerror="this.style.display='none'" alt="">
@@ -2089,10 +2121,10 @@ function calculateDistance(lat1, lng1, lat2, lng2) {
     const R = 6371; // 지구 반경 (km)
     const dLat = (lat2 - lat1) * Math.PI / 180;
     const dLng = (lng2 - lng1) * Math.PI / 180;
-    const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-              Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
-              Math.sin(dLng/2) * Math.sin(dLng/2);
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+        Math.sin(dLng / 2) * Math.sin(dLng / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     return R * c;
 }
 
@@ -2100,16 +2132,16 @@ function calculateDistance(lat1, lng1, lat2, lng2) {
 function renderNearbyLandmarks(currentItem, lang) {
     const el = document.getElementById('modalNearby');
     if (!el) return;
-    
+
     const currentCoords = currentItem.coordinates;
     if (!currentCoords || !currentCoords.lat || !currentCoords.lng) {
         el.innerHTML = '<li class="nearby-empty">위치 정보가 없습니다</li>';
         return;
     }
-    
+
     // 현재 언어에 맞는 데이터 가져오기
     const allData = getLandmarkData();
-    
+
     // 거리 계산 및 정렬
     const nearbyItems = allData
         .filter(item => item.id !== currentItem.id && item.coordinates?.lat && item.coordinates?.lng)
@@ -2123,24 +2155,24 @@ function renderNearbyLandmarks(currentItem, lang) {
         .filter(item => item.distance > 0) // 자기 자신 제외
         .sort((a, b) => a.distance - b.distance)
         .slice(0, 5); // 최대 5개
-    
+
     if (nearbyItems.length === 0) {
         el.innerHTML = '<li class="nearby-empty">주변에 다른 명소가 없습니다</li>';
         return;
     }
-    
+
     const isKorean = lang === 'ko';
     const viewBtnText = { ko: '보기', en: 'View', zh: '查看', ja: '見る' };
-    
+
     el.innerHTML = nearbyItems.map(item => {
         const cat = categoryInfo[item.category];
         const icon = cat?.icon || '📍';
         const catName = isKorean ? (cat?.name_ko || item.category) : (cat?.name_en || item.category);
         const name = isKorean ? item.name : (item.name_en || item.name);
-        const distText = item.distance < 1 
-            ? `${Math.round(item.distance * 1000)}m` 
+        const distText = item.distance < 1
+            ? `${Math.round(item.distance * 1000)}m`
             : `${item.distance.toFixed(1)}km`;
-        
+
         return `
             <li class="nearby-item" data-id="${item.id}" onclick="selectNearbyItem(this, '${item.id}')">
                 <span class="nearby-icon">${icon}</span>
@@ -2164,3 +2196,13 @@ function selectNearbyItem(el, id) {
     // 토글
     el.classList.toggle('selected');
 }
+
+// ===== Global Language Toggle (postMessage from parent) =====
+window.addEventListener('message', (e) => {
+    if (e.data && e.data.type === 'CHANGE_LANG') {
+        const lang = e.data.lang;
+        if (lang === 'ko' || lang === 'en') {
+            setLanguage(lang);
+        }
+    }
+});

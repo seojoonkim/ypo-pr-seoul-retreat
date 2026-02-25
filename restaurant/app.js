@@ -29,12 +29,12 @@ document.addEventListener('DOMContentLoaded', () => {
 // ===== Update DB Count =====
 function updateDbCount() {
     const total = RESTAURANTS.length;
-    document.getElementById('dbCount').textContent = `${total}개 맛집`;
-    
-    // aboutBadge가 있을 때만 업데이트 (요소가 제거된 경우 에러 방지)
+    const lang = window._currentLang || localStorage.getItem('lang') || 'ko';
+    document.getElementById('dbCount').textContent = lang === 'en' ? `${total} Dining` : `${total}개 맛집`;
+
     const aboutBadge = document.getElementById('aboutBadge');
     if (aboutBadge) {
-        aboutBadge.textContent = `${total}개 엄선`;
+        aboutBadge.textContent = lang === 'en' ? `${total} curated` : `${total}개 엄선`;
     }
 }
 
@@ -43,7 +43,7 @@ function updateStats() {
     const michelin = RESTAURANTS.filter(r => r.categories.includes('Michelin')).length;
     const blueribbon = RESTAURANTS.filter(r => r.categories.includes('Blue Ribbon')).length;
     const ccw = RESTAURANTS.filter(r => r.categories.includes('Culinary Class Wars')).length;
-    
+
     document.getElementById('michelinCount').textContent = michelin;
     document.getElementById('blueribbonCount').textContent = blueribbon;
     document.getElementById('ccwCount').textContent = ccw;
@@ -53,7 +53,7 @@ function updateStats() {
 function getCuisineGroup(cuisine) {
     if (!cuisine) return '기타';
     // 고기/치킨
-    if (cuisine.includes('숯불구이') || cuisine === '야키토리' || cuisine === '베이커리' || 
+    if (cuisine.includes('숯불구이') || cuisine === '야키토리' || cuisine === '베이커리' ||
         cuisine === '치킨') return '고기/치킨';
     // 한식 (술안주 포함)
     if (cuisine.includes('한식') || cuisine === '모던 한식' || cuisine === '면요리' || cuisine === '술안주') return '한식';
@@ -77,12 +77,12 @@ function filterRestaurants() {
         if (activeFilters.cuisine !== null) {
             if (getCuisineGroup(r.cuisine) !== activeFilters.cuisine) return false;
         }
-        
+
         // Award filter (null = 전체, 아니면 해당 수상만)
         if (activeFilters.award !== null) {
             if (!r.categories.includes(activeFilters.award)) return false;
         }
-        
+
         // Day filter (null = 전체, 아니면 해당 요일 영업하는 곳만)
         if (activeFilters.day !== null && r.hours && r.hours.days) {
             const dayIndex = { 'sun': 0, 'mon': 1, 'tue': 2, 'wed': 3, 'thu': 4, 'fri': 5, 'sat': 6 };
@@ -94,7 +94,7 @@ function filterRestaurants() {
                 }
             }
         }
-        
+
         return true;
     });
 }
@@ -109,29 +109,30 @@ function renderList() {
             return b.reviews - a.reviews;
         });
     const container = document.getElementById('tableBody');
-    
+
     document.getElementById('filteredCount').textContent = filtered.length;
-    
+
     if (filtered.length === 0) {
         container.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:40px;color:#94a3b8;">검색 결과가 없습니다</td></tr>';
         return;
     }
-    
+
     container.innerHTML = filtered.map((r, i) => {
-        // 주소에서 지역 추출
+        const lang = window._currentLang || localStorage.getItem('lang') || 'ko';
+        const displayName = (lang === 'en' && r.name_en) ? r.name_en : r.name;
         const locationText = extractDistrict(r.address) || '서울';
-        
+
         return `
         <tr onclick="openModal('${r.id}')">
             <td class="cell-rank">${i + 1}</td>
             <td>
                 <div class="cell-photo">
-                    ${r.photos && r.photos.length > 0 
-                        ? `<img src="${r.photos[0]}" alt="${r.name}">`
-                        : '📷'}
+                    ${r.photos && r.photos.length > 0
+                ? `<img src="${r.photos[0]}" alt="${r.name}">`
+                : '📷'}
                 </div>
             </td>
-            <td><div class="cell-name" title="${r.name}">${r.name}</div></td>
+            <td><div class="cell-name" title="${displayName}">${displayName}</div></td>
             <td class="cell-cuisine">${r.cuisine || '-'}</td>
             <td class="cell-location">
                 ${locationText}
@@ -153,63 +154,63 @@ function setupFilters() {
     document.querySelectorAll('#cuisineFilters .filter-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             const cuisine = btn.dataset.cuisine;
-            
+
             // 이미 선택된 버튼이면 무시 (항상 하나는 선택되어야 함)
             if (btn.classList.contains('active')) {
                 return;
             }
-            
+
             // 다른 버튼 클릭하면 교체
             document.querySelectorAll('#cuisineFilters .filter-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
-            
+
             // "전체"면 null, 아니면 해당 cuisine
             activeFilters.cuisine = (cuisine === '전체') ? null : cuisine;
-            
+
             renderList();
             if (map) updateMapMarkers();
         });
     });
-    
+
     // Award: 버튼 방식 (하나만 선택)
     document.querySelectorAll('#awardFilters .filter-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             const award = btn.dataset.award;
-            
+
             // 이미 선택된 버튼이면 무시
             if (btn.classList.contains('active')) {
                 return;
             }
-            
+
             // 다른 버튼 클릭하면 교체
             document.querySelectorAll('#awardFilters .filter-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
-            
+
             // "all"이면 null, 아니면 해당 award
             activeFilters.award = (award === 'all') ? null : award;
-            
+
             renderList();
             if (map) updateMapMarkers();
         });
     });
-    
+
     // Day: 버튼 방식 (하나만 선택)
     document.querySelectorAll('#dayFilters .filter-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             const day = btn.dataset.day;
-            
+
             // 이미 선택된 버튼이면 무시
             if (btn.classList.contains('active')) {
                 return;
             }
-            
+
             // 다른 버튼 클릭하면 교체
             document.querySelectorAll('#dayFilters .filter-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
-            
+
             // "all"이면 null, 아니면 해당 day
             activeFilters.day = (day === 'all') ? null : day;
-            
+
             renderList();
             if (map) updateMapMarkers();
         });
@@ -222,7 +223,7 @@ function setupViewTabs() {
         tab.addEventListener('click', () => {
             document.querySelectorAll('.view-tab').forEach(t => t.classList.remove('active'));
             tab.classList.add('active');
-            
+
             if (tab.dataset.view === 'list') {
                 document.getElementById('listView').style.display = 'flex';
                 document.getElementById('mapView').classList.remove('active');
@@ -244,7 +245,7 @@ let mapInitialized = false;
 function initGoogleMap() {
     // 구글 API가 로드되었음을 표시
     window.googleMapsReady = true;
-    
+
     // 지도 탭이 활성화된 상태면 바로 초기화
     const mapView = document.getElementById('mapView');
     if (mapView && mapView.classList.contains('active')) {
@@ -261,16 +262,17 @@ function initMap() {
         setTimeout(initMap, 100);
         return;
     }
-    
+
     const mapEl = document.getElementById('map');
     if (!mapEl) return;
-    
+
     // 이미 초기화되었으면 마커만 업데이트
     if (mapInitialized && map) {
+        google.maps.event.trigger(map, 'resize');
         updateMapMarkers();
         return;
     }
-    
+
     try {
         map = new google.maps.Map(mapEl, {
             center: { lat: 37.5400, lng: 127.0000 },
@@ -283,7 +285,7 @@ function initMap() {
                 }
             ]
         });
-        
+
         // 지도 클릭 시 InfoWindow 닫기
         map.addListener('click', () => {
             if (currentInfoWindow) {
@@ -291,7 +293,7 @@ function initMap() {
                 currentInfoWindow = null;
             }
         });
-        
+
         mapInitialized = true;
         updateMapMarkers();
     } catch (e) {
@@ -333,28 +335,28 @@ function updateMapMarkers() {
         setTimeout(updateMapMarkers, 100);
         return;
     }
-    
+
     // 기존 마커 및 라벨 제거
     markers.forEach(m => {
         if (m.marker) m.marker.setMap(null);
         if (m.label) m.label.setMap(null);
     });
     markers = [];
-    
+
     // 현재 InfoWindow 닫기
     if (currentInfoWindow) {
         currentInfoWindow.close();
         currentInfoWindow = null;
     }
-    
+
     const filtered = filterRestaurants();
-    
+
     filtered.forEach(r => {
         if (!r.lat || !r.lng) return;
-        
+
         const position = { lat: r.lat, lng: r.lng };
         const cuisineIcon = getCuisineIcon(r.cuisine);
-        
+
         // 마커 생성
         const marker = new google.maps.Marker({
             position: position,
@@ -369,7 +371,7 @@ function updateMapMarkers() {
                 strokeWeight: 2
             }
         });
-        
+
         // 라벨 생성 (마커 위에 이름 표시)
         const label = new google.maps.Marker({
             position: position,
@@ -387,7 +389,7 @@ function updateMapMarkers() {
                 className: 'map-label'
             }
         });
-        
+
         // 수상 배지 HTML (아이콘 포함, 모달과 동일한 스타일)
         const badgesHtml = r.tags.map(t => {
             if (t.class === 'tag-michelin') {
@@ -403,20 +405,20 @@ function updateMapMarkers() {
             }
             return '';
         }).join('');
-        
+
         // 첫 번째 사진 URL
         const photoUrl = r.photos && r.photos.length > 0 ? r.photos[0] : '';
-        
+
         // InfoWindow 내용 (실제 사진 + 배지 + 정보 + 한줄 설명) - 15% 크기 증가
         const summaryText = r.summary ? `<p style="font-size:10px;color:#64748b;margin:6px 0 0 0;line-height:1.4;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;">${r.summary}</p>` : '';
-        
+
         const infoContent = `
             <div style="display:flex;width:368px;min-height:170px;background:#fff;overflow:hidden;border-radius:8px;">
                 <div style="width:126px;min-height:170px;flex-shrink:0;background:#f1f5f9;display:flex;align-items:center;justify-content:center;overflow:hidden;">
-                    ${photoUrl 
-                        ? `<img src="${photoUrl}" style="width:100%;height:100%;object-fit:cover;" onerror="this.onerror=null;this.parentElement.innerHTML='<span style=font-size:32px>${cuisineIcon}</span>';">` 
-                        : `<span style="font-size:32px;">${cuisineIcon}</span>`
-                    }
+                    ${photoUrl
+                ? `<img src="${photoUrl}" style="width:100%;height:100%;object-fit:cover;" onerror="this.onerror=null;this.parentElement.innerHTML='<span style=font-size:32px>${cuisineIcon}</span>';">`
+                : `<span style="font-size:32px;">${cuisineIcon}</span>`
+            }
                 </div>
                 <div style="width:242px;padding:14px;display:flex;flex-direction:column;box-sizing:border-box;overflow:hidden;">
                     <strong style="font-size:14px;color:#1e1b4b;margin-bottom:6px;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${r.name}</strong>
@@ -444,33 +446,33 @@ function updateMapMarkers() {
                 </div>
             </div>
         `;
-        
+
         const infoWindow = new google.maps.InfoWindow({
             content: infoContent,
             maxWidth: 380
         });
-        
+
         // 마커 클릭 이벤트
         const handleClick = () => {
             // 이전 InfoWindow 닫기
             if (currentInfoWindow) {
                 currentInfoWindow.close();
             }
-            
+
             // 새 InfoWindow 열기
             infoWindow.open(map, marker);
             currentInfoWindow = infoWindow;
-            
+
             // 해당 위치로 부드럽게 이동 및 확대
             map.panTo(position);
             if (map.getZoom() < 15) {
                 map.setZoom(15);
             }
         };
-        
+
         marker.addListener('click', handleClick);
         label.addListener('click', handleClick);
-        
+
         markers.push({ marker, label, infoWindow });
     });
 }
@@ -492,15 +494,15 @@ function setupModal() {
 function openModal(id) {
     const r = RESTAURANTS.find(x => x.id === id);
     if (!r) return;
-    
+
     currentRestaurant = r;
     currentReviewPage = 1;
-    
+
     document.getElementById('modalName').textContent = r.name;
-    document.getElementById('modalTags').innerHTML = r.tags.map(t => 
+    document.getElementById('modalTags').innerHTML = r.tags.map(t =>
         `<span class="tag ${t.class}">${t.label}</span>`
     ).join('');
-    
+
     // 한줄 소개 (왼쪽)
     const summarySection = document.getElementById('summarySection');
     const summaryEl = document.getElementById('modalSummary');
@@ -510,7 +512,7 @@ function openModal(id) {
     } else {
         summarySection.style.display = 'none';
     }
-    
+
     // 상세 설명 (오른쪽)
     const descSection = document.getElementById('descriptionSection');
     const descEl = document.getElementById('modalDescription');
@@ -520,11 +522,11 @@ function openModal(id) {
     } else {
         descSection.style.display = 'none';
     }
-    
+
     // 주소: 완전한 주소 표시
     const fullAddress = r.address || '-';
     document.getElementById('modalAddress').textContent = fullAddress;
-    
+
     // 운영시간
     const hoursRow = document.getElementById('hoursRow');
     const modalHours = document.getElementById('modalHours');
@@ -533,23 +535,23 @@ function openModal(id) {
             // 오늘 요일 구하기 (0=일요일, 1=월요일, ...)
             const today = new Date().getDay();
             const dayNames = ['일', '월', '화', '수', '목', '금', '토'];
-            
+
             let hoursHTML = '<div class="hours-grid">';
             r.openingHours.forEach((entry, idx) => {
                 const dayIdx = ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'].indexOf(entry.day);
                 const isToday = dayIdx === today;
                 const isClosed = entry.hours === '휴무일' || entry.hours === '휴무';
-                
+
                 // 시간 파싱: 여는시간과 닫는시간 분리
                 let openTime = '';
                 let closeTime = '';
-                
+
                 if (!isClosed) {
                     // "PM 12:00~3:30, PM 6:00~10:00" 같은 형식 처리
                     const timeStr = entry.hours
                         .replace(/AM /g, '')
                         .replace(/PM /g, '');
-                    
+
                     // 여러 시간대가 있으면 첫번째와 마지막 사용
                     const ranges = timeStr.split(',').map(s => s.trim());
                     if (ranges.length > 0) {
@@ -559,16 +561,16 @@ function openModal(id) {
                         closeTime = lastRange[1] || lastRange[0] || '';
                     }
                 }
-                
+
                 hoursHTML += `
                     <div class="hours-col ${isToday ? 'today' : ''} ${isClosed ? 'closed' : ''}">
                         <span class="hours-day">${dayNames[dayIdx]}</span>
-                        ${isClosed ? 
-                            '<span class="hours-closed">휴무</span>' : 
-                            `<span class="hours-open">${openTime}</span>
+                        ${isClosed ?
+                        '<span class="hours-closed">휴무</span>' :
+                        `<span class="hours-open">${openTime}</span>
                              <span class="hours-divider">|</span>
                              <span class="hours-close">${closeTime}</span>`
-                        }
+                    }
                     </div>
                 `;
             });
@@ -579,10 +581,10 @@ function openModal(id) {
             hoursRow.style.display = 'none';
         }
     }
-    
+
     document.getElementById('modalPhone').textContent = r.phone || '-';
     document.getElementById('modalChef').textContent = r.chef || '-';
-    
+
     // 전화 버튼
     const callBtn = document.getElementById('modalCallBtn');
     if (r.phone && r.phone !== '-') {
@@ -591,10 +593,10 @@ function openModal(id) {
     } else {
         callBtn.style.display = 'none';
     }
-    
+
     // 리뷰 히스토그램
     renderReviewSummary(r);
-    
+
     // Photos (최대 10개 - 5x2)
     if (r.photos && r.photos.length > 0) {
         const photos = r.photos.slice(0, 10);
@@ -606,18 +608,18 @@ function openModal(id) {
     } else {
         document.getElementById('modalPhotos').innerHTML = '<span class="no-data">📷 사진 데이터 수집 예정</span>';
     }
-    
+
     // Reviews with pagination
     renderReviews();
-    
+
     // 지도 링크
     const gmapsUrl = r.url || `https://www.google.com/maps/search/${encodeURIComponent(r.name + ' 서울')}`;
     document.getElementById('modalGmaps').href = gmapsUrl;
-    
+
     // 네이버 지도 링크
     const nmapUrl = `https://map.naver.com/v5/search/${encodeURIComponent(r.name + ' ' + extractDistrict(r.address))}`;
     document.getElementById('modalNmap').href = nmapUrl;
-    
+
     document.getElementById('modal').classList.add('active');
     document.body.style.overflow = 'hidden';
 }
@@ -633,22 +635,22 @@ function getReviewsList(r) {
 function renderReviewSummary(r) {
     const container = document.getElementById('modalReviewSummary');
     const reviewsList = getReviewsList(r);
-    
+
     if (!reviewsList || reviewsList.length === 0) {
         container.innerHTML = '<span class="no-data">리뷰 데이터 수집 예정</span>';
         return;
     }
-    
+
     // 별점별 개수 계산
-    const distribution = {5: 0, 4: 0, 3: 0, 2: 0, 1: 0};
+    const distribution = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 };
     reviewsList.forEach(rev => {
         const star = Math.round(rev.rating);
         if (star >= 1 && star <= 5) distribution[star]++;
     });
-    
+
     const total = reviewsList.length;
     const avgRating = r.rating || (reviewsList.reduce((sum, rev) => sum + rev.rating, 0) / total);
-    
+
     // 히스토그램 HTML 생성
     let histogramHTML = '';
     for (let star = 5; star >= 1; star--) {
@@ -664,7 +666,7 @@ function renderReviewSummary(r) {
             </div>
         `;
     }
-    
+
     container.innerHTML = `
         <div class="review-summary-content">
             <div class="review-score">
@@ -684,23 +686,23 @@ function renderReviews() {
     const reviewTotalEl = document.getElementById('reviewTotal');
     const reviewPageInfoEl = document.getElementById('reviewPageInfo');
     const reviewsList = r ? getReviewsList(r) : [];
-    
+
     if (!r || !reviewsList || reviewsList.length === 0) {
         if (reviewTotalEl) reviewTotalEl.textContent = '';
         if (reviewPageInfoEl) reviewPageInfoEl.textContent = '';
         document.getElementById('modalReviewsList').innerHTML = '<span class="no-data">💬 리뷰 데이터 수집 예정</span>';
         return;
     }
-    
+
     const totalReviews = reviewsList.length;
     const totalPages = Math.ceil(totalReviews / REVIEWS_PER_PAGE);
     const startIdx = (currentReviewPage - 1) * REVIEWS_PER_PAGE;
     const endIdx = Math.min(startIdx + REVIEWS_PER_PAGE, totalReviews);
     const pageReviews = reviewsList.slice(startIdx, endIdx);
-    
+
     // 총 리뷰 수 표시
     if (reviewTotalEl) reviewTotalEl.textContent = `- ${totalReviews} reviews`;
-    
+
     // 페이지 정보 표시
     if (reviewPageInfoEl) {
         if (totalPages > 1) {
@@ -709,14 +711,14 @@ function renderReviews() {
             reviewPageInfoEl.textContent = '';
         }
     }
-    
+
     let html = `<div class="reviews-list">`;
-    
+
     pageReviews.forEach(rev => {
-        const reviewPhotos = rev.photos && rev.photos.length > 0 
+        const reviewPhotos = rev.photos && rev.photos.length > 0
             ? `<div class="review-photos">${rev.photos.slice(0, 3).map((p, i) => `<img src="${p}" onclick="openGallery(${JSON.stringify(rev.photos).replace(/"/g, '&quot;')}, ${i}, '${rev.author}님의 리뷰 사진')">`).join('')}</div>`
             : '';
-        
+
         html += `
             <div class="review-card">
                 <div class="review-header">
@@ -730,9 +732,9 @@ function renderReviews() {
             </div>
         `;
     });
-    
+
     html += `</div>`;
-    
+
     // Pagination
     if (totalPages > 1) {
         html += `
@@ -743,7 +745,7 @@ function renderReviews() {
             </div>
         `;
     }
-    
+
     document.getElementById('modalReviewsList').innerHTML = html;
 }
 
@@ -753,7 +755,7 @@ function changeReviewPage(page) {
     if (page < 1 || page > totalPages) return;
     currentReviewPage = page;
     renderReviews();
-    
+
     // 리뷰 섹션 상단으로 스크롤
     const reviewSection = document.getElementById('reviewSection');
     if (reviewSection) {
@@ -773,7 +775,7 @@ function openGallery(photos, startIndex, caption) {
     currentGallery = photos;
     currentGalleryIndex = startIndex;
     currentGalleryCaption = caption || '';
-    
+
     updateGalleryImage();
     document.getElementById('galleryModal').classList.add('active');
 }
@@ -786,14 +788,14 @@ function closeGallery() {
 
 function navigateGallery(direction) {
     currentGalleryIndex += direction;
-    
+
     // 순환
     if (currentGalleryIndex < 0) {
         currentGalleryIndex = currentGallery.length - 1;
     } else if (currentGalleryIndex >= currentGallery.length) {
         currentGalleryIndex = 0;
     }
-    
+
     updateGalleryImage();
 }
 
@@ -802,11 +804,11 @@ function updateGalleryImage() {
     const counter = document.getElementById('galleryCounter');
     const caption = document.getElementById('galleryCaption');
     const thumbnails = document.getElementById('galleryThumbnails');
-    
+
     img.src = currentGallery[currentGalleryIndex];
     counter.textContent = `${currentGalleryIndex + 1} / ${currentGallery.length}`;
     caption.textContent = currentGalleryCaption;
-    
+
     // 썸네일 렌더링
     thumbnails.innerHTML = currentGallery.map((photo, i) => `
         <img src="${photo}" 
@@ -824,7 +826,7 @@ function jumpToGalleryImage(index) {
 // 키보드 네비게이션
 document.addEventListener('keydown', e => {
     if (!document.getElementById('galleryModal').classList.contains('active')) return;
-    
+
     if (e.key === 'Escape') closeGallery();
     if (e.key === 'ArrowLeft') navigateGallery(-1);
     if (e.key === 'ArrowRight') navigateGallery(1);

@@ -1,104 +1,119 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>맛집 가이드 | Only In Seoul</title>
+    <title>맛집 가이드 | YPO SEOUL 2026</title>
     <link href="https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <!-- Header -->
-    <header class="header">
-        <div class="header-left">
-            <a href="../" class="logo-link logo-main">Only In Seoul</a>
-            <a href="./" class="logo-link">
-                <span class="logo-divider">|</span>
-                <span class="logo-sub">맛집 가이드</span>
-            </a>
-            <span class="db-count" id="dbCount">82개 맛집</span>
-        </div>
-        
-        <div class="header-center">
-            <nav class="view-tabs">
-                <button class="view-tab active" data-view="list">리스트</button>
-                <button class="view-tab" data-view="map">지도</button>
-            </nav>
-        </div>
-        
-        <div class="header-right"></div>
-    </header>
+    <div class="header-wrapper">
+        <header class="header">
+            <div class="header-left">
+                <a href="../" class="logo-link logo-main">YPO SEOUL 2026</a>
+                <a href="./" class="logo-link">
+                    <span class="logo-divider">|</span>
+                    <span class="logo-sub" data-ko="맛집 가이드" data-en="Dining Guide">맛집 가이드</span>
+                </a>
+                <span class="db-count" id="dbCount">82개 맛집</span>
+            </div>
+
+            <div class="header-center">
+                <nav class="view-tabs">
+                    <button class="view-tab active" data-view="list" data-ko="리스트" data-en="List">리스트</button>
+                    <button class="view-tab" data-view="map" data-ko="지도" data-en="Map">지도</button>
+                </nav>
+            </div>
+
+            <div class="header-right"></div>
+        </header>
+    </div>
 
     <!-- Main -->
     <main class="main-container">
         <!-- About Section -->
         <div class="about-section">
             <div class="about-header">
-                <h2>Only In Seoul 레스토랑 컬렉션</h2>
+                <h2 data-ko="YPO SEOUL 2026 레스토랑 컬렉션" data-en="YPO SEOUL 2026 Restaurant Collection">YPO SEOUL 2026 레스토랑
+                    컬렉션</h2>
             </div>
-            <p class="about-desc">
-                미슐랭 가이드 서울 2025, 블루리본 서베이 2025, 넷플릭스 흑백요리사 출연 레스토랑을 
+            <p class="about-desc"
+                data-ko="미슐랭 가이드 서울 2025, 블루리본 서베이 2025, 넷플릭스 흑백요리사 출연 레스토랑을 교차 검증하여 엄선한 데이터베이스입니다. Google Maps 평점·리뷰를 기반으로 정렬됩니다."
+                data-en="A curated database cross-referencing Michelin Guide Seoul 2025, Blue Ribbon Survey 2025, and Netflix Culinary Class Wars. Sorted by Google Maps rating and review count.">
+                미슐랭 가이드 서울 2025, 블루리본 서베이 2025, 넷플릭스 흑백요리사 출연 레스토랑을
                 교차 검증하여 엄선한 데이터베이스입니다. Google Maps 평점·리뷰를 기반으로 정렬됩니다.
             </p>
             <div class="about-stats">
                 <div class="about-stat">
                     <span class="about-stat-icon michelin-icon"></span>
                     <span class="about-stat-num" id="michelinCount">29</span>
-                    <span class="about-stat-label">미슐랭 스타</span>
+                    <span class="about-stat-label" data-ko="미슐랭 스타" data-en="Michelin Star">미슐랭 스타</span>
                 </div>
                 <div class="about-stat">
                     <span class="about-stat-icon blueribbon-icon"></span>
                     <span class="about-stat-num" id="blueribbonCount">26</span>
-                    <span class="about-stat-label">블루리본 3선</span>
+                    <span class="about-stat-label" data-ko="블루리본 3선" data-en="Blue Ribbon 3선">블루리본 3선</span>
                 </div>
                 <div class="about-stat">
                     <span class="about-stat-icon ccw-icon"></span>
                     <span class="about-stat-num" id="ccwCount">30</span>
-                    <span class="about-stat-label">흑백요리사</span>
+                    <span class="about-stat-label" data-ko="흑백요리사" data-en="Culinary Class Wars">흑백요리사</span>
                 </div>
             </div>
         </div>
 
         <!-- Filters -->
         <div class="filter-bar">
-            <!-- Cuisine Filter (첫 번째 줄) -->
             <div class="filter-group" id="cuisineFilters">
-                <button class="filter-btn active" data-cuisine="전체">음식 전체</button>
-                <button class="filter-btn" data-cuisine="한식">🍚 한식</button>
-                <button class="filter-btn" data-cuisine="프렌치">🥐 프렌치</button>
-                <button class="filter-btn" data-cuisine="일식">🍣 일식</button>
-                <button class="filter-btn" data-cuisine="이탈리안">🍝 이탈리안</button>
-                <button class="filter-btn" data-cuisine="중식">🥟 중식</button>
-                <button class="filter-btn" data-cuisine="컨템포러리">🍽️ 컨템포러리</button>
-                <button class="filter-btn" data-cuisine="고기/치킨">🥩 고기/치킨</button>
+                <button class="filter-btn active" data-cuisine="전체" data-ko="음식 전체" data-en="All Cuisine">음식 전체</button>
+                <button class="filter-btn" data-cuisine="한식" data-ko="🍚 한식" data-en="🍚 Korean">🍚 한식</button>
+                <button class="filter-btn" data-cuisine="프렌치" data-ko="🥐 프렌치" data-en="🥐 French">🥐 프렌치</button>
+                <button class="filter-btn" data-cuisine="일식" data-ko="🍣 일식" data-en="🍣 Japanese">🍣 일식</button>
+                <button class="filter-btn" data-cuisine="이탈리안" data-ko="🍝 이탈리안" data-en="🍝 Italian">🍝 이탈리안</button>
+                <button class="filter-btn" data-cuisine="중식" data-ko="🥟 중식" data-en="🥟 Chinese">🥟 중식</button>
+                <button class="filter-btn" data-cuisine="컨템포러리" data-ko="🍽️ 컨템포러리" data-en="🍽️ Contemporary">🍽️
+                    컨템포러리</button>
+                <button class="filter-btn" data-cuisine="고기/치킨" data-ko="🥩 고기/치킨" data-en="🥩 Meat/Chicken">🥩
+                    고기/치킨</button>
             </div>
         </div>
         <div class="filter-bar" style="margin-top: 4px;">
-            <!-- Award Filter (두 번째 줄) -->
             <div class="filter-group" id="awardFilters">
-                <button class="filter-btn active" data-award="all">수상 전체</button>
-                <button class="filter-btn" data-award="Michelin"><span class="michelin-filter-icon"></span> 미슐랭</button>
-                <button class="filter-btn" data-award="Blue Ribbon"><span class="blueribbon-filter-icon"></span> 블루리본</button>
-                <button class="filter-btn" data-award="Culinary Class Wars"><span class="ccw-filter-icon"></span> 흑백요리사</button>
+                <button class="filter-btn active" data-award="all" data-ko="수상 전체" data-en="All Awards">수상 전체</button>
+                <button class="filter-btn" data-award="Michelin"
+                    data-ko="<span class='michelin-filter-icon'></span> 미슐랭"
+                    data-en="<span class='michelin-filter-icon'></span> Michelin"><span
+                        class="michelin-filter-icon"></span> 미슐랭</button>
+                <button class="filter-btn" data-award="Blue Ribbon"
+                    data-ko="<span class='blueribbon-filter-icon'></span> 블루리본"
+                    data-en="<span class='blueribbon-filter-icon'></span> Blue Ribbon"><span
+                        class="blueribbon-filter-icon"></span> 블루리본</button>
+                <button class="filter-btn" data-award="Culinary Class Wars"
+                    data-ko="<span class='ccw-filter-icon'></span> 흑백요리사"
+                    data-en="<span class='ccw-filter-icon'></span> Culinary Class Wars"><span
+                        class="ccw-filter-icon"></span> 흑백요리사</button>
             </div>
         </div>
         <div class="filter-bar" style="margin-top: 4px;">
-            <!-- Day Filter (세 번째 줄) -->
             <div class="filter-group" id="dayFilters">
-                <button class="filter-btn active" data-day="all">영업 요일</button>
-                <button class="filter-btn" data-day="mon">월요일</button>
-                <button class="filter-btn" data-day="tue">화요일</button>
-                <button class="filter-btn" data-day="wed">수요일</button>
-                <button class="filter-btn" data-day="thu">목요일</button>
-                <button class="filter-btn" data-day="fri">금요일</button>
-                <button class="filter-btn" data-day="sat">토요일</button>
-                <button class="filter-btn" data-day="sun">일요일</button>
+                <button class="filter-btn active" data-day="all" data-ko="영업 요일" data-en="Open Day">영업 요일</button>
+                <button class="filter-btn" data-day="mon" data-ko="월요일" data-en="Mon">월요일</button>
+                <button class="filter-btn" data-day="tue" data-ko="화요일" data-en="Tue">화요일</button>
+                <button class="filter-btn" data-day="wed" data-ko="수요일" data-en="Wed">수요일</button>
+                <button class="filter-btn" data-day="thu" data-ko="목요일" data-en="Thu">목요일</button>
+                <button class="filter-btn" data-day="fri" data-ko="금요일" data-en="Fri">금요일</button>
+                <button class="filter-btn" data-day="sat" data-ko="토요일" data-en="Sat">토요일</button>
+                <button class="filter-btn" data-day="sun" data-ko="일요일" data-en="Sun">일요일</button>
             </div>
         </div>
 
         <!-- Filter Result Count -->
         <div class="filter-result">
-            <span id="filteredCount">30</span>개 검색결과
+            <span id="filteredCount">30</span><span data-ko="개 검색결과" data-en=" results">개 검색결과</span>
         </div>
 
         <!-- List View -->
@@ -107,11 +122,11 @@
                 <thead>
                     <tr>
                         <th class="col-rank">#</th>
-                        <th class="col-photo">사진</th>
-                        <th class="col-name">이름</th>
-                        <th class="col-cuisine">카테고리</th>
-                        <th class="col-location">위치</th>
-                        <th class="col-awards">수상</th>
+                        <th class="col-photo" data-ko="사진" data-en="Photo">사진</th>
+                        <th class="col-name" data-ko="이름" data-en="Name">이름</th>
+                        <th class="col-cuisine" data-ko="카테고리" data-en="Category">카테고리</th>
+                        <th class="col-location" data-ko="위치" data-en="Location">위치</th>
+                        <th class="col-awards" data-ko="수상" data-en="Awards">수상</th>
                         <th class="col-rating">Rate</th>
                         <th class="col-reviews">Reviews</th>
                     </tr>
@@ -119,7 +134,7 @@
                 <tbody id="tableBody"></tbody>
             </table>
         </div>
-        
+
         <!-- Map View -->
         <div class="map-container" id="mapView">
             <div id="map"></div>
@@ -129,7 +144,7 @@
     <!-- Detail Modal -->
     <div class="modal-overlay" id="modal">
         <div class="modal">
-            
+
             <!-- Modal Header -->
             <div class="modal-header">
                 <div class="modal-header-left">
@@ -138,7 +153,7 @@
                 </div>
                 <button class="modal-close" onclick="closeModal()">&times;</button>
             </div>
-            
+
             <!-- Modal Body: 2 Column Layout -->
             <div class="modal-body">
                 <!-- Left Column: Info + Photos (Fixed) -->
@@ -188,7 +203,7 @@
                         <a class="action-btn primary" id="modalGmaps" href="#" target="_blank">🗺️ Google Maps</a>
                     </div>
                 </div>
-                
+
                 <!-- Right Column: Description + Reviews (Scrollable) -->
                 <div class="modal-right" id="modalRight">
                     <div class="modal-section" id="descriptionSection">
@@ -222,9 +237,40 @@
         </div>
     </div>
 
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBfHgqFqiNHlO2MzLKn3H1PBl55kIY8Mzg&callback=initGoogleMap" async defer></script>
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBfHgqFqiNHlO2MzLKn3H1PBl55kIY8Mzg&callback=initGoogleMap"
+        async defer></script>
     <script src="db.js"></script>
     <script src="reviews.js"></script>
     <script src="app.js"></script>
+    <script>
+        // Embed mode: hide main logo when loaded in iframe
+        if (new URLSearchParams(window.location.search).has('embed')) {
+            document.querySelector('.logo-main')?.style.setProperty('display', 'none');
+            document.querySelector('.logo-divider')?.style.setProperty('display', 'none');
+        }
+
+        function applyLang(lang) {
+            document.querySelectorAll('[data-ko]').forEach(el => {
+                el.innerHTML = el.getAttribute(`data-${lang}`) || el.getAttribute('data-ko');
+            });
+            // Also re-render the list to show name_en if applicable
+            if (typeof renderList === 'function') {
+                window._currentLang = lang;
+                renderList();
+            }
+        }
+        window.addEventListener('message', e => {
+            if (e.data && e.data.type === 'CHANGE_LANG') {
+                localStorage.setItem('lang', e.data.lang);
+                applyLang(e.data.lang);
+            }
+        });
+        // Init on load
+        document.addEventListener('DOMContentLoaded', () => {
+            applyLang(localStorage.getItem('lang') || 'ko');
+        });
+    </script>
 </body>
+
 </html>

@@ -6,17 +6,17 @@
 const i18n = {
     ko: {
         // Header
-        siteName: "Only In Seoul",
+        siteName: "YPO SEOUL 2026",
         subTitle: "서울 명소 가이드",
         dbCount: "개 명소",
         listView: "리스트",
         mapView: "지도",
-        
+
         // About Section
-        aboutTitle: "Only In Seoul 명소 컬렉션",
+        aboutTitle: "YPO SEOUL 2026 명소 컬렉션",
         aboutDesc1: "네이버 블로그 30만개 이상의 분석을 통해 선별한 서울 대표 명소",
         aboutDesc2: "곳. 실제 방문자들의 경험을 바탕으로 한 신뢰도 높은 점수를 제공합니다.",
-        
+
         // Category Names
         categoryAll: "장소 전체",
         palace: "고궁/역사",
@@ -25,7 +25,7 @@ const i18n = {
         hipplace: "힙플레이스",
         nature: "공원/자연",
         museum: "박물관/미술관",
-        
+
         // Score Filter Names
         scoreAll: "추천 전체",
         photo: "사진촬영",
@@ -38,7 +38,7 @@ const i18n = {
         solo: "혼자여행",
         foreigner: "외국인편의",
         accessibility: "접근성",
-        
+
         // Table Headers
         colRank: "#",
         colPhoto: "사진",
@@ -48,11 +48,11 @@ const i18n = {
         colDuration: "소요시간",
         colPopularity: "인기도",
         colPopularityShort: "인기",
-        
+
         // Filter Results
         searchResults: "개 검색결과",
         noResults: "검색 결과가 없습니다.",
-        
+
         // Modal
         modalIntro: "📍 소개",
         modalPhotos: "📷 사진",
@@ -62,7 +62,7 @@ const i18n = {
         modalDescription: "📖 상세 설명",
         modalScores: "📊 데이터 기반 점수",
         modalScoreDetails: "📋 데이터 기반 상세 평가",
-        
+
         // Info Labels
         admission: "입장료",
         hours: "운영시간",
@@ -70,35 +70,35 @@ const i18n = {
         duration: "소요시간",
         district: "위치",
         nearestStation: "가까운역",
-        
+
         // Map Buttons
         googleMap: "구글맵",
         naverMap: "네이버지도",
         kakaoMap: "카카오맵",
-        
+
         // Misc
         noPhotos: "등록된 사진이 없습니다.",
         noReason: "평가 근거 준비 중",
         places: "곳",
-        
+
         // Language Toggle
         langToggle: "EN",
         langFull: "English"
     },
-    
+
     en: {
         // Header
-        siteName: "Only In Seoul",
+        siteName: "YPO SEOUL 2026",
         subTitle: "Seoul Attractions Guide",
         dbCount: " Attractions",
         listView: "List",
         mapView: "Map",
-        
+
         // About Section
-        aboutTitle: "Only In Seoul Attractions Collection",
+        aboutTitle: "YPO SEOUL 2026 Attractions Collection",
         aboutDesc1: "Top Seoul attractions curated from analysis of 300,000+ Naver blog posts.",
         aboutDesc2: " locations with reliable scores based on real visitor experiences.",
-        
+
         // Category Names
         categoryAll: "All Places",
         palace: "Palaces/Historic",
@@ -107,7 +107,7 @@ const i18n = {
         hipplace: "Hipster Spots",
         nature: "Parks/Nature",
         museum: "Museums/Galleries",
-        
+
         // Score Filter Names
         scoreAll: "All Picks",
         photo: "Photography",
@@ -120,7 +120,7 @@ const i18n = {
         solo: "Solo Travel",
         foreigner: "Tourist-Friendly",
         accessibility: "Accessibility",
-        
+
         // Table Headers
         colRank: "#",
         colPhoto: "Photo",
@@ -130,11 +130,11 @@ const i18n = {
         colDuration: "Duration",
         colPopularity: "Popularity",
         colPopularityShort: "Pop",
-        
+
         // Filter Results
         searchResults: " Results",
         noResults: "No results found.",
-        
+
         // Modal
         modalIntro: "📍 Introduction",
         modalPhotos: "📷 Photos",
@@ -144,7 +144,7 @@ const i18n = {
         modalDescription: "📖 Description",
         modalScores: "📊 Data-Based Scores",
         modalScoreDetails: "📋 Detailed Evaluation",
-        
+
         // Info Labels
         admission: "Admission",
         hours: "Hours",
@@ -152,35 +152,35 @@ const i18n = {
         duration: "Duration",
         district: "District",
         nearestStation: "Nearest Station",
-        
+
         // Map Buttons
         googleMap: "Google Maps",
         naverMap: "Naver Map",
         kakaoMap: "Kakao Map",
-        
+
         // Misc
         noPhotos: "No photos available.",
         noReason: "Details coming soon",
         places: "places",
-        
+
         // Language Toggle
         langToggle: "한",
         langFull: "한국어"
     },
-    
+
     zh: {
         // Header
-        siteName: "Only In Seoul",
+        siteName: "YPO SEOUL 2026",
         subTitle: "首尔景点指南",
         dbCount: "个景点",
         listView: "列表",
         mapView: "地图",
-        
+
         // About Section
-        aboutTitle: "Only In Seoul 景点精选",
+        aboutTitle: "YPO SEOUL 2026 景点精选",
         aboutDesc1: "通过分析30万+篇Naver博客精选的首尔代表景点",
         aboutDesc2: "处。基于真实游客体验提供可靠评分。",
-        
+
         // Category Names
         categoryAll: "全部景点",
         palace: "宫殿/历史",
@@ -189,7 +189,7 @@ const i18n = {
         hipplace: "网红地",
         nature: "公园/自然",
         museum: "博物馆/美术馆",
-        
+
         // Score Filter Names
         scoreAll: "全部推荐",
         photo: "摄影",
@@ -202,7 +202,7 @@ const i18n = {
         solo: "独自旅行",
         foreigner: "外国人友好",
         accessibility: "交通便利",
-        
+
         // Table Headers
         colRank: "#",
         colPhoto: "照片",
@@ -212,11 +212,11 @@ const i18n = {
         colDuration: "时长",
         colPopularity: "人气",
         colPopularityShort: "人气",
-        
+
         // Filter Results
         searchResults: "个结果",
         noResults: "未找到结果。",
-        
+
         // Modal
         modalIntro: "📍 简介",
         modalPhotos: "📷 照片",
@@ -226,7 +226,7 @@ const i18n = {
         modalDescription: "📖 详细介绍",
         modalScores: "📊 数据评分",
         modalScoreDetails: "📋 详细评价",
-        
+
         // Info Labels
         admission: "门票",
         hours: "营业时间",
@@ -234,35 +234,35 @@ const i18n = {
         duration: "游览时长",
         district: "位置",
         nearestStation: "最近地铁站",
-        
+
         // Map Buttons
         googleMap: "谷歌地图",
         naverMap: "Naver地图",
         kakaoMap: "Kakao地图",
-        
+
         // Misc
         noPhotos: "暂无照片",
         noReason: "评价详情准备中",
         places: "处",
-        
+
         // Language Toggle
         langToggle: "한",
         langFull: "한국어"
     },
-    
+
     ja: {
         // Header
-        siteName: "Only In Seoul",
+        siteName: "YPO SEOUL 2026",
         subTitle: "ソウル名所ガイド",
         dbCount: "ヶ所",
         listView: "リスト",
         mapView: "地図",
-        
+
         // About Section
-        aboutTitle: "Only In Seoul 名所コレクション",
+        aboutTitle: "YPO SEOUL 2026 名所コレクション",
         aboutDesc1: "30万件以上のNaverブログ分析で厳選したソウル代表名所",
         aboutDesc2: "ヶ所。実際の訪問者の体験に基づく信頼性の高いスコアを提供。",
-        
+
         // Category Names
         categoryAll: "すべて",
         palace: "古宮/歴史",
@@ -271,7 +271,7 @@ const i18n = {
         hipplace: "ヒップスポット",
         nature: "公園/自然",
         museum: "博物館/美術館",
-        
+
         // Score Filter Names
         scoreAll: "すべて",
         photo: "写真撮影",
@@ -284,7 +284,7 @@ const i18n = {
         solo: "一人旅",
         foreigner: "外国人向け",
         accessibility: "アクセス",
-        
+
         // Table Headers
         colRank: "#",
         colPhoto: "写真",
@@ -294,11 +294,11 @@ const i18n = {
         colDuration: "所要時間",
         colPopularity: "人気度",
         colPopularityShort: "人気",
-        
+
         // Filter Results
         searchResults: "件",
         noResults: "結果が見つかりません。",
-        
+
         // Modal
         modalIntro: "📍 紹介",
         modalPhotos: "📷 写真",
@@ -308,7 +308,7 @@ const i18n = {
         modalDescription: "📖 詳細説明",
         modalScores: "📊 データ基盤スコア",
         modalScoreDetails: "📋 詳細評価",
-        
+
         // Info Labels
         admission: "入場料",
         hours: "営業時間",
@@ -316,17 +316,17 @@ const i18n = {
         duration: "所要時間",
         district: "位置",
         nearestStation: "最寄り駅",
-        
+
         // Map Buttons
         googleMap: "Googleマップ",
         naverMap: "Naverマップ",
         kakaoMap: "Kakaoマップ",
-        
+
         // Misc
         noPhotos: "写真がありません",
         noReason: "評価詳細準備中",
         places: "ヶ所",
-        
+
         // Language Toggle
         langToggle: "한",
         langFull: "한국어"

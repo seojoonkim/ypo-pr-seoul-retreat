@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>스케줄 | YPO SEOUL 2026</title>
+    <link href="https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="page-wrapper">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="page-header-inner">
+                <span class="page-title" id="schedulePageTitle">3일 스케줄</span>
+            </div>
+            <p class="page-subtitle" id="schedulePageSub">전체 참석 일정 및 개별 분산 체험 스케줄 안내</p>
+        </div>
+
+        <!-- Timeline 3-Column Grid -->
+        <div class="schedule-grid" id="timelineContainer">
+            <!-- Rendered via app.js -->
+        </div>
+
+    </div>
+
+    <!-- Details Modal -->
+    <div class="modal-overlay" id="detailModal">
+        <div class="modal">
+            <div class="modal-header">
+                <button class="modal-close" onclick="closeModal()">✕</button>
+                <div class="modal-time" id="modalTime">15:00</div>
+                <h3 class="modal-title" id="modalTitle">타이틀</h3>
+            </div>
+            <div class="modal-body">
+                <div class="modal-info-row">
+                    <i>📍</i>
+                    <span id="modalLocation">장소</span>
+                </div>
+                <p class="modal-detail" id="modalDetail">상세 내용이 들어갑니다.</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>
