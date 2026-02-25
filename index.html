@@ -295,7 +295,9 @@
         });
 
         // Language Handling
-        const defaultLang = localStorage.getItem('lang') || 'ko';
+        const savedLang = localStorage.getItem('lang');
+        const browserLang = navigator.language && navigator.language.toLowerCase().startsWith('ko') ? 'ko' : 'en';
+        const defaultLang = savedLang || browserLang;
 
         function setGlobalLang(lang) {
             localStorage.setItem('lang', lang);
