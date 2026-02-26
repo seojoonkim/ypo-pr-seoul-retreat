@@ -31,6 +31,7 @@
             background: var(--bg-primary);
             color: var(--text-primary);
             height: 100vh;
+            height: 100dvh;
             display: flex;
             flex-direction: column;
             overflow: hidden;
@@ -52,7 +53,27 @@
             align-items: center;
             justify-content: space-between;
             padding: 0 20px;
-            height: 56px;
+            height: 48px;
+            max-width: 1020px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .nav-menu-bar {
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border);
+            width: 100%;
+            flex-shrink: 0;
+            position: relative;
+            z-index: 9;
+        }
+
+        .nav-menu-inner {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 20px;
+            height: 46px;
             max-width: 1020px;
             width: 100%;
             margin: 0 auto;
@@ -81,7 +102,7 @@
         .nav-tabs {
             display: flex;
             align-items: center;
-            gap: 4px;
+            gap: 6px;
         }
 
         .nav-tab {
@@ -187,16 +208,24 @@
         @media (max-width: 600px) {
             .top-nav {
                 padding: 0 12px;
-                height: 50px;
+                height: 44px;
             }
 
             .nav-logo {
                 font-size: 15px;
             }
 
+            .nav-menu-inner {
+                height: 42px;
+                padding: 0 8px;
+            }
+
             .nav-tabs {
                 position: static;
                 transform: none;
+                gap: 4px;
+                width: 100%;
+                justify-content: center;
             }
 
             .nav-tab {
@@ -237,18 +266,23 @@
         <nav class="top-nav">
             <a href="./" class="nav-logo">YPO <span>SEOUL 2026</span></a>
 
+            <div class="lang-toggle">
+                <button class="lang-btn active" data-global-lang="ko" onclick="setGlobalLang('ko')">KOR</button>
+                <button class="lang-btn" data-global-lang="en" onclick="setGlobalLang('en')">ENG</button>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Menu Bar -->
+    <div class="nav-menu-bar">
+        <div class="nav-menu-inner">
             <div class="nav-tabs">
                 <button class="nav-tab active" data-tab="retreat" onclick="switchTab('retreat')">✨ 안내</button>
                 <button class="nav-tab" data-tab="schedule" onclick="switchTab('schedule')">📅 스케줄</button>
                 <button class="nav-tab" data-tab="landmark" onclick="switchTab('landmark')">🏛️ 명소</button>
                 <button class="nav-tab" data-tab="restaurant" onclick="switchTab('restaurant')">🍜 맛집</button>
             </div>
-
-            <div class="lang-toggle">
-                <button class="lang-btn active" data-global-lang="ko" onclick="setGlobalLang('ko')">KOR</button>
-                <button class="lang-btn" data-global-lang="en" onclick="setGlobalLang('en')">ENG</button>
-            </div>
-        </nav>
+        </div>
     </div>
 
     <!-- Content Frames -->
